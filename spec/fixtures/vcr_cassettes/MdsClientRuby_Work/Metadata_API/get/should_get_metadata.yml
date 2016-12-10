@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://mds.test.datacite.org/metadata/10.5438/MDS-CLIENT-RUBY-TEST
+    uri: https://mds.test.datacite.org/metadata/10.23725/0000-03VC
     body:
       encoding: US-ASCII
       string: ''
@@ -21,11 +21,11 @@ http_interactions:
       Server:
       - nginx/1.4.6 (Ubuntu)
       Date:
-      - Sat, 10 Dec 2016 13:27:56 GMT
+      - Sat, 10 Dec 2016 22:08:10 GMT
       Content-Type:
       - application/xml;charset=UTF-8
       Content-Length:
-      - '860'
+      - '850'
       Connection:
       - keep-alive
       Pragma:
@@ -39,7 +39,7 @@ http_interactions:
       string: |
         <?xml version="1.0" encoding="UTF-8"?>
         <resource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://datacite.org/schema/kernel-4" xsi:schemaLocation="http://datacite.org/schema/kernel-4 http://schema.datacite.org/meta/kernel-4/metadata.xsd">
-          <identifier identifierType="DOI">10.5438/MDS-CLIENT-RUBY-TEST</identifier>
+          <identifier identifierType="DOI">10.23725/0000-03VC</identifier>
           <creators>
             <creator>
               <creatorName>Miller, Elizabeth</creatorName>
@@ -56,5 +56,5 @@ http_interactions:
           <resourceType resourceTypeGeneral="Software">XML</resourceType>
         </resource>
     http_version: 
-  recorded_at: Sat, 10 Dec 2016 13:27:57 GMT
+  recorded_at: Sat, 10 Dec 2016 22:08:10 GMT
 recorded_with: VCR 3.0.3

@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in omniauth-github.gemspec
 gemspec
+
+gem "base32-crockford", :git => "https://github.com/datacite/base32.git"

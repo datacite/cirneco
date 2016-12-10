@@ -12,7 +12,8 @@ Ruby gem for integrating Ruby applications with the DataCite MDS API.
 The following functionality is supported:
 
 * the MDS API (DOI, Metadata and Media APIs) is fully supported
-* generates valid metadata, using Schema 4.0
+* generates valid metadata, using Schema 4.0 (currently only partial support of available metadata fields)
+* generates a DOI name to be used for registration, using [Base32 Crockford encoded](https://github.com/levinalex/base32) sequential numbers that include a checksum
 
 ## Requirements
 

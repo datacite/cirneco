@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe MdsClientRuby::Work, vcr: true do
-  let(:doi) { "10.5072/example-full"}
+  let(:doi) { "10.23725/0000-03VC" }
   let(:creators) { [{ given_name: "Elizabeth", family_name: "Miller", orcid: "0000-0001-5000-0007" }] }
   let(:title) { "Full DataCite XML Example" }
   let(:publisher) { "DataCite" }

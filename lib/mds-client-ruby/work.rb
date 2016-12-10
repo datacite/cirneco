@@ -3,6 +3,7 @@ require 'nokogiri'
 require 'sanitize'
 
 require_relative 'api'
+require_relative 'utils'
 require_relative 'author'
 require_relative 'base'
 require_relative 'date'
@@ -13,6 +14,7 @@ module MdsClientRuby
     include MdsClientRuby::Author
     include MdsClientRuby::Date
     include MdsClientRuby::Api
+    include MdsClientRuby::Utils
 
     attr_accessor :doi, :creators, :title, :publisher, :publication_year, :resource_type, :version, :related_identifiers, :rights_list, :descriptions, :subjects, :url, :media, :username, :password, :validation_errors
 

@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://mds.test.datacite.org/doi/10.23725/0000-03VC
+    uri: https://mds.test.datacite.org/doi
     body:
       encoding: US-ASCII
       string: ''
@@ -21,7 +21,7 @@ http_interactions:
       Server:
       - nginx/1.4.6 (Ubuntu)
       Date:
-      - Sat, 10 Dec 2016 22:05:16 GMT
+      - Sat, 10 Dec 2016 22:05:19 GMT
       Content-Type:
       - text/html;charset=UTF-8
       Connection:
@@ -34,7 +34,19 @@ http_interactions:
       - no-cache, no-store
     body:
       encoding: UTF-8
-      string: http://www.datacite.org
+      string: |-
+        10.23725/0000-03VC
+        10.23725/0000-0A53
+        10.23725/GQZDGNZW
+        10.23725/MDS-CLIENT-RUBY-TEST
+        10.5438/0001
+        10.5438/0002
+        10.5438/0003
+        10.5438/0004
+        10.5438/0005
+        10.5438/0006
+        10.5438/EXAMPLE-FULL
+        10.5438/MDS-CLIENT-RUBY-TEST
     http_version: 
-  recorded_at: Sat, 10 Dec 2016 22:05:16 GMT
+  recorded_at: Sat, 10 Dec 2016 22:05:19 GMT
 recorded_with: VCR 3.0.3

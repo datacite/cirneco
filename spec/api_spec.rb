@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe MdsClientRuby::Work, vcr: true, :order => :defined do
-  let(:doi) { "10.5438/MDS-CLIENT-RUBY-TEST"}
+  let(:doi) { "10.23725/0000-03VC" }
   let(:creators) { [{ given_name: "Elizabeth", family_name: "Miller", orcid: "0000-0001-5000-0007", affiliation: "DataCite" }] }
   let(:title) { "Full DataCite XML Example" }
   let(:publisher) { "DataCite" }
@@ -44,9 +44,9 @@ describe MdsClientRuby::Work, vcr: true, :order => :defined do
     describe "post" do
       it 'should post metadata' do
         response = subject.post_metadata(sandbox: true)
-        expect(response.body["data"]).to eq("OK (10.5438/MDS-CLIENT-RUBY-TEST)")
+        expect(response.body["data"]).to eq("OK (10.23725/0000-03VC)")
         expect(response.status).to eq(201)
-        expect(response.headers["Location"]).to eq("https://mds.test.datacite.org/metadata/10.5438/MDS-CLIENT-RUBY-TEST")
+        expect(response.headers["Location"]).to eq("https://mds.test.datacite.org/metadata/10.23725/0000-03VC")
       end
     end
   end
@@ -64,8 +64,8 @@ describe MdsClientRuby::Work, vcr: true, :order => :defined do
       it 'should get all dois' do
         response = subject.get_dois(sandbox: true)
         dois = response.body["data"]
-        expect(dois.length).to eq(8)
-        expect(dois.last).to eq("10.5438/MDS-CLIENT-RUBY-TEST")
+        expect(dois.length).to eq(12)
+        expect(dois.first).to eq("10.23725/0000-03VC")
       end
 
       it 'should get doi' do
