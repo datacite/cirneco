@@ -1,0 +1,17 @@
+language: ruby
+rvm:
+- 2.3.1
+install:
+- travis_retry bundle install
+script: bundle exec rspec
+notifications:
+  slack: "$SLACK_TOKEN"
+  email: false
+deploy:
+  provider: rubygems
+  api_key:
+    secure: Gv8wno6SS6tXCPAYR1xhIZ7MF4DAJz5hhAccS/EGIVc+T+z95es7t+e4QpvnVpz+0CJfQ8OAu49QxoRwiBeJ3A7mQhIkL6HzMSU2ssgdCG0x/vNoYIVuRB0VFARgc4JZp6+9h24eDiCJISkeCy6vnUiuzDmyqvvrPLIcbyzw6dw/dp+qG3uk3J8C+9hMJhnmAxgkuYuL51FCjDoTg0yySy2RhGI8njRnYwb5QC6PYIHXbur6HRHuJcs3mhLqxXwJcBjgwcD8nArxCx6C38gceaK/9z4jB2H66e8N5c0+WJ4k8aUZzKSNrT6txevYqPxr821DLAF9h/k7DEWGUmTrQzakWXkoR+MqaRrYiKz4QdIm4Xuf3RZO4iZRk32KOV+h0PpgQdwhKmlyTBeFa0sBpPFfhMVX6V3DMP1+FmWZh/goYJdIDyAfYUFKIF24BIXJtWVvWsjNRpBz/elNlWeWZ1wmD+zSCOoq6EyO8VeWLfrZdV1xhpFzh3+hDd2MmhzLMdFfjS5AzgHlEtAAPJsXV/CXMVboMgJVt/CzsxfKDHhVFfamfQWJIBNMJq6tTuPn1W7LeSoTKEq6ueRK2jKUkcF2jM6GUbvZ9BbThGokpzBIBPiXMqIAePz+MZgrLTMeb++APYd09NDKMz1p6E7H6DrvopcDEfAHw10aUx+/vv8=
+  gem: mds-client-ruby
+  on:
+    tags: true
+    repo: datacite/mds-client-ruby

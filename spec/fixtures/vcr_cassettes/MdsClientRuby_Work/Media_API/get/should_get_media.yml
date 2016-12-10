@@ -1,0 +1,44 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://mds.test.datacite.org/media/10.5438/MDS-CLIENT-RUBY-TEST
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Maremma - https://github.com/datacite/maremma
+      Accept:
+      - application/xml
+      Authorization:
+      - Basic <MDS_TOKEN>
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.4.6 (Ubuntu)
+      Date:
+      - Sat, 10 Dec 2016 13:28:01 GMT
+      Content-Type:
+      - application/xml;charset=UTF-8
+      Content-Length:
+      - '65'
+      Connection:
+      - keep-alive
+      Pragma:
+      - no-cache
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      Cache-Control:
+      - no-cache, no-store
+    body:
+      encoding: UTF-8
+      string: 'application/pdf=http://www.datacite.org/mds-client-ruby-test.pdf
+
+'
+    http_version: 
+  recorded_at: Sat, 10 Dec 2016 13:28:01 GMT
+recorded_with: VCR 3.0.3
