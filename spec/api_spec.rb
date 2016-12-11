@@ -11,6 +11,7 @@ describe MdsClientRuby::Work, vcr: true, :order => :defined do
   let(:media) { [{ mime_type: "application/pdf", url:"http://www.datacite.org/mds-client-ruby-test.pdf" }]}
   let(:username) { ENV['MDS_USERNAME'] }
   let(:password) { ENV['MDS_PASSWORD'] }
+  let(:options) { { username: username, password: password, sandbox: true } }
   let(:fixture_path) { "spec/fixtures/" }
   let(:samples_path) { "resources/kernel-4.0/samples/" }
 
@@ -28,14 +29,14 @@ describe MdsClientRuby::Work, vcr: true, :order => :defined do
   describe "Metadata API" do
     describe "get" do
       it 'should get metadata' do
-        response = subject.get_metadata(sandbox: true)
+        response = subject.get_metadata(doi, options)
         expect(response.body["data"]).to eq(subject.data)
       end
     end
 
     describe "delete" do
       it 'should delete metadata' do
-        response = subject.delete_metadata(sandbox: true)
+        response = subject.delete_metadata(doi, options)
         expect(response.body["data"]).to eq("OK")
         expect(response.status).to eq(200)
       end
@@ -43,7 +44,7 @@ describe MdsClientRuby::Work, vcr: true, :order => :defined do
 
     describe "post" do
       it 'should post metadata' do
-        response = subject.post_metadata(sandbox: true)
+        response = subject.post_metadata(subject.data, options)
         expect(response.body["data"]).to eq("OK (10.23725/0000-03VC)")
         expect(response.status).to eq(201)
         expect(response.headers["Location"]).to eq("https://mds.test.datacite.org/metadata/10.23725/0000-03VC")
@@ -54,7 +55,7 @@ describe MdsClientRuby::Work, vcr: true, :order => :defined do
   describe "DOI API" do
     describe "put" do
       it 'should put doi' do
-        response = subject.put_doi(sandbox: true)
+        response = subject.put_doi(doi, url, options)
         expect(response.body["data"]).to eq("OK")
         expect(response.status).to eq(201)
       end
@@ -62,20 +63,20 @@ describe MdsClientRuby::Work, vcr: true, :order => :defined do
 
     describe "get" do
       it 'should get all dois' do
-        response = subject.get_dois(sandbox: true)
+        response = subject.get_dois(options)
         dois = response.body["data"]
         expect(dois.length).to eq(12)
         expect(dois.first).to eq("10.23725/0000-03VC")
       end
 
       it 'should get doi' do
-        response = subject.get_doi(sandbox: true)
+        response = subject.get_doi(doi, options)
         expect(response.body["data"]).to eq("http://www.datacite.org")
       end
 
       it 'username missing' do
-        subject.username = nil
-        response = subject.get_doi(sandbox: true)
+        options = { username: username, sandbox: true }
+        response = subject.get_doi(doi, options)
         expect(response.body).to eq("errors"=>[{"title"=>"Username or password missing"}])
       end
     end
@@ -84,7 +85,7 @@ describe MdsClientRuby::Work, vcr: true, :order => :defined do
   describe "Media API" do
     describe "post" do
       it 'should post media' do
-        response = subject.post_media(sandbox: true)
+        response = subject.post_media(doi, media, options)
         expect(response.body["data"]).to eq("OK")
         expect(response.status).to eq(200)
       end
@@ -92,7 +93,7 @@ describe MdsClientRuby::Work, vcr: true, :order => :defined do
 
     describe "get" do
       it 'should get media' do
-        response = subject.get_media(sandbox: true)
+        response = subject.get_media(doi, options)
         media = response.body["data"]
         expect(media.length).to eq(1)
         expect(media.first).to eq(:mime_type=>"application/pdf", :url=>"http://www.datacite.org/mds-client-ruby-test.pdf")

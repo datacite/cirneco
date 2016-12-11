@@ -2,17 +2,17 @@ require 'base32/crockford'
 
 module MdsClientRuby
   module Utils
-    def get_dois_by_prefix(options={})
+    def get_dois_by_prefix(prefix, options={})
       response = get_dois(options)
 
       if response.body["data"].present?
-        response.body["data"] = response.body["data"].select { |doi| doi.start_with?(ENV['PREFIX']) }
+        response.body["data"] = response.body["data"].select { |doi| doi.start_with?(prefix) }
       end
       response
     end
 
-    def get_number_of_latest_doi(options={})
-      response = get_dois_by_prefix(options)
+    def get_number_of_latest_doi(prefix, options={})
+      response = get_dois_by_prefix(prefix, options)
 
       if response.body["data"].present?
         response.body["data"] = response.body["data"].map { |doi| decode_doi(doi) }
@@ -22,10 +22,10 @@ module MdsClientRuby
       response
     end
 
-    def get_next_doi(options={})
-      response = get_number_of_latest_doi(options)
+    def get_next_doi(prefix, options={})
+      response = get_number_of_latest_doi(prefix, options)
       number = response.body["data"].to_i + 1
-      encode_doi(number)
+      encode_doi(prefix, number)
     end
 
     def decode_doi(doi)
@@ -33,10 +33,8 @@ module MdsClientRuby
       Base32::Crockford.decode(string, checksum: true).to_i
     end
 
-    def encode_doi(number)
-      return nil unless ENV['PREFIX'].present?
-
-      ENV['PREFIX'] + "/" + Base32::Crockford.encode(number, split: 4, length: 8, checksum: true)
+    def encode_doi(prefix, number)
+      prefix + "/" + Base32::Crockford.encode(number, split: 4, length: 8, checksum: true)
     end
   end
 end

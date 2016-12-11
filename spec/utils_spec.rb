@@ -1,45 +1,30 @@
 require 'spec_helper'
 
-describe MdsClientRuby::Work, vcr: true, :order => :defined do
-  let(:doi) { "10.23725/0000-03VC" }
-  let(:creators) { [{ given_name: "Elizabeth", family_name: "Miller", orcid: "0000-0001-5000-0007", affiliation: "DataCite" }] }
-  let(:title) { "Full DataCite XML Example" }
-  let(:publisher) { "DataCite" }
-  let(:publication_year) { 2014 }
-  let(:resource_type) { { value: "XML", resource_type_general: "Software" } }
-  let(:url) { "http://www.datacite.org" }
-  let(:media) { [{ mime_type: "application/pdf", url:"http://www.datacite.org/mds-client-ruby-test.pdf" }]}
+describe MdsClientRuby::DataCenter, vcr: true, :order => :defined do
+  let(:prefix) { ENV['PREFIX'] }
   let(:username) { ENV['MDS_USERNAME'] }
   let(:password) { ENV['MDS_PASSWORD'] }
-  let(:fixture_path) { "spec/fixtures/" }
-  let(:samples_path) { "resources/kernel-4.0/samples/" }
+  let(:options) { { username: username, password: password, sandbox: true } }
 
-  subject { MdsClientRuby::Work.new(doi: doi,
-                                    creators: creators,
-                                    title: title,
-                                    publisher: publisher,
-                                    publication_year: publication_year,
-                                    resource_type: resource_type,
-                                    url: url,
-                                    media: media,
-                                    username: username,
-                                    password: password) }
+  subject { MdsClientRuby::DataCenter.new(prefix: prefix,
+                                          username: username,
+                                          password: password) }
 
   describe "get" do
     it 'should get all dois by prefix' do
-      response = subject.get_dois_by_prefix(sandbox: true)
+      response = subject.get_dois_by_prefix(prefix, options)
       dois = response.body["data"]
       expect(dois.length).to eq(4)
       expect(dois.first).to eq("10.23725/0000-03VC")
     end
 
-    it 'should get highest doi by prefix' do
-      response = subject.get_number_of_latest_doi(sandbox: true)
+    it 'should get_number_of_latest_doi' do
+      response = subject.get_number_of_latest_doi(prefix, options)
       expect(response.body["data"]).to eq(123)
     end
 
     it 'should get next doi' do
-      response = subject.get_next_doi(sandbox: true)
+      response = subject.get_next_doi(prefix, options)
       expect(response).to eq("10.23725/0000-03WD")
     end
   end
@@ -57,7 +42,7 @@ describe MdsClientRuby::Work, vcr: true, :order => :defined do
 
     it 'should encode doi' do
       number = 123
-      expect(subject.encode_doi(number)).to eq("10.23725/0000-03VC")
+      expect(subject.encode_doi(prefix, number)).to eq("10.23725/0000-03VC")
     end
   end
 end
