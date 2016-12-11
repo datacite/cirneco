@@ -1,11 +1,11 @@
-# Ruby client for DataCite Metadata Store (MDS)
+# Cirneco: Ruby command-line client for DataCite Metadata Store (MDS)
 
-[![Gem Version](https://badge.fury.io/rb/mds-client-ruby.svg)](https://badge.fury.io/rb/mds-client-ruby)
-[![Build Status](https://travis-ci.org/datacite/mds-client-ruby.svg?branch=master)](https://travis-ci.org/datacite/mds-client-ruby)
-[![Code Climate](https://codeclimate.com/github/datacite/mds-client-ruby/badges/gpa.svg)](https://codeclimate.com/github/datacite/mds-client-ruby)
-[![Test Coverage](https://codeclimate.com/github/datacite/mds-client-ruby/badges/coverage.svg)](https://codeclimate.com/github/datacite/mds-client-ruby/coverage)
+[![Gem Version](https://badge.fury.io/rb/cirneco.svg)](https://badge.fury.io/rb/cirneco)
+[![Build Status](https://travis-ci.org/datacite/cirneco.svg?branch=master)](https://travis-ci.org/datacite/cirneco)
+[![Code Climate](https://codeclimate.com/github/datacite/cirneco/badges/gpa.svg)](https://codeclimate.com/github/datacite/cirneco)
+[![Test Coverage](https://codeclimate.com/github/datacite/cirneco/badges/coverage.svg)](https://codeclimate.com/github/datacite/cirneco/coverage)
 
-Ruby gem for integrating Ruby applications with the DataCite MDS API.
+Cirneco is a command-line client for the DataCite Metadata Store (MDS), written as Ruby gem. Uses the MDS API, and includes several utlity functions.
 
 ## Features
 
@@ -24,7 +24,7 @@ The following functionality is supported:
 The usual way with Bundler: add the following to your `Gemfile` to install the current version of the gem:
 
 ```ruby
-gem 'mds-client-ruby'
+gem 'cirneco'
 ```
 
 Then run `bundle install` to install into your environment.
@@ -32,7 +32,7 @@ Then run `bundle install` to install into your environment.
 You can also install the gem system-wide in the usual way:
 
 ```bash
-gem install mds-client-ruby
+gem install cirneco
 ```
 
 ## Use

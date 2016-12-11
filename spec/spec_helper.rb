@@ -4,7 +4,7 @@ Bundler.setup
 require 'simplecov'
 SimpleCov.start
 
-require 'mds-client-ruby'
+require 'cirneco'
 require 'maremma'
 require 'rspec'
 require 'rack/test'

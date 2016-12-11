@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe MdsClientRuby::Work, vcr: true do
+describe Cirneco::Work, vcr: true do
   let(:doi) { "10.23725/0000-03VC" }
   let(:creators) { [{ given_name: "Elizabeth", family_name: "Miller", orcid: "0000-0001-5000-0007" }] }
   let(:title) { "Full DataCite XML Example" }
@@ -11,21 +11,21 @@ describe MdsClientRuby::Work, vcr: true do
   let(:descriptions) { [{ value: "XML example of all DataCite Metadata Schema v4.0 properties.", description_type: "Abstract" }] }
   let(:rights) { [{ value: "CC0 1.0 Universal", rights_uri: "http://creativecommons.org/publicdomain/zero/1.0/" }] }
   let(:url) { "http://www.datacite.org" }
-  let(:media) { [{ mime_type: "application/pdf", url:"http://www.datacite.org/mds-client-ruby-test.pdf" }]}
+  let(:media) { [{ mime_type: "application/pdf", url:"http://www.datacite.org/cirneco-test.pdf" }]}
   let(:username) { ENV['MDS_USERNAME'] }
   let(:password) { ENV['MDS_PASSWORD'] }
   let(:fixture_path) { "spec/fixtures/" }
   let(:samples_path) { "resources/kernel-4.0/samples/" }
 
-  subject { MdsClientRuby::Work.new(doi: doi,
-                                    creators: creators,
-                                    title: title,
-                                    publisher: publisher,
-                                    publication_year: publication_year,
-                                    resource_type: resource_type,
-                                    subjects: subjects,
-                                    descriptions: descriptions,
-                                    rights: rights) }
+  subject { Cirneco::Work.new(doi: doi,
+                              creators: creators,
+                              title: title,
+                              publisher: publisher,
+                              publication_year: publication_year,
+                              resource_type: resource_type,
+                              subjects: subjects,
+                              descriptions: descriptions,
+                              rights: rights) }
 
   describe 'schema' do
     it 'validates example full' do

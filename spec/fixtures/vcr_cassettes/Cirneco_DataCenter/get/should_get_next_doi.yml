@@ -1,0 +1,52 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://mds.test.datacite.org/doi
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Maremma - https://github.com/datacite/maremma
+      Accept:
+      - text/html,application/json,application/xml;q=0.9, text/plain;q=0.8,image/png,*/*;q=0.5
+      Authorization:
+      - Basic <MDS_TOKEN>
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - nginx/1.4.6 (Ubuntu)
+      Date:
+      - Sun, 11 Dec 2016 18:35:37 GMT
+      Content-Type:
+      - text/html;charset=UTF-8
+      Connection:
+      - keep-alive
+      Pragma:
+      - no-cache
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      Cache-Control:
+      - no-cache, no-store
+    body:
+      encoding: UTF-8
+      string: |-
+        10.23725/0000-03VC
+        10.23725/0000-0A53
+        10.23725/GQZDGNZW
+        10.23725/MDS-CLIENT-RUBY-TEST
+        10.5438/0001
+        10.5438/0002
+        10.5438/0003
+        10.5438/0004
+        10.5438/0005
+        10.5438/0006
+        10.5438/EXAMPLE-FULL
+        10.5438/MDS-CLIENT-RUBY-TEST
+    http_version: 
+  recorded_at: Sun, 11 Dec 2016 18:35:37 GMT
+recorded_with: VCR 3.0.3

@@ -1,14 +1,14 @@
 require 'spec_helper'
 
-describe MdsClientRuby::DataCenter, vcr: true, :order => :defined do
+describe Cirneco::DataCenter, vcr: true, :order => :defined do
   let(:prefix) { ENV['PREFIX'] }
   let(:username) { ENV['MDS_USERNAME'] }
   let(:password) { ENV['MDS_PASSWORD'] }
   let(:options) { { username: username, password: password, sandbox: true } }
 
-  subject { MdsClientRuby::DataCenter.new(prefix: prefix,
-                                          username: username,
-                                          password: password) }
+  subject { Cirneco::DataCenter.new(prefix: prefix,
+                                    username: username,
+                                    password: password) }
 
   describe "get" do
     it 'should get all dois by prefix' do

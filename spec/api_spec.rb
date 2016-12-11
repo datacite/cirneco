@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe MdsClientRuby::Work, vcr: true, :order => :defined do
+describe Cirneco::Work, vcr: true, :order => :defined do
   let(:doi) { "10.23725/0000-03VC" }
   let(:creators) { [{ given_name: "Elizabeth", family_name: "Miller", orcid: "0000-0001-5000-0007", affiliation: "DataCite" }] }
   let(:title) { "Full DataCite XML Example" }
@@ -8,14 +8,14 @@ describe MdsClientRuby::Work, vcr: true, :order => :defined do
   let(:publication_year) { 2014 }
   let(:resource_type) { { value: "XML", resource_type_general: "Software" } }
   let(:url) { "http://www.datacite.org" }
-  let(:media) { [{ mime_type: "application/pdf", url:"http://www.datacite.org/mds-client-ruby-test.pdf" }]}
+  let(:media) { [{ mime_type: "application/pdf", url:"http://www.datacite.org/cirneco-test.pdf" }]}
   let(:username) { ENV['MDS_USERNAME'] }
   let(:password) { ENV['MDS_PASSWORD'] }
   let(:options) { { username: username, password: password, sandbox: true } }
   let(:fixture_path) { "spec/fixtures/" }
   let(:samples_path) { "resources/kernel-4.0/samples/" }
 
-  subject { MdsClientRuby::Work.new(doi: doi,
+  subject { Cirneco::Work.new(doi: doi,
                                     creators: creators,
                                     title: title,
                                     publisher: publisher,
@@ -96,7 +96,7 @@ describe MdsClientRuby::Work, vcr: true, :order => :defined do
         response = subject.get_media(doi, options)
         media = response.body["data"]
         expect(media.length).to eq(1)
-        expect(media.first).to eq(:mime_type=>"application/pdf", :url=>"http://www.datacite.org/mds-client-ruby-test.pdf")
+        expect(media.first).to eq(:mime_type=>"application/pdf", :url=>"http://www.datacite.org/cirneco-test.pdf")
       end
     end
   end
