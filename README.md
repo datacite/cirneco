@@ -1,4 +1,4 @@
-# Cirneco: Ruby command-line client for DataCite Metadata Store (MDS)
+# Cirneco: command-line client for DataCite MDS
 
 [![Gem Version](https://badge.fury.io/rb/cirneco.svg)](https://badge.fury.io/rb/cirneco)
 [![Build Status](https://travis-ci.org/datacite/cirneco.svg?branch=master)](https://travis-ci.org/datacite/cirneco)
