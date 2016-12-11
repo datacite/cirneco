@@ -1,12 +1,16 @@
 language: ruby
 rvm:
 - 2.3.1
+
 install:
 - travis_retry bundle install
+
 script: bundle exec rspec
+
 notifications:
   slack: "$SLACK_TOKEN"
   email: false
+
 deploy:
   provider: rubygems
   api_key:
