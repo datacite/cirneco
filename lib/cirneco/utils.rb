@@ -1,5 +1,5 @@
 require 'base32/crockford'
-require 'SecureRandom'
+require 'securerandom'
 
 module Cirneco
   module Utils
