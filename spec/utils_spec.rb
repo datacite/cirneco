@@ -17,16 +17,6 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
       expect(dois.length).to eq(4)
       expect(dois.first).to eq("10.23725/0000-03VC")
     end
-
-    it 'should get_number_of_latest_doi' do
-      response = subject.get_number_of_latest_doi(prefix, options)
-      expect(response.body["data"]).to eq(123)
-    end
-
-    it 'should get next doi' do
-      response = subject.get_next_doi(prefix, options)
-      expect(response).to eq("10.23725/0000-03WD")
-    end
   end
 
   describe "base32" do
@@ -42,7 +32,11 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
 
     it 'should encode doi' do
       number = 123
-      expect(subject.encode_doi(prefix, number)).to eq("10.23725/0000-03VC")
+      expect(subject.encode_doi(prefix, number: number)).to eq("10.23725/0000-03VC")
+    end
+
+    it 'should encode doi random number' do
+      expect(subject.encode_doi(prefix)).to start_with("10.23725")
     end
   end
 end

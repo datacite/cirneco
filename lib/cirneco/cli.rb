@@ -1,23 +1,16 @@
 # encoding: UTF-8
 
 require "thor"
-#require 'active_support/all'
 
-#require_relative 'api'
-#require_relative 'utils'
-#require_relative 'base'
-#require_relative 'doi'
+require_relative 'doi'
+require_relative 'media'
+require_relative 'metadata'
 
 module Cirneco
   class CLI < Thor
-    #include MdsClientRuby::Base
-    #include MdsClientRuby::Api
-    #include MdsClientRuby::Utils
-
-    option :sandbox, :type => :boolean
-    option :prefix, :default => ENV['PREFIX']
-    option :username, :default => ENV['MDS_USERNAME']
-    option :password, :default => ENV['MDS_PASSWORD']
+    include Cirneco::Base
+    include Cirneco::Api
+    include Cirneco::Utils
 
     def self.exit_on_failure?
       true
@@ -29,7 +22,7 @@ module Cirneco
       puts "Hello #{name}"
     end
 
-    #desc "parentcommand SUBCOMMAND", "Some Parent Command"
-    #subcommand "doi", MdsClientRuby::CLI::Doi
+    desc "parentcommand SUBCOMMAND", "Some Parent Command"
+    subcommand "doi", Cirneco::Doi
   end
 end

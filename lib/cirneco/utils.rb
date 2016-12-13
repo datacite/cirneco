@@ -1,7 +1,11 @@
 require 'base32/crockford'
+require 'SecureRandom'
 
 module Cirneco
   module Utils
+    # "ZZZZZZZ" decoded as number
+    UPPER_LIMIT = 34359738367
+
     def get_dois_by_prefix(prefix, options={})
       response = get_dois(options)
 
@@ -11,29 +15,13 @@ module Cirneco
       response
     end
 
-    def get_number_of_latest_doi(prefix, options={})
-      response = get_dois_by_prefix(prefix, options)
-
-      if response.body["data"].present?
-        response.body["data"] = response.body["data"].map { |doi| decode_doi(doi) }
-                                                     .sort
-                                                     .last
-      end
-      response
-    end
-
-    def get_next_doi(prefix, options={})
-      response = get_number_of_latest_doi(prefix, options)
-      number = response.body["data"].to_i + 1
-      encode_doi(prefix, number)
-    end
-
     def decode_doi(doi)
       prefix, string = doi.split('/', 2)
       Base32::Crockford.decode(string, checksum: true).to_i
     end
 
-    def encode_doi(prefix, number)
+    def encode_doi(prefix, options={})
+      number = options[:number] || SecureRandom.random_number(UPPER_LIMIT)
       prefix + "/" + Base32::Crockford.encode(number, split: 4, length: 8, checksum: true)
     end
   end

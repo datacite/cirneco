@@ -17,11 +17,11 @@ Gem::Specification.new do |s|
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.require_paths = ["lib"]
-  s.executables   = ["cirneco"]
+  s.executables   = ["cirneco.rb"]
 
   # Declary dependencies here, rather than in the Gemfile
   s.add_dependency 'maremma', '~> 3.1'
-  s.add_dependency 'nokogiri', '~> 1.6.8'
+  s.add_dependency 'nokogiri', '~> 1.6', '>= 1.6.8'
   s.add_dependency 'builder', '~> 3.2', '>= 3.2.2'
   s.add_dependency 'namae', '~> 0.10.1'
   s.add_dependency 'activesupport', '~> 4.2', '>= 4.2.5'
@@ -31,11 +31,11 @@ Gem::Specification.new do |s|
   s.add_dependency 'thor', '~> 0.19'
   s.add_development_dependency 'bundler', '~> 1.0'
   s.add_development_dependency 'rspec', '~> 3.4'
-  s.add_development_dependency 'rspec-xsd'
-  s.add_development_dependency 'rake'
+  s.add_development_dependency 'rspec-xsd', '~> 0.1.0'
+  s.add_development_dependency 'rake', '~> 12.0'
   s.add_development_dependency 'rack-test', '~> 0'
-  s.add_development_dependency 'vcr'
+  s.add_development_dependency 'vcr', '~> 3.0', '>= 3.0.3'
   s.add_development_dependency 'webmock', '~> 1.22', '>= 1.22.3'
-  s.add_development_dependency 'codeclimate-test-reporter', "~> 1.0.0"
-  s.add_development_dependency 'simplecov'
+  s.add_development_dependency 'codeclimate-test-reporter', '~> 1.0', '>= 1.0.0'
+  s.add_development_dependency 'simplecov', '~> 0.12.0'
 end
