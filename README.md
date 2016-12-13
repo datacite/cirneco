@@ -41,15 +41,7 @@ Configure ENV variables `MDS_USERNAME`, `MDS_PASSWORD` and `PREFIX`, e.g. by sto
 
 ## Commands
 
-Return all DOIs registered for the data center
-```
-cirneco doi get all
-```
-
-Return URL registered for DOI in the handle system
-```
-cirneco doi get 10.5555/1234
-```
+The commands map to the commands available in the [DataCite MDS API](https://mds.datacite.org/static/apidoc), and two additional commands allow the generation and check of random DOIs.
 
 Generate a random DOI in the format `xxxx-xxxy` where `y` is the checksum
 ```
@@ -59,6 +51,16 @@ cirneco doi generate
 Check DOI for valid checksum
 ```
 cirneco doi check 10.5555/1234
+```
+
+Return all DOIs registered for the data center
+```
+cirneco doi get all
+```
+
+Return URL registered for DOI in the handle system
+```
+cirneco doi get 10.5555/1234
 ```
 
 Save metadata for DOI into file `1234.xml` in same directory

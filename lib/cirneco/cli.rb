@@ -23,19 +23,13 @@ module Cirneco
       true
     end
 
-    desc "hello NAME", "say hello to NAME"
-    def hello(name, from=nil)
-      puts "from: #{from}" if from
-      puts "Hello #{name}"
-    end
-
-    desc "parentcommand SUBCOMMAND", "Some Parent Command"
+    desc "doi SUBCOMMAND", "doi commands"
     subcommand "doi", Cirneco::Doi
 
-    desc "parentcommand SUBCOMMAND", "Some Parent Command"
+    desc "metadata SUBCOMMAND", "metadata commands"
     subcommand "metadata", Cirneco::Metadata
 
-    desc "parentcommand SUBCOMMAND", "Some Parent Command"
+    desc "media SUBCOMMAND", "media commands"
     subcommand "media", Cirneco::Media
   end
 end

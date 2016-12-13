@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.require_paths = ["lib"]
-  s.executables   = ["cirneco.rb"]
+  s.executables   = ["cirneco"]
 
   # Declary dependencies here, rather than in the Gemfile
   s.add_dependency 'maremma', '~> 3.1'
