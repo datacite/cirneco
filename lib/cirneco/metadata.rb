@@ -14,7 +14,7 @@ module Cirneco
     desc "get DOI", "get metadata for DOI"
     method_option :username, :default => ENV['MDS_USERNAME']
     method_option :password, :default => ENV['MDS_PASSWORD']
-    method_option :sandbox, :type => :boolean, default: true
+    method_option :sandbox, :type => :boolean
     def get(doi)
       response = get_metadata(doi, options)
 
@@ -31,7 +31,7 @@ module Cirneco
     desc "post DOI", "post metadata for DOI"
     method_option :username, :default => ENV['MDS_USERNAME']
     method_option :password, :default => ENV['MDS_PASSWORD']
-    method_option :sandbox, :type => :boolean, default: true
+    method_option :sandbox, :type => :boolean
     def post(file)
       data = IO.read(file)
       response = post_metadata(data, options)
@@ -46,7 +46,7 @@ module Cirneco
     desc "delete DOI", "hide metadata for DOI"
     method_option :username, :default => ENV['MDS_USERNAME']
     method_option :password, :default => ENV['MDS_PASSWORD']
-    method_option :sandbox, :type => :boolean, default: true
+    method_option :sandbox, :type => :boolean
     def delete(doi)
       response = delete_metadata(doi, options)
 

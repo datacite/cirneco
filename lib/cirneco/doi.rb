@@ -13,7 +13,7 @@ module Cirneco
     desc "get DOI", "get handle url for DOI"
     method_option :username, :default => ENV['MDS_USERNAME']
     method_option :password, :default => ENV['MDS_PASSWORD']
-    method_option :sandbox, :type => :boolean, default: true
+    method_option :sandbox, :type => :boolean
     def get(doi)
       if doi == "all"
         response = get_dois(options)
