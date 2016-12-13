@@ -5,7 +5,7 @@
 [![Code Climate](https://codeclimate.com/github/datacite/cirneco/badges/gpa.svg)](https://codeclimate.com/github/datacite/cirneco)
 [![Test Coverage](https://codeclimate.com/github/datacite/cirneco/badges/coverage.svg)](https://codeclimate.com/github/datacite/cirneco/coverage)
 
-Cirneco is a command-line client for the DataCite Metadata Store (MDS), written as Ruby gem. Uses the MDS API, and includes several utlity functions.
+Cirneco is a command-line client for the [DataCite Metadata Store](https://mds.datacite.org) (MDS), written as Ruby gem. Uses the MDS API, and includes several utlity functions.
 
 ## Features
 
