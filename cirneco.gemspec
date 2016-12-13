@@ -27,7 +27,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'activesupport', '~> 4.2', '>= 4.2.5'
   s.add_dependency 'sanitize', '~> 4.0', '>= 4.0.1'
   s.add_dependency 'dotenv', '~> 2.1', '>= 2.1.1'
-  s.add_dependency 'base32-crockford', '~> 0.2.0'
   s.add_dependency 'thor', '~> 0.19'
   s.add_development_dependency 'bundler', '~> 1.0'
   s.add_development_dependency 'rspec', '~> 3.4'
