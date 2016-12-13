@@ -12,6 +12,13 @@ module Cirneco
     include Cirneco::Api
     include Cirneco::Utils
 
+    # load ENV variables from .env file if it exists
+    env_file = File.expand_path("../../.env", __FILE__)
+    if File.exist?(env_file)
+      require 'dotenv'
+      Dotenv.load! env_file
+    end
+
     def self.exit_on_failure?
       true
     end
@@ -24,5 +31,11 @@ module Cirneco
 
     desc "parentcommand SUBCOMMAND", "Some Parent Command"
     subcommand "doi", Cirneco::Doi
+
+    desc "parentcommand SUBCOMMAND", "Some Parent Command"
+    subcommand "metadata", Cirneco::Metadata
+
+    desc "parentcommand SUBCOMMAND", "Some Parent Command"
+    subcommand "media", Cirneco::Media
   end
 end

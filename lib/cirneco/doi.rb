@@ -10,24 +10,42 @@ module Cirneco
     include Cirneco::Api
     include Cirneco::Utils
 
-    method_option :sandbox, :type => :boolean
-    method_option :prefix, :default => ENV['PREFIX']
+    desc "get DOI", "get handle url for DOI"
     method_option :username, :default => ENV['MDS_USERNAME']
     method_option :password, :default => ENV['MDS_PASSWORD']
-
-    desc "get DOI", "get handle url for DOI"
+    method_option :sandbox, :type => :boolean, default: true
     def get(doi)
-      get_doi(doi)
+      if doi == "all"
+        response = get_dois(options)
+      else
+        response = get_doi(doi, options)
+      end
+
+      if response.body["errors"]
+        puts "Error: " + response.body["errors"].first.fetch("title", "An error occured")
+      else
+        puts response.body["data"]
+      end
     end
 
-    desc "encode NUMBER", "say hello to NAME"
-    def encode(number)
-      puts encode_doi(prefix, number)
+    desc "generate PREFIX", "generate a DOI name"
+    method_option :prefix, :default => ENV['PREFIX']
+    method_option :number, :type => :numeric, :aliases => '-n'
+    def generate
+      if options[:prefix]
+        puts encode_doi(options[:prefix], number: options[:number])
+      else
+        puts "No PREFIX provided. Use --prefix option or PREFIX ENV variable"
+      end
     end
 
-    desc "command", "an example task"
-    def command
-      puts "I'm a thor task!"
+    desc "check DOI", "check DOI using Crockford base32 checksum"
+    def check(doi)
+      if decode_doi(doi) > 0
+        puts "Checksum for #{doi} is valid"
+      else
+        puts "Checksum for #{doi} is not valid"
+      end
     end
   end
 end

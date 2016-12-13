@@ -1,4 +1,5 @@
-require "uri"
+require 'uri'
+require 'maremma'
 
 module Cirneco
   module Api
@@ -63,7 +64,7 @@ module Cirneco
     def post_media(doi, media, options={})
       return OpenStruct.new(body: { "errors" => [{ "title" => "Username or password missing" }] }) unless options[:username].present? && options[:password].present?
 
-      payload = media.map { |m| "#{m[:mime_type]}=#{m[:url]}" }.join("\n")
+      payload = options[:raw] ? media : media.map { |m| "#{m[:mime_type]}=#{m[:url]}" }.join("\n")
 
       mds_url = options[:sandbox] ? 'https://mds.test.datacite.org' : 'https://mds.datacite.org'
 
@@ -78,7 +79,7 @@ module Cirneco
 
       url = "#{mds_url}/media/#{doi}"
       response = Maremma.get(url, accept: 'application/xml', username: options[:username], password: options[:password])
-      if response.body["data"].present?
+      if response.body["data"].present? && !options[:raw]
         response.body["data"] = response.body["data"].split("\n").map do |m|
           mime_type, url = m.split('=', 2)
           { mime_type: mime_type, url: url }

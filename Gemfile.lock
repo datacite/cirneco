@@ -7,9 +7,8 @@ GIT
 PATH
   remote: .
   specs:
-    cirneco (0.3)
+    cirneco (0.4)
       activesupport (~> 4.2, >= 4.2.5)
-      base32-crockford (~> 0.2.0)
       builder (~> 3.2, >= 3.2.2)
       dotenv (~> 2.1, >= 2.1.1)
       maremma (~> 3.1)
@@ -113,7 +112,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  base32-crockford!
+  base32-crockford (~> 0.2.0)!
   bundler (~> 1.0)
   cirneco!
   codeclimate-test-reporter (~> 1.0, >= 1.0.0)
