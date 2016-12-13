@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
 
   # Declary dependencies here, rather than in the Gemfile
   s.add_dependency 'maremma', '~> 3.1'
-  s.add_dependency 'base32-crockford', '~> 0.2.0'
+  s.add_dependency 'base32-crockford-checksum', '~> 0.2.2'
   s.add_dependency 'nokogiri', '~> 1.6', '>= 1.6.8'
   s.add_dependency 'builder', '~> 3.2', '>= 3.2.2'
   s.add_dependency 'namae', '~> 0.10.1'
