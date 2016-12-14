@@ -37,7 +37,7 @@ gem install cirneco
 
 ## Configuration
 
-Configure ENV variables `MDS_USERNAME`, `MDS_PASSWORD` and `PREFIX`, e.g. by storing them in file `.env` in same folder (see `.env.xample`).
+Configure ENV variables `MDS_USERNAME`, `MDS_PASSWORD` and `PREFIX`, e.g. by storing them in file `.env` (see `.env.xample`) in same directory you run the command.
 
 ## Commands
 
@@ -88,6 +88,23 @@ Post media information from file `1234.txt` in same directory
 cirneco media post 1234.xml
 ```
 
-## License
+## Development
 
-[MIT](license.md)
+We use rspec for unit testing:
+
+```
+bundle exec rspec
+```
+
+Follow along via [Github Issues](https://github.com/datacite/cirneco/issues).
+
+### Note on Patches/Pull Requests
+
+* Fork the project
+* Write tests for your new feature or a test that reproduces a bug
+* Implement your feature or make a bug fix
+* Do not mess with Rakefile, version or history
+* Commit, push and make a pull request. Bonus points for topical branches.
+
+## License
+**cirneco** is released under the [MIT License](https://github.com/datacite/cirneco/blob/master/LICENSE.md).
