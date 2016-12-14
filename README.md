@@ -13,7 +13,7 @@ The following functionality is supported:
 
 * the MDS API (DOI, Metadata and Media APIs) is fully supported
 * generates valid metadata, using Schema 4.0 (currently only partial support of available metadata fields)
-* generates a DOI name to be used for registration, using a random number that is [Base32 Crockford encoded](https://github.com/levinalex/base32) and includes a checksum
+* generates a DOI name to be used for registration, using a random number that is [Base32 Crockford encoded](http://www.crockford.com/wrmg/base32.html) and includes a checksum
 
 ## Requirements
 
