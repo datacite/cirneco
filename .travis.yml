@@ -1,12 +1,21 @@
 language: ruby
 rvm:
 - 2.3.1
+
+before_install:
+  - sudo add-apt-repository ppa:kalakris/cmake -y
+  - sudo apt-get update -q
+  - sudo apt-get install cmake -y
+
 install:
 - travis_retry bundle install
+
 script: bundle exec rspec
+
 notifications:
   slack: "$SLACK_TOKEN"
   email: false
+
 deploy:
   skip_cleanup: true
   provider: rubygems
