@@ -16,12 +16,11 @@ Gem::Specification.new do |s|
 
   # Declary dependencies here, rather than in the Gemfile
   s.add_dependency 'maremma', '~> 3.1'
+  s.add_dependency 'bergamasco', '~> 0.1.1'
   s.add_dependency 'base32-crockford-checksum', '~> 0.2.2'
   s.add_dependency 'nokogiri', '~> 1.6', '>= 1.6.8'
   s.add_dependency 'builder', '~> 3.2', '>= 3.2.2'
-  s.add_dependency 'namae', '~> 0.10.1'
   s.add_dependency 'activesupport', '~> 4.2', '>= 4.2.5'
-  s.add_dependency 'sanitize', '~> 4.0', '>= 4.0.1'
   s.add_dependency 'dotenv', '~> 2.1', '>= 2.1.1'
   s.add_dependency 'thor', '~> 0.19'
   s.add_development_dependency 'bundler', '~> 1.0'

@@ -1,6 +1,5 @@
 require 'active_support/all'
 require 'nokogiri'
-require 'sanitize'
 
 require_relative 'api'
 require_relative 'utils'
@@ -35,11 +34,6 @@ module Cirneco
     end
 
     SCHEMA = File.expand_path("../../../resources/kernel-4.0/metadata.xsd", __FILE__)
-
-
-    def sanitize(string)
-      Sanitize.fragment(string).squish
-    end
 
     def has_required_elements?
       doi && creators && title && publisher && publication_year && resource_type

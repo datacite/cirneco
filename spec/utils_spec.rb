@@ -39,4 +39,31 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
       expect(subject.encode_doi(prefix)).to start_with("10.23725")
     end
   end
+
+  describe "register" do
+    it 'should register_file' do
+      filepath = fixture_path + 'cool-dois.html.md'
+      number = 123
+      response = subject.register_file(filepath, number: number)
+      expect(response).to eq("DOI 10.23725/0000-03VC added to cool-dois.html.md")
+    end
+
+    it 'should register_file unregister' do
+      filepath = fixture_path + 'cool-dois.html.md'
+      response = subject.register_file(filepath, unregister: true)
+      expect(response).to eq("DOI removed from cool-dois.html.md")
+    end
+
+    it 'should register_all_files unregister' do
+      number = 123
+      response = subject.register_all_files(fixture_path, number: number, unregister: true)
+      expect(response).to eq("DOI removed from cool-dois.html.md")
+    end
+
+    it 'should ignore non-markdown file for register_file' do
+      filepath = fixture_path + 'cool-dois.yml'
+      response = subject.register_file(filepath)
+      expect(response).to eq("File cool-dois.yml ignored: not a markdown file")
+    end
+  end
 end

@@ -1,6 +1,5 @@
 require 'active_support/all'
 require 'nokogiri'
-require 'sanitize'
 
 require_relative 'api'
 require_relative 'utils'

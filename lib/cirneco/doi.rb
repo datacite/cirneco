@@ -13,7 +13,7 @@ module Cirneco
     desc "get DOI", "get handle url for DOI"
     method_option :username, :default => ENV['MDS_USERNAME']
     method_option :password, :default => ENV['MDS_PASSWORD']
-    method_option :sandbox, :type => :boolean
+    method_option :sandbox, :default => ENV['SANDBOX']
     def get(doi)
       if doi == "all"
         response = get_dois(options)
@@ -46,6 +46,21 @@ module Cirneco
       else
         puts "Checksum for #{doi} is not valid"
       end
+    end
+
+    desc "register DOCUMENTS", "register documents"
+    method_option :username, :default => ENV['MDS_USERNAME']
+    method_option :password, :default => ENV['MDS_PASSWORD']
+    method_option :sandbox, :default => ENV['SANDBOX']
+    def register(filepath)
+
+      if File.directory?(filepath)
+        response = register_all_files(filepath, options)
+      else
+        response = register_file(filepath, options)
+      end
+
+      puts response
     end
   end
 end

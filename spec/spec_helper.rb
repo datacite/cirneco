@@ -33,3 +33,7 @@ VCR.configure do |c|
   c.filter_sensitive_data("<MDS_TOKEN>") { mds_token }
   c.configure_rspec_metadata!
 end
+
+def fixture_path
+  File.expand_path("../fixtures", __FILE__) + '/'
+end
