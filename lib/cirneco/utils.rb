@@ -1,6 +1,7 @@
 require 'base32/crockford'
 require 'securerandom'
 require 'bergamasco'
+require 'time'
 
 module Cirneco
   module Utils
@@ -40,7 +41,16 @@ module Cirneco
       end
 
       updated_file = Bergamasco::Markdown.update_file(file, { "doi" => doi })
-      IO.write(filepath, updated_file) if updated_file != file
+
+      if updated_file != file
+        IO.write(filepath, updated_file)
+
+        datapath = options[:datapath] || ENV['DATAPATH'] || "data/doi.yml"
+        data = Bergamasco::Markdown.read_yaml(datapath) || []
+        data = [data] if data.is_a?(Hash)
+        new_data = [{ "filename" => filename, "doi" => doi, "date" => Time.now.utc.iso8601 }]
+        Bergamasco::Markdown.write_yaml(datapath, data + new_data)
+      end
 
       if doi.nil?
         "DOI removed from #{filename}"

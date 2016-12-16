@@ -50,7 +50,7 @@ build-iPhoneSimulator/
 .rvmrc
 
 coverage/
-
+spec/fixtures/doi.yml
 .env
 .env.*
 !.env.example
