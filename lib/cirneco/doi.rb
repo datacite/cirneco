@@ -62,5 +62,20 @@ module Cirneco
 
       puts response
     end
+
+    desc "unregister DOCUMENTS", "unregister documents"
+    method_option :username, :default => ENV['MDS_USERNAME']
+    method_option :password, :default => ENV['MDS_PASSWORD']
+    method_option :sandbox, :default => ENV['SANDBOX']
+    def unregister(filepath)
+
+      if File.directory?(filepath)
+        response = register_all_files(filepath, options.merge(unregister: true))
+      else
+        response = register_file(filepath, options.merge(unregister: true))
+      end
+
+      puts response
+    end
   end
 end

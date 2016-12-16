@@ -23,7 +23,7 @@ module Cirneco
     end
 
     def encode_doi(prefix, options={})
-      number = options[:number] || SecureRandom.random_number(UPPER_LIMIT)
+      number = options[:number] || SecureRandom.random_number(UPPER_LIMIT).to_i
       prefix.to_s + "/" + Base32::Crockford.encode(number, split: 4, length: 8, checksum: true)
     end
 
@@ -33,6 +33,7 @@ module Cirneco
       return "File #{filename} ignored: not a markdown file" unless File.extname(filepath) == ".md"
 
       file = IO.read(filepath)
+
       if options[:unregister]
         doi = nil
       else
