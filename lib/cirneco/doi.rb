@@ -51,6 +51,7 @@ module Cirneco
     desc "register DOCUMENTS", "register documents"
     method_option :username, :default => ENV['MDS_USERNAME']
     method_option :password, :default => ENV['MDS_PASSWORD']
+    method_option :prefix, :default => ENV['PREFIX']
     method_option :sandbox, :default => ENV['SANDBOX']
     def register(filepath)
 
