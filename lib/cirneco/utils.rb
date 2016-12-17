@@ -24,9 +24,6 @@ module Cirneco
 
     def encode_doi(prefix, options={})
       number = options[:number] || SecureRandom.random_number(UPPER_LIMIT)
-
-      # make sure number is integer > 0
-      number = [1, number.to_i].max
       prefix.to_s + "/" + Base32::Crockford.encode(number, split: 4, length: 8, checksum: true)
     end
 
