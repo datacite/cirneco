@@ -36,13 +36,7 @@ module Cirneco
 
     SCHEMA = File.expand_path("../../../resources/kernel-4.0/metadata.xsd", __FILE__)
 
-    def has_required_elements?
-      doi && creators && title && publisher && publication_year && resource_type
-    end
-
     def data
-      return nil unless has_required_elements?
-
       Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
         xml.send(:'resource', root_attributes) do
           insert_work(xml)

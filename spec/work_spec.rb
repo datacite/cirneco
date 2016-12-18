@@ -50,7 +50,8 @@ describe Cirneco::Work, vcr: true do
 
     it 'validates work without title with errors' do
       subject.title = nil
-      expect(subject.validation_errors).to eq(["The document has no document element."])
+      expect(subject.validation_errors).to eq(["Element '{http://datacite.org/schema/kernel-4}title': [facet 'minLength'] The value has a length of '0'; this underruns the allowed minimum length of '1'.",
+        "Element '{http://datacite.org/schema/kernel-4}title': '' is not a valid value of the atomic type '{http://datacite.org/schema/kernel-4}nonemptycontentStringType'."])
     end
   end
 end

@@ -192,13 +192,10 @@ module Cirneco
     def register_work_for_metadata(metadata)
       work = Cirneco::Work.new(metadata)
 
-      if work.data.to_s.length > 0
-        filename  = metadata["doi"].split("/", 2).last + ".xml"
-        IO.write(filename, work.data)
-      else
-        puts work.validation_errors
-        puts work.inspect
-      end
+      filename  = metadata["doi"].split("/", 2).last + ".xml"
+      IO.write(filename, work.data)
+
+      puts work.validation_errors if work.validation_errors.present?
 
       work
     end
@@ -206,13 +203,10 @@ module Cirneco
     def unregister_work_for_metadata(metadata)
       work = Cirneco::Work.new(metadata)
 
-      if work.data.to_s.length > 0
-        filename  = metadata["doi"].split("/", 2).last + ".xml"
-        File.delete(filename) if File.exist?(filename)
-      else
-        puts work.validation_errors
-        puts work.inspect
-      end
+      filename  = metadata["doi"].split("/", 2).last + ".xml"
+      File.delete(filename) if File.exist?(filename)
+
+      puts work.validation_errors if work.validation_errors.present?
 
       work
     end
