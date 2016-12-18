@@ -89,7 +89,7 @@ module Cirneco
     def generate_metadata_for_work(filepath, options={})
       sitepath = options[:sitepath] || ENV['SITE_SITEPATH'] || "data/site.yml"
       authorpath = options[:authorpath] || ENV['SITE_AUTHORPATH'] || "data/authors.yml"
-      referencespath = options[:referencespath] || ENV['SITE_REFERENCESPATH'] || "data/references.yml"
+      referencespath = options[:referencespath] || ENV['SITE_REFERENCESPATH'] || "data/references.yaml"
       csl = options[:csl] || ENV['SITE_CSL'] || "styles/apa.csl"
       options = options.merge(csl: csl, bibliography: referencespath)
 
@@ -138,7 +138,7 @@ module Cirneco
 
       # fetch reference metadata if available
       metadata["related_identifiers"] = Array(metadata["references"]).map do |r|
-        reference = references ? references.fetch(r, {}) : nil
+        reference = references.fetch(r, {})
         if reference.present?
           if reference["DOI"].present?
             value = reference["DOI"].upcase
