@@ -38,6 +38,8 @@ module Cirneco
       metadata = generate_metadata_for_work(filepath, options)
       work = register_work_for_metadata(metadata)
 
+      return "Errors for DOI #{metadata["doi"]}:\n#{work.validation_errors}" if work.validation_errors.present?
+
       # datapath = options[:datapath] || ENV['DATAPATH'] || "data/doi.yml"
       # data = Bergamasco::Markdown.read_yaml(datapath) || []
       # data = [data] if data.is_a?(Hash)
@@ -59,6 +61,8 @@ module Cirneco
 
       metadata = generate_metadata_for_work(filepath, options)
       work = unregister_work_for_metadata(metadata)
+
+      return "Errors for DOI #{old_metadata["doi"]}:\n#{work.validation_errors}" if work.validation_errors.present?
 
       # datapath = options[:datapath] || ENV['DATAPATH'] || "data/doi.yml"
       # data = Bergamasco::Markdown.read_yaml(datapath) || []
@@ -195,8 +199,6 @@ module Cirneco
       filename  = metadata["doi"].split("/", 2).last + ".xml"
       IO.write(filename, work.data)
 
-      puts work.validation_errors if work.validation_errors.present?
-
       work
     end
 
@@ -205,8 +207,6 @@ module Cirneco
 
       filename  = metadata["doi"].split("/", 2).last + ".xml"
       File.delete(filename) if File.exist?(filename)
-
-      puts work.validation_errors if work.validation_errors.present?
 
       work
     end

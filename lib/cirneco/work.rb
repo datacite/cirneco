@@ -38,7 +38,7 @@ module Cirneco
 
     def data
       Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
-        xml.send(:'resource', root_attributes) do
+        xml.resource(root_attributes) do
           insert_work(xml)
         end
       end.to_xml
@@ -64,10 +64,8 @@ module Cirneco
     end
 
     def insert_creators(xml)
-      return nil unless creators.present?
-
       xml.creators do
-        creators.each do |creator|
+        Array(creators).each do |creator|
           xml.creator do
             insert_person(xml, creator, "creator")
           end
@@ -76,7 +74,7 @@ module Cirneco
     end
 
     def insert_contributors(xml)
-      return nil unless contributors.present?
+      return xml unless contributors.present?
 
       xml.contributors do
         contributors.each do |contributor|
@@ -98,7 +96,7 @@ module Cirneco
     end
 
     def insert_titles(xml)
-      xml.send(:'titles') do
+      xml.titles do
         insert_title(xml)
       end
     end
@@ -115,6 +113,10 @@ module Cirneco
       xml.publicationYear(publication_year)
     end
 
+    def insert_resource_type(xml)
+      xml.resourceType(resource_type[:value], 'resourceTypeGeneral' => resource_type[:resource_type_general])
+    end
+
     def insert_subjects(xml)
       return xml unless subjects.present?
 
@@ -123,10 +125,6 @@ module Cirneco
           xml.subject(subject)
         end
       end
-    end
-
-    def insert_resource_type(xml)
-      xml.resourceType(resource_type[:value], 'resourceTypeGeneral' => resource_type[:resource_type_general])
     end
 
     def insert_version(xml)
