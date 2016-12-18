@@ -40,12 +40,6 @@ module Cirneco
 
       return "Errors for DOI #{metadata["doi"]}:\n#{work.validation_errors}" if work.validation_errors.present?
 
-      # datapath = options[:datapath] || ENV['DATAPATH'] || "data/doi.yml"
-      # data = Bergamasco::Markdown.read_yaml(datapath) || []
-      # data = [data] if data.is_a?(Hash)
-      # new_data = [{ "filename" => filename, "doi" => doi, "date" => Time.now.utc.iso8601 }]
-      # Bergamasco::Markdown.write_yaml(datapath, data + new_data)
-
       new_metadata = Bergamasco::Markdown.update_file(filepath, "doi" => metadata["doi"], "published" => true)
       "DOI #{new_metadata["doi"]} minted for #{filename}"
     end
@@ -63,12 +57,6 @@ module Cirneco
       work = unregister_work_for_metadata(metadata)
 
       return "Errors for DOI #{old_metadata["doi"]}:\n#{work.validation_errors}" if work.validation_errors.present?
-
-      # datapath = options[:datapath] || ENV['DATAPATH'] || "data/doi.yml"
-      # data = Bergamasco::Markdown.read_yaml(datapath) || []
-      # data = [data] if data.is_a?(Hash)
-      # new_data = [{ "filename" => filename, "doi" => doi, "date" => Time.now.utc.iso8601 }]
-      # Bergamasco::Markdown.write_yaml(datapath, data + new_data)
 
       new_metadata = Bergamasco::Markdown.update_file(filepath, "published" => false)
       "DOI #{old_metadata["doi"]} hidden for #{filename}"
