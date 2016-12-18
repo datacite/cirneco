@@ -30,10 +30,10 @@ module Cirneco
       Maremma.delete(url, username: options[:username], password: options[:password])
     end
 
-    def put_doi(doi, url, options={})
+    def put_doi(doi, options={})
       return OpenStruct.new(body: { "errors" => [{ "title" => "Username or password missing" }] }) unless options[:username].present? && options[:password].present?
 
-      payload = "doi=#{doi}\nurl=#{url}"
+      payload = "doi=#{doi}\nurl=#{options[:url]}"
 
       mds_url = options[:sandbox] ? 'https://mds.test.datacite.org' : 'https://mds.datacite.org'
 
@@ -61,10 +61,10 @@ module Cirneco
       response
     end
 
-    def post_media(doi, media, options={})
+    def post_media(doi, options={})
       return OpenStruct.new(body: { "errors" => [{ "title" => "Username or password missing" }] }) unless options[:username].present? && options[:password].present?
 
-      payload = options[:raw] ? media : media.map { |m| "#{m[:mime_type]}=#{m[:url]}" }.join("\n")
+      payload = options[:raw] ? options[:media] : options[:media].map { |m| "#{m[:mime_type]}=#{m[:url]}" }.join("\n")
 
       mds_url = options[:sandbox] ? 'https://mds.test.datacite.org' : 'https://mds.datacite.org'
 

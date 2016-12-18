@@ -22,20 +22,20 @@ describe Cirneco::Work, vcr: true, :order => :defined do
   let(:fixture_path) { "spec/fixtures/" }
   let(:samples_path) { "resources/kernel-4.0/samples/" }
 
- subject { Cirneco::Work.new(metadata,
-                             media: media,
-                             username: username,
-                             password: password) }
+  subject { Cirneco::Work.new(metadata,
+                              media: media,
+                              username: username,
+                              password: password) }
 
   describe "Metadata API" do
-    describe "get" do
+    context "get" do
       it 'should get metadata' do
         response = subject.get_metadata(doi, options)
         expect(response.body["data"]).to eq(subject.data)
       end
     end
 
-    describe "delete" do
+    context "delete" do
       it 'should delete metadata' do
         response = subject.delete_metadata(doi, options)
         expect(response.body["data"]).to eq("OK")
@@ -43,7 +43,7 @@ describe Cirneco::Work, vcr: true, :order => :defined do
       end
     end
 
-    describe "post" do
+    context "post" do
       it 'should post metadata' do
         response = subject.post_metadata(subject.data, options)
         expect(response.body["data"]).to eq("OK (10.23725/0000-03VC)")
@@ -56,7 +56,7 @@ describe Cirneco::Work, vcr: true, :order => :defined do
   describe "DOI API" do
     describe "put" do
       it 'should put doi' do
-        response = subject.put_doi(doi, url, options)
+        response = subject.put_doi(doi, options.merge(url: url))
         expect(response.body["data"]).to eq("OK")
         expect(response.status).to eq(201)
       end
@@ -86,7 +86,7 @@ describe Cirneco::Work, vcr: true, :order => :defined do
   describe "Media API" do
     describe "post" do
       it 'should post media' do
-        response = subject.post_media(doi, media, options)
+        response = subject.post_media(doi, options.merge(media: media))
         expect(response.body["data"]).to eq("OK")
         expect(response.status).to eq(200)
       end

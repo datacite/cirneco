@@ -28,6 +28,21 @@ module Cirneco
       end
     end
 
+    desc "put DOI", "put handle url for DOI"
+    method_option :username, :default => ENV['MDS_USERNAME']
+    method_option :password, :default => ENV['MDS_PASSWORD']
+    method_option :sandbox, :default => ENV['SANDBOX']
+    method_option :url
+    def put(doi)
+      response = put_doi(doi, options)
+
+      if response.body["errors"]
+        puts "Error: " + response.body["errors"].first.fetch("title", "An error occured")
+      else
+        puts response.body["data"]
+      end
+    end
+
     desc "generate DOI", "generate a DOI name"
     method_option :prefix, :default => ENV['PREFIX']
     method_option :number, :type => :numeric, :aliases => '-n'

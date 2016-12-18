@@ -19,7 +19,7 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
     end
   end
 
-  describe "base32" do
+  context "base32" do
     it 'should decode doi' do
       doi = "10.23725/0000-03WD"
       expect(subject.decode_doi(doi)).to eq(124)
@@ -40,7 +40,7 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
     end
   end
 
-  describe "mint and hide DOIs" do
+  context "mint and hide DOIs" do
     it 'should mint for file' do
       filepath = fixture_path + 'cool-dois.html.md'
       number = 123
