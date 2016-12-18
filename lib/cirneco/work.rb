@@ -11,7 +11,7 @@ module Cirneco
     include Cirneco::Api
     include Cirneco::Utils
 
-    attr_accessor :doi, :url, :creators, :title, :publisher, :publication_year, :resource_type, :version, :related_identifiers, :rights_list, :descriptions, :contributors, :subjects, :media, :username, :password, :validation_errors
+    attr_accessor :doi, :url, :creators, :title, :publisher, :publication_year, :resource_type, :version, :related_identifiers, :rights_list, :descriptions, :contributors, :date_issued, :subjects, :media, :username, :password, :validation_errors
 
     def initialize(metadata, **options)
       @doi = metadata.fetch("doi", nil)
@@ -23,6 +23,7 @@ module Cirneco
       @resource_type = metadata.fetch("resource_type", nil)
       @version = metadata.fetch("version", nil)
       @rights_list = metadata.fetch("rights_list", nil)
+      @date_issued = metadata.fetch("date_issued", nil)
       @subjects = metadata.fetch("subjects", nil)
       @descriptions = metadata.fetch("descriptions", nil)
       @contributors = metadata.fetch("contributors", nil)
@@ -53,6 +54,7 @@ module Cirneco
       insert_resource_type(xml)
       insert_subjects(xml)
       insert_contributors(xml)
+      insert_dates(xml)
       insert_related_identifiers(xml)
       insert_version(xml)
       insert_rights_list(xml)
@@ -115,6 +117,18 @@ module Cirneco
 
     def insert_resource_type(xml)
       xml.resourceType(resource_type[:value], 'resourceTypeGeneral' => resource_type[:resource_type_general])
+    end
+
+    def insert_dates(xml)
+      return xml unless date_issued.present?
+
+      xml.dates do
+        insert_date(xml)
+      end
+    end
+
+    def insert_date(xml)
+      xml.date(date_issued, 'dateType' => 'Issued')
     end
 
     def insert_subjects(xml)

@@ -3,12 +3,8 @@ require 'securerandom'
 require 'bergamasco'
 require 'time'
 
-require_relative 'base'
-
 module Cirneco
   module Utils
-    include Cirneco::Base
-
     # "ZZZZZZZ" decoded as number
     UPPER_LIMIT = 34359738367
 
@@ -188,9 +184,11 @@ module Cirneco
       contributor = site_options["institution"] || ENV['SITE_INSTITUTION']
       metadata["contributors"] = [{ literal: contributor, contributor_type: "HostingInstitution" }]
 
+      metadata["date_issued"] = metadata["date"]
+
       metadata = metadata.extract!(*%w(doi url creators title publisher
         publication_year resource_type descriptions version rights_list subjects contributors
-        related_identifiers))
+        date_issued related_identifiers))
     end
 
     def url_from_path(site_url, filepath)
