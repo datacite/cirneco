@@ -48,32 +48,32 @@ module Cirneco
       end
     end
 
-    desc "register DOCUMENTS", "register documents"
+    desc "mint DOCUMENTS", "mint documents"
     method_option :username, :default => ENV['MDS_USERNAME']
     method_option :password, :default => ENV['MDS_PASSWORD']
     method_option :prefix, :default => ENV['PREFIX']
     method_option :sandbox, :default => ENV['SANDBOX']
-    def register(filepath)
+    def mint(filepath)
 
       if File.directory?(filepath)
-        response = register_all_files(filepath, options)
+        response = mint_dois_for_all_files(filepath, options)
       else
-        response = register_file(filepath, options)
+        response = mint_doi_for_file(filepath, options)
       end
 
       puts response
     end
 
-    desc "unregister DOCUMENTS", "unregister documents"
+    desc "hide DOCUMENTS", "hide documents"
     method_option :username, :default => ENV['MDS_USERNAME']
     method_option :password, :default => ENV['MDS_PASSWORD']
     method_option :sandbox, :default => ENV['SANDBOX']
-    def unregister(filepath)
+    def hide(filepath)
 
       if File.directory?(filepath)
-        response = unregister_all_files(filepath, options)
+        response = hide_dois_for_all_files(filepath, options)
       else
-        response = unregister_file(filepath, options)
+        response = hide_doi_for_file(filepath, options)
       end
 
       puts response

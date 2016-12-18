@@ -40,35 +40,41 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
     end
   end
 
-  describe "register" do
-    it 'should register_file' do
+  describe "mint and hide DOIs" do
+    it 'should mint for file' do
       filepath = fixture_path + 'cool-dois.html.md'
       number = 123
-      response = subject.register_file(filepath, number: number)
-      expect(response).to eq("DOI 10.23725/0000-03VC added for cool-dois.html.md")
+      response = subject.mint_doi_for_file(filepath, number: number)
+      expect(response).to eq("DOI 10.23725/0000-03VC minted for cool-dois.html.md")
     end
 
-    it 'should unregister_file' do
+    it 'should hide for file' do
       filepath = fixture_path + 'cool-dois.html.md'
-      response = subject.unregister_file(filepath)
-      expect(response).to eq("DOI 10.23725/0000-03VC removed for cool-dois.html.md")
+      response = subject.hide_doi_for_file(filepath)
+      expect(response).to eq("DOI 10.23725/0000-03VC hidden for cool-dois.html.md")
     end
 
-    it 'should register_all_files' do
+    it 'should mint for all files' do
       number = 123
-      response = subject.register_all_files(fixture_path, number: number)
-      expect(response).to eq("DOI 10.23725/0000-03VC added for cool-dois.html.md")
+      response = subject.mint_dois_for_all_files(fixture_path, number: number)
+      expect(response).to eq("DOI 10.23725/0000-03VC minted for cool-dois.html.md")
     end
 
-    it 'should unregister_all_files' do
+    it 'should hide for all files' do
       number = 123
-      response = subject.unregister_all_files(fixture_path)
-      expect(response).to eq("DOI 10.23725/0000-03VC removed for cool-dois.html.md")
+      response = subject.hide_dois_for_all_files(fixture_path)
+      expect(response).to eq("DOI 10.23725/0000-03VC hidden for cool-dois.html.md")
     end
 
-    it 'should ignore non-markdown file for register_file' do
+    it 'should ignore non-markdown file for mint file' do
       filepath = fixture_path + 'cool-dois.yml'
-      response = subject.register_file(filepath)
+      response = subject.mint_doi_for_file(filepath)
+      expect(response).to eq("File cool-dois.yml ignored: not a markdown file")
+    end
+
+    it 'should ignore non-markdown file for hide file' do
+      filepath = fixture_path + 'cool-dois.yml'
+      response = subject.hide_doi_for_file(filepath)
       expect(response).to eq("File cool-dois.yml ignored: not a markdown file")
     end
 

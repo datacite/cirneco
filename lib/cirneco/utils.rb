@@ -28,12 +28,12 @@ module Cirneco
     end
 
     # currently only supports markdown files with YAML header
-    def register_file(filepath, options={})
+    def mint_doi_for_file(filepath, options={})
       filename = File.basename(filepath)
       return "File #{filename} ignored: not a markdown file" unless File.extname(filepath) == ".md"
 
       old_metadata = Bergamasco::Markdown.read_yaml_for_doi_metadata(filepath)
-      return nil if old_metadata["doi"]
+      return nil if old_metadata["doi"] && old_metadata["published"]
 
       metadata = generate_metadata_for_work(filepath, options)
       work = register_work_for_metadata(metadata)
@@ -44,17 +44,18 @@ module Cirneco
       # new_data = [{ "filename" => filename, "doi" => doi, "date" => Time.now.utc.iso8601 }]
       # Bergamasco::Markdown.write_yaml(datapath, data + new_data)
 
-      new_metadata = Bergamasco::Markdown.update_file(filepath, { "doi" => metadata["doi"] })
-      "DOI #{new_metadata["doi"]} added for #{filename}"
+      new_metadata = Bergamasco::Markdown.update_file(filepath, "doi" => metadata["doi"], "published" => true)
+      "DOI #{new_metadata["doi"]} minted for #{filename}"
     end
 
     # currently only supports markdown files with YAML header
-    def unregister_file(filepath, options={})
+    # DOIs are never deleted, but we can remove the metadata from the DataCite index
+    def hide_doi_for_file(filepath, options={})
       filename = File.basename(filepath)
       return "File #{filename} ignored: not a markdown file" unless File.extname(filepath) == ".md"
 
       old_metadata = Bergamasco::Markdown.read_yaml_for_doi_metadata(filepath)
-      return nil unless old_metadata["doi"]
+      return nil unless old_metadata["doi"] && old_metadata["published"]
 
       metadata = generate_metadata_for_work(filepath, options)
       work = unregister_work_for_metadata(metadata)
@@ -65,19 +66,19 @@ module Cirneco
       # new_data = [{ "filename" => filename, "doi" => doi, "date" => Time.now.utc.iso8601 }]
       # Bergamasco::Markdown.write_yaml(datapath, data + new_data)
 
-      new_metadata = Bergamasco::Markdown.update_file(filepath, { "doi" => nil })
-      "DOI #{old_metadata["doi"]} removed for #{filename}"
+      new_metadata = Bergamasco::Markdown.update_file(filepath, "published" => false)
+      "DOI #{old_metadata["doi"]} hidden for #{filename}"
     end
 
-    def register_all_files(folderpath, options={})
+    def mint_dois_for_all_files(folderpath, options={})
       Dir.glob("#{folderpath}/*.md").map do |filepath|
-        register_file(filepath, options)
+        mint_doi_for_file(filepath, options)
       end.compact.join("\n")
     end
 
-    def unregister_all_files(folderpath, options={})
+    def hide_dois_for_all_files(folderpath, options={})
       Dir.glob("#{folderpath}/*.md").map do |filepath|
-        unregister_file(filepath, options)
+        hide_doi_for_file(filepath, options)
       end.compact.join("\n")
     end
 
@@ -201,7 +202,7 @@ module Cirneco
       work = Cirneco::Work.new(metadata)
 
       filename  = metadata["doi"].split("/", 2).last + ".xml"
-      File.delete(filename)
+      File.delete(filename) if File.exist?(filename)
 
       work
     end
