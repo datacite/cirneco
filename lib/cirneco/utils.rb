@@ -192,7 +192,7 @@ module Cirneco
     def register_work_for_metadata(metadata)
       work = Cirneco::Work.new(metadata)
 
-      if work.data.length > 0
+      if work.data.to_s.length > 0
         filename  = metadata["doi"].split("/", 2).last + ".xml"
         IO.write(filename, work.data)
       else
@@ -205,7 +205,7 @@ module Cirneco
     def unregister_work_for_metadata(metadata)
       work = Cirneco::Work.new(metadata)
 
-      if work.data.length > 0
+      if work.data.to_s.length > 0
         filename  = metadata["doi"].split("/", 2).last + ".xml"
         File.delete(filename) if File.exist?(filename)
       else
