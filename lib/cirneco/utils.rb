@@ -97,7 +97,7 @@ module Cirneco
         end
       end
 
-      metadata["publisher"] = site_options["publisher"] || ENV['SITE_TITLE']
+      metadata["publisher"] = site_options["site_title"] || ENV['SITE_TITLE']
       metadata["publication_year"] = metadata["date"][0..3].to_i
 
       metadata["type"] ||= site_options["site_default_type"] || ENV['SITE_DEFAULT_TYPE'] || "BlogPosting"
