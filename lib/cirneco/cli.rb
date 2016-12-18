@@ -23,6 +23,14 @@ module Cirneco
       true
     end
 
+    # from http://stackoverflow.com/questions/22809972/adding-a-version-option-to-a-ruby-thor-cli
+    map %w[--version -v] => :__print_version
+
+    desc "--version, -v", "print the version"
+    def __print_version
+      puts Cirneco::VERSION
+    end
+
     desc "doi SUBCOMMAND", "doi commands"
     subcommand "doi", Cirneco::Doi
 
