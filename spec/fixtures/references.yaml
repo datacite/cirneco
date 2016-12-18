@@ -1,0 +1,1060 @@
+---
+references:
+- id: http://doi.org/10.5281/zenodo.32412
+  type: article-journal
+  author:
+  - family: Mayo
+    given: Christine
+  - family: Hull
+    given: Elizabeth A.
+  - family: Vision
+    given: Todd J.
+  issued:
+  - year: '2015'
+  title: 'The location of the citation: changing practices in how publications cite
+    original data in the Dryad Digital Repository'
+  publisher: Zenodo
+  URL: http://zenodo.org/record/32412
+  DOI: 10.5281/zenodo.32412
+
+- id: Kratz:2015cr
+  type: article-journal
+  author:
+  - family: Kratz
+    given: John E
+  - family: Strasser
+    given: Carly
+  issued:
+  - year: '2015'
+    month: '8'
+  title: Making data count
+  container-title: Scientific Data
+  page: '150039'
+  volume: '2'
+  URL: http://www.nature.com/articles/sdata201539
+  DOI: 10.1038/sdata.2015.39
+
+- id: Eysenbach:2006jo
+  type: article-journal
+  author:
+  - family: Eysenbach
+    given: Gunther
+  issued:
+  - year: '2006'
+    month: '5'
+  title: Citation advantage of open access articles.
+  container-title: PLoS biology
+  page: 'e157'
+  volume: '4'
+  issue: '5'
+  URL: http://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi?dbfrom=pubmed&id=16683865&retmode=ref&cmd=prlinks
+  DOI: 10.1371/journal.pbio.0040157
+  PMCID: PMC1459247
+  PMID: '16683865'
+
+- id: Piwowar:2013cc
+  type: article-journal
+  author:
+  - family: Piwowar
+    given: Heather A
+  - family: Vision
+    given: Todd J
+  issued:
+  - year: '2013'
+  title: Data reuse and the open data citation advantage
+  container-title: PeerJ
+  page: 'e175'
+  volume: '1'
+  DOI: 10.7717/peerj.175
+
+- id: Irisarri:2013
+  type: dataset
+  author:
+  - family: Irisarri
+    given: Iker
+  - family: San Mauro
+    given: Diego
+  - family: Abascal
+    given: Federico
+  - family: Ohler
+    given: Annemarie
+  - family: Vences
+    given: Miguel
+  - family: Zardoya
+    given: Rafael
+  issued:
+  - year: '2013'
+  title: 'Data from: The origin of modern frogs (Neobatrachia) was accompanied by
+    acceleration in mitochondrial and nuclear substitution rates'
+  publisher: Dryad Digital Repository
+  URL: http://doi.org/10.5061/DRYAD.3QD54
+  DOI: 10.5061/DRYAD.3QD54
+
+- id: Irisarri:2012gv
+  type: article-journal
+  author:
+  - family: Irisarri
+    given: Iker
+  - family: San Mauro
+    given: Diego
+  - family: Abascal
+    given: Federico
+  - family: Ohler
+    given: Annemarie
+  - family: Vences
+    given: Miguel
+  - family: Zardoya
+    given: Rafael
+  issued:
+  - year: '2012'
+  title: The origin of modern frogs (Neobatrachia) was accompanied by acceleration
+    in mitochondrial and nuclear substitution rates.
+  container-title: BMC genomics
+  page: '626'
+  volume: '13'
+  URL: http://www.biomedcentral.com/1471-2164/13/626/
+  DOI: 10.1186/1471-2164-13-626
+  PMCID: PMC3551647
+  PMID: '23153022'
+
+- id: https://doi.org/10.5281/ZENODO.20046
+  type: dataset
+  author:
+  - family: Fenner
+    given: Martin
+  - family: Jen Song
+    given: Jen
+  - family: Dennis
+    given: Zach
+  - family: Whitwell
+    given: Martyn
+  - family: Osowski
+    given: Joe
+  - family: Ivimey-Cook
+    given: Ruth
+  - family: Cave
+    given: Richard
+  - family: Lin
+    given: Jennifer
+  - family: Chodacki
+    given: John
+  issued:
+  - year: '2015'
+  title: Lagotto 4.2.1
+  publisher: Zenodo
+  URL: https://doi.org/10.5281/ZENODO.20046
+
+- id: Barlow:1818
+  type: dataset
+  author:
+  - family: Barlow
+    given: Chester
+  issued:
+  - year: '1818'
+  title: Pilot Boat \#3, on the bar
+  publisher: Museum of Vertebrate Zoology
+  URL: http://doi.org/10.7299/X7MK6BM6
+  DOI: 10.7299/X7MK6BM6
+
+- id: Oshu:1955
+  type: dataset
+  author:
+  - family: Oregon Medical School
+    given: University
+    dropping-particle: of
+  issued:
+  - year: '1955'
+  title: Unidentified man reading a book in the Old Library
+  publisher: Oregon Health & Science University
+  URL: http://doi.org/10.6083/M4MP51XQ
+  DOI: 10.6083/M4MP51XQ
+
+- id: Unknown:1926
+  type: dataset
+  author:
+  - family: Unknown
+  issued:
+  - year: '1926'
+  title: Workmen digging up the road at the corner of Belmont Avenue and Burhans Street
+    in Paterson, New Jersey
+  URL: http://doi.org/10.7282/T38C9WT9
+  DOI: 10.7282/T38C9WT9
+
+- id: https://orcid.org/about/what-is-orcid/principles
+  type: no-type
+  issued:
+  - year: '2011'
+  title: Our Principles
+  publisher: ORCID
+  URL: https://orcid.org/about/what-is-orcid/principles
+
+- id: https://doi.org/10.3932/ETHZ-A-000159123
+  type: no-type
+  author:
+  - family: Unknown
+  issued:
+  - year: '1931'
+  title: Hannover, Blick auf Hannover
+  publisher: ETH-Bibliothek Zürich, Bildarchiv
+  URL: https://doi.org/10.3932/ETHZ-A-000159123
+  DOI: 10.3932/ETHZ-A-000159123
+
+- id: https://doi.org/10.5281/ZENODO.30799
+  type: no-type
+  author:
+  - family: Fenner
+    given: Martin
+  - family: Demeranville
+    given: Tom
+  - family: Kotarski
+    given: Rachael
+  - family: Vision
+    given: Todd
+  - family: Rueda
+    given: Laura
+  - family: Dasler
+    given: Robin
+  - family: Haak
+    given: Laure
+  - family: Cruse
+    given: Patricia
+  - literal: THOR Consortium
+  issued:
+  - year: '2015'
+  title: 'D2.1: Artefact, Contributor, and Organisation Relationship Data Schema'
+  publisher: Zenodo
+  URL: https://doi.org/10.5281/ZENODO.30799
+  DOI: 10.5281/ZENODO.30799
+
+- id: https://doi.org/10.6084/M9.FIGSHARE.1314859
+  type: no-type
+  author:
+  - family: Bilder
+    given: Geoffrey
+  - family: Lin
+    given: Jennifer
+  - family: Neylon
+    given: Cameron
+  issued:
+  - year: '2015'
+  title: Principles for Open Scholarly Infrastructures-v1
+  publisher: Figshare
+  URL: https://doi.org/10.6084/M9.FIGSHARE.1314859
+
+- id: https://doi.org/10.5281/zenodo.34671
+  type: no-type
+  author:
+  - family: Rueda
+    given: Laura
+  issued:
+  - year: '2015'
+  title: DataCite Profiles and ORCID Auto-Update, an Introduction to DataCite
+  publisher: Zenodo
+  URL: https://doi.org/10.5281/zenodo.34671
+
+- id: https://doi.org/10.5281/zenodo.34670
+  type: no-type
+  author:
+  - family: Brown
+    given: Josh
+  issued:
+  - year: '2015'
+  title: DataCite/ORCID auto-update and inbox, all you need to know
+  publisher: Zenodo
+  URL: https://doi.org/10.5281/zenodo.34670
+
+- id: https://doi.org/10.5281/zenodo.34673
+  type: no-type
+  author:
+  - family: Fenner
+    given: Martin
+  issued:
+  - year: '2015'
+  title: DataCite/ORCID Integration
+  publisher: Zenodo
+  URL: https://doi.org/10.5281/zenodo.34673
+
+- id: https://doi.org/10.5334/jors.be
+  type: article-journal
+  author:
+  - family: Katz
+    given: Daniel
+  issued:
+  - year: '2014'
+    month: '9'
+  title: Transitive Credit as a Means to Address Social and Technological Concerns
+    Stemming from Citation and Attribution of Digital Products
+  container-title: Journal of Open Research Software
+  publisher: Ubiquity Press, Ltd.
+  page: 'e20'
+  volume: '2'
+  issue: '1'
+  URL: https://doi.org/10.5334/jors.be
+
+- id: https://doi.org/10.5281/zenodo.31780
+  type: no-type
+  author:
+  - family: Bilder
+    given: Geoffrey
+  - family: Fenner
+    given: Martin
+  issued:
+  - year: '2015'
+  title: DOI Myths... busted
+  publisher: Zenodo
+  URL: https://doi.org/10.5281/zenodo.31780
+
+- id: https://doi.org/10.5281/zenodo.31782
+  type: no-type
+  author:
+  - family: Angjeli
+    given: Anila
+  issued:
+  - year: '2015'
+  title: 'Managing identities: Interconnecting research and other domains'
+  publisher: Zenodo
+  URL: https://doi.org/10.5281/zenodo.31782
+
+- id: https://doi.org/10.5281/zenodo.31783
+  type: no-type
+  author:
+  - family: Kunze
+    given: John
+  issued:
+  - year: '2015'
+  title: 'Names, Things, and Open Identifier Infrastructure: N2T and ARKs'
+  publisher: Zenodo
+  URL: https://doi.org/10.5281/zenodo.31783
+
+- id: https://doi.org/10.5281/zenodo.31784
+  type: no-type
+  author:
+  - family: Lannom
+    given: Larry
+  issued:
+  - year: '2015'
+  title: DONA Foundation, Administering the Global Handle Registry (GHR)
+  publisher: Zenodo
+  URL: https://doi.org/10.5281/zenodo.31784
+
+- id: https://doi.org/10.5281/zenodo.31785
+  type: no-type
+  author:
+  - family: Schwardmann
+    given: Ulrich
+  issued:
+  - year: '2015'
+  title: ePIC - Persistent Identifiers for eResearch
+  publisher: Zenodo
+  URL: https://doi.org/10.5281/zenodo.31785
+
+- id: https://doi.org/10.5281/zenodo.31786
+  type: no-type
+  author:
+  - family: Cambon-Thomsen
+    given: Anne
+  issued:
+  - year: '2015'
+  title: 'BRIF: Bioresource research impact factor (framework)'
+  publisher: Zenodo
+  URL: https://doi.org/10.5281/zenodo.31786
+
+- id: https://doi.org/10.5281/zenodo.31787
+  type: no-type
+  author:
+  - family: Dallmeier-Thiessen
+    given: Sünje
+  issued:
+  - year: '2015'
+  title: Enabling services for data intensive research with THOR
+  publisher: Zenodo
+  URL: https://doi.org/10.5281/zenodo.31787
+
+- id: https://doi.org/10.5281/zenodo.31788
+  type: no-type
+  author:
+  - family: Lehnert
+    given: Kerstin
+  issued:
+  - year: '2015'
+  title: 'IGSN: International Geo Sample Number. Unambiguous Citation of Physical
+    Samples'
+  publisher: Zenodo
+  URL: https://doi.org/10.5281/zenodo.31788
+
+- id: https://doi.org/10.5281/zenodo.31789
+  type: no-type
+  author:
+  - family: Lin
+    given: Jennifer
+  issued:
+  - year: '2015'
+  title: Making Data Count
+  publisher: Zenodo
+  URL: https://doi.org/10.5281/zenodo.31789
+
+- id: https://doi.org/10.5281/zenodo.31790
+  type: no-type
+  author:
+  - family: Weigel
+    given: Tobias
+  issued:
+  - year: '2015'
+  title: PID usage at DKRZ, the role of RDA and ePIC policies
+  publisher: Zenodo
+  URL: https://doi.org/10.5281/zenodo.31790
+
+- id: https://doi.org/10.5281/zenodo.31792
+  type: no-type
+  author:
+  - family: Paglione
+    given: Laura
+  issued:
+  - year: '2015'
+  title: Connecting people to their scholarly activity and outputs
+  publisher: Zenodo
+  URL: https://doi.org/10.5281/zenodo.31792
+
+- id: https://vimeo.com/147743305
+  type: no-type
+  author:
+  - family: Rueda
+    given: Laura
+  - family: Brown
+    given: Josh
+  - family: Fenner
+    given: Martin
+  issued:
+  - year: '2015'
+  title: DataCite Profiles and ORCID Auto-Update
+  publisher: DataCite
+  URL: https://vimeo.com/147743305
+
+- id: https://blog.datacite.org/data-driven-development
+  type: no-type
+  author:
+  - family: Fenner
+    given: Martin
+  issued:
+  - year: '2015'
+  title: Data-Driven Development
+  publisher: DataCite Blog
+  URL: https://blog.datacite.org/data-driven-development
+
+- id: https://blog.datacite.org/explaining-the-datacite-orcid-auto-update
+  type: no-type
+  author:
+  - family: Fenner
+    given: Martin
+  issued:
+  - year: '2015'
+  title: Explaining the DataCite/ORCID Auto-update
+  publisher: DataCite Blog
+  URL: https://blog.datacite.org/explaining-the-datacite-orcid-auto-update
+
+- id: https://blog.datacite.org/adding-references-to-the-datacite-blog
+  type: no-type
+  author:
+  - family: Fenner
+    given: Martin
+  issued:
+  - year: '2015'
+  title: Adding References to the DataCite Blog
+  publisher: DataCite Blog
+  URL: https://blog.datacite.org/adding-references-to-the-datacite-blog
+
+- id: https://blog.datacite.org/recap
+  type: no-type
+  author:
+  - family: Cruse
+    given: Trisha
+  issued:
+  - year: '2015'
+  title: 'Recap: Persistent Identifiers in Paris'
+  publisher: DataCite Blog
+  URL: https://blog.datacite.org/recap
+
+- id: http://doi.org/10.2312/RE3.008
+  type: article-journal
+  author:
+  - family: Rücknagel
+    given: Jessika
+  - family: Vierkant
+    given: Paul
+  - family: Ulrich
+    given: Robert
+  - family: Kloska
+    given: Gabriele
+  - family: Schnepf
+    given: Edeltraud
+  - family: Fichtmüller
+    given: David
+  - family: Reuter
+    given: Evelyn
+  - family: Semrau
+    given: Angelika
+  - family: Kindling
+    given: Maxi
+  - family: Pampel
+    given: H.
+  - family: Witt
+    given: Michael
+  - family: Fritze
+    given: Florian
+  - family: Sandt
+    given: Stephanie
+    dropping-particle: van de
+  - family: Klump
+    given: Jens
+  - family: Goebelbecker
+    given: Hans-Jürgen
+  - family: Skarupianski
+    given: Michael
+  - family: Bertelmann
+    given: Roland
+  - family: Schirmbacher
+    given: Peter
+  - family: Scholze
+    given: Frank
+  - family: Kramer
+    given: Claudia
+  - family: Fuchs
+    given: Claudio
+  - family: Spier
+    given: Shaked
+  - family: Kirchhoff
+    given: Agnes
+  issued:
+  - year: '2015'
+  title: Metadata Schema for the Description of Research Data Repositories
+  publisher: GFZ Germans Research Center for Geosciences
+  URL: http://doi.org/10.2312/RE3.008
+
+- id: http://doi.org/10.1103/physrevlett.116.061102
+  type: article-journal
+  author:
+  - family: Abbott
+    given: B.P.
+  - family: Abbott
+    given: R.
+  - family: Abbott
+    given: T.D.
+  - family: Abernathy
+    given: M. R.
+  - family: Acernese
+    given: F.
+  - family: Ackley
+    given: K.
+  - family: Adams
+    given: C.
+  - family: Adams
+    given: T.
+  - family: Addesso
+    given: P.
+  - family: Zweizig
+    given: J.
+  issued:
+  - year: '2016'
+    month: '2'
+  title: Observation of Gravitational Waves from a Binary Black Hole Merger
+  container-title: Phys. Rev. Lett.
+  publisher: American Physical Society (APS)
+  volume: '116'
+  issue: '6'
+  URL: http://doi.org/10.1103/physrevlett.116.061102
+
+- id: http://doi.org/10.7935/K5MW2F23
+  type: dataset
+  author:
+  - literal: LIGO Scientific Collaboration
+  issued:
+  - year: '2016'
+  title: Data release for event GW150914
+  publisher: LIGO Scientific Collaboration
+  URL: http://doi.org/10.7935/K5MW2F23
+
+- id: http://doi.org/10.7484/INSPIREHEP.DATA.26B4.TY5F
+  type: dataset
+  author:
+  - family: Aad
+    given: Georges
+  - family: Abajyan
+    given: Tatevik
+  - family: Abbott
+    given: Brad
+  - family: Abdallah
+    given: Jalal
+  - family: Abdel Khalek
+    given: Samah
+  - family: Abdinov
+    given: Ovsat
+  - family: Aben
+    given: Rosemarie
+  - family: Abi
+    given: Babak
+  - family: Abolins
+    given: Maris
+  - family: Zwalinski
+    given: Lukasz
+  issued:
+  - year: '2013'
+  title: 'Data from Figure 7 from: Measurements of Higgs boson production and couplings
+    in diboson final states with the ATLAS detector at the LHC'
+  publisher: HEPDATA
+  URL: http://doi.org/10.7484/INSPIREHEP.DATA.26B4.TY5F
+
+- id: http://doi.org/10.7484/INSPIREHEP.DATA.RF5P.6M3K
+  type: dataset
+  author:
+  - family: Aad
+    given: Georges
+  - family: Abajyan
+    given: Tatevik
+  - family: Abbott
+    given: Brad
+  - family: Abdallah
+    given: Jalal
+  - family: Abdel Khalek
+    given: Samah
+  - family: Abdinov
+    given: Ovsat
+  - family: Aben
+    given: Rosemarie
+  - family: Abi
+    given: Babak
+  - family: Abolins
+    given: Maris
+  - family: Zwalinski
+    given: Lukasz
+  issued:
+  - year: '2013'
+  title: 'Data from Figure 7 from: Measurements of Higgs boson production and couplings
+    in diboson final states with the ATLAS detector at the LHC'
+  publisher: HEPDATA
+  URL: http://doi.org/10.7484/INSPIREHEP.DATA.RF5P.6M3K
+
+- id: http://doi.org/10.7484/INSPIREHEP.DATA.A78C.HK44
+  type: dataset
+  author:
+  - family: Aad
+    given: Georges
+  - family: Abajyan
+    given: Tatevik
+  - family: Abbott
+    given: Brad
+  - family: Abdallah
+    given: Jalal
+  - family: Abdel Khalek
+    given: Samah
+  - family: Abdinov
+    given: Ovsat
+  - family: Aben
+    given: Rosemarie
+  - family: Abi
+    given: Babak
+  - family: Abolins
+    given: Maris
+  - family: Zwalinski
+    given: Lukasz
+  issued:
+  - year: '2013'
+  title: 'Data from Figure 7 from: Measurements of Higgs boson production and couplings
+    in diboson final states with the ATLAS detector at the LHC'
+  publisher: HEPDATA
+  URL: http://doi.org/10.7484/INSPIREHEP.DATA.A78C.HK44
+
+- id: http://doi.org/10.5438/0010
+  type: article-journal
+  author:
+  - literal: DataCite Metadata Working Group
+  issued:
+  - year: '2014'
+  title: DataCite Metadata Schema for the Publication and Citation of Research Data
+    v3.1
+  publisher: DataCite e.V.
+  URL: http://doi.org/10.5438/0010
+
+- id: http://doi.org/10.5281/ZENODO.49516
+  type: no-type
+  author:
+  - family: Fenner
+    given: Martin
+  - family: Wass
+    given: Joe
+  - family: Song
+    given: Jen
+  - family: Dennis
+    given: Zach
+  - family: Whitwell
+    given: Martyn
+  - family: Osowski
+    given: Joe
+  - family: Ivimey-Cook
+    given: Ruth
+  - family: Cave
+    given: Richard
+  - family: Lin
+    given: Jennifer
+  - family: Chodacki
+    given: John
+  issued:
+  - year: '2016'
+  title: Lagotto 5.0.1
+  publisher: Zenodo
+  URL: http://doi.org/10.5281/ZENODO.49516
+
+- id: http://doi.org/10.3334/CDIAC/00001
+  type: dataset
+  author:
+  - literal: Environmental Sciences Division, Oak Ridge National Laboratory
+  issued:
+  - year: '2009'
+  title: Global, Regional, and National Fossil-Fuel CO2 Emissions
+  publisher: Carbon Dioxide Information Analysis Center (CDIAC)
+  URL: http://doi.org/10.3334/CDIAC/00001
+
+- id: https://blog.datacite.org/to-better-understand-research-communication-we-need-a-groid-group-object-identifier
+  type: no-type
+  author:
+  - family: Katz
+    given: Dan S.
+  issued:
+  - year: '2016'
+  title: To better understand research communication, we need a GROID (group object
+    identifier)
+  publisher: DataCite Blog
+  URL: https://blog.datacite.org/to-better-understand-research-communication-we-need-a-groid-group-object-identifier
+
+- id: https://blog.datacite.org/reference-lists-and-tables-of-content
+  type: no-type
+  author:
+  - family: Fenner
+    given: Martin
+  issued:
+  - year: '2015'
+  title: Reference Lists and Tables of Content
+  publisher: DataCite Blog
+  URL: https://blog.datacite.org/reference-lists-and-tables-of-content
+
+- id: https://figshare.com/blog/Unveiling_figshare_Collections_a_new_way_to_group_content/202
+  type: no-type
+  author:
+  - family: Hyndman
+    given: Alan
+  issued:
+  - year: '2016'
+  title: Unveiling figshare ’Collections’ - a new way to group content
+  publisher: Figshare Blog
+  URL: https://figshare.com/blog/Unveiling_figshare_Collections_a_new_way_to_group_content/202
+
+- id: http://doi.org/10.15252/msb.20156658
+  type: article-journal
+  author:
+  - family: McEntyre
+    given: J.
+  - family: Sarkans
+    given: U.
+  - family: Brazma
+    given: A.
+  issued:
+  - year: '2015'
+    month: '12'
+  title: The BioStudies database
+  container-title: Molecular Systems Biology
+  publisher: EMBO
+  page: '847-847'
+  volume: '11'
+  issue: '12'
+  URL: http://doi.org/10.15252/msb.20156658
+  DOI: 10.15252/msb.20156658
+
+- id: http://doi.org/10.7717/peerj-cs.1
+  type: article-journal
+  author:
+  - family: Starr
+    given: Joan
+  - family: Castro
+    given: Eleni
+  - family: Crosas
+    given: Mercè
+  - family: Dumontier
+    given: Michel
+  - family: Downs
+    given: Robert R.
+  - family: Duerr
+    given: Ruth
+  - family: Haak
+    given: Laurel L.
+  - family: Haendel
+    given: Melissa
+  - family: Herman
+    given: Ivan
+  - family: Hodson
+    given: Simon
+  - family: Hourclé
+    given: Joe
+  - family: Kratz
+    given: John Ernest
+  - family: Lin
+    given: Jennifer
+  - family: Nielsen
+    given: Lars Holm
+  - family: Nurnberger
+    given: Amy
+  - family: Proell
+    given: Stefan
+  - family: Rauber
+    given: Andreas
+  - family: Sacchi
+    given: Simone
+  - family: Smith
+    given: Arthur
+  - family: Taylor
+    given: Mike
+  - family: Clark
+    given: Tim
+  issued:
+  - year: '2015'
+    month: '5'
+  title: Achieving human and machine accessibility of cited data in scholarly publications
+  container-title: PeerJ Computer Science
+  publisher: PeerJ
+  page: 'e1'
+  volume: '1'
+  URL: http://doi.org/10.7717/peerj-cs.1
+  DOI: 10.7717/peerj-cs.1
+
+- id: https://blog.datacite.org/thinking-about-csv
+  type: no-type
+  author:
+  - family: Fenner
+    given: Martin
+  issued:
+  - year: '2016'
+  title: Thinking about CSV
+  publisher: DataCite Blog
+  URL: https://blog.datacite.org/thinking-about-csv
+
+- id: https://github.com/datacite/jekyll-csvy
+  type: no-type
+  author:
+  - family: Fenner
+    given: Martin
+  issued:
+  - year: '2016'
+  title: 'jekyll-csvy: Jekyll converter for CSVY files'
+  title-short: jekyll-csvy
+  publisher: GitHub
+  URL: https://github.com/datacite/jekyll-csvy
+
+- id: https://cran.r-project.org/web/packages/rio/index.html
+  type: no-type
+  author:
+  - family: Becker
+    given: Jason
+  - family: Chan
+    given: Chung-hong
+  - family: Chan
+    given: Geoffrey CH
+  - family: Leeper
+    given: Thomas J.
+  - family: Gandrud
+    given: Christopher
+  - family: MacDonald
+    given: Andrew
+  - family: Zahn
+    given: Ista
+  issued:
+  - year: '2016'
+  title: 'rio: A Swiss-Army Knife for Data I/O'
+  publisher: CRAN
+  URL: https://cran.r-project.org/web/packages/rio/index.html
+
+- id: http://doi.org/10.6084/M9.FIGSHARE.3364708.V1
+  type: no-type
+  author:
+  - family: Karcher
+    given: Sebastian
+  issued:
+  - year: '2016'
+  title: Zotero for Data Repositories
+  publisher: Figshare
+  URL: http://doi.org/10.6084/M9.FIGSHARE.3364708.V1
+  DOI: 10.6084/M9.FIGSHARE.3364708.V1
+
+- id: http://doi.org/10.1145/2783446.2783605
+  type: paper-conference
+  author:
+  - family: Garza
+    given: Kristian
+  - family: Goble
+    given: Carole
+  - family: Brooke
+    given: John
+  - family: Jay
+    given: Caroline
+  issued:
+  - year: '2015'
+  title: Framing the community data system interface
+  container-title: Proceedings of the 2015 British HCI Conference on - British HCI
+    15
+  publisher: Association for Computing Machinery (ACM)
+  URL: http://doi.org/10.1145/2783446.2783605
+  DOI: 10.1145/2783446.2783605
+
+- id: http://doi.org/10.7717/peerj-cs.86
+  type: article-journal
+  author:
+  - family: Smith
+    given: AM
+  - family: Katz
+    given: DS
+  - family: Niemeyer
+    given: KE
+  - family: FORCE11-Software-Citation-Working-Group
+  issued:
+  - year: '2016'
+    month: september
+  title: Software citation principles
+  container-title: PeerJ Computer Science
+  publisher: PeerJ
+  URL: https://peerj.com/articles/cs-86/
+  DOI: 10.7717/peerj-cs.86
+
+- id: http://doi.org/10.5438/0012
+  type: article-journal
+  author:
+  - literal: DataCite Metadata Working Group
+  issued:
+  - year: '2016'
+  title: DataCite Metadata Schema for the Publication and Citation of Research Data
+    v4.0
+  publisher: DataCite e.V.
+  URL: http://doi.org/10.5438/0012
+
+- id: https://doi.org/10.5438/2906
+  type: no-type
+  author:
+  - family: Cruse
+    given: Patricia
+  - family: Haak
+    given: Laure
+  - family: Pentz
+    given: Ed
+  issued:
+  - year: '2016'
+  title: 'Organization Identifier Project: A Way Forward'
+  publisher: ORCID
+  URL: https://doi.org/10.5438/2906
+  DOI: 10.5438/2906
+
+- id: https://doi.org/10.5438/7885
+  type: no-type
+  author:
+  - family: Fenner
+    given: Martin
+  - family: Paglione
+    given: Laura
+  - family: Demeranville
+    given: Tom
+  - family: Bilder
+    given: Geoff
+  issued:
+  - year: '2016'
+  title: Technical Considerations for an Organization Identifier Registry
+  publisher: ORCID
+  URL: https://doi.org/10.5438/7885
+  DOI: 10.5438/7885
+
+- id: https://doi.org/10.5438/4716
+  type: no-type
+  author:
+  - family: Bilder
+    given: Geoffrey
+  - family: Brown
+    given: Josh
+  - family: Demeranville
+    given: Tom
+  issued:
+  - year: '2016'
+  title: 'Organisation identifiers: current provider survey'
+  publisher: ORCID
+  URL: https://doi.org/10.5438/4716
+  DOI: 10.5438/4716
+
+- id: https://doi.org/10.6084/M9.FIGSHARE.3479141
+  type: no-type
+  author:
+  - family: Demeranville
+    given: Tom
+  - family: Brown
+    given: Josh
+  - family: Fenner
+    given: Martin
+  - family: Cruse
+    given: Patricia
+  - family: Haak
+    given: Laure
+  - family: Paglione
+    given: Laura
+  - family: Bilder
+    given: Geoffrey
+  - family: Lin
+    given: Jennifer
+  - family: Pentz
+    given: Ed
+  issued:
+  - year: '2016'
+  title: Organisation Identifiers - Minimum viable product requirements
+  publisher: Figshare
+  URL: https://doi.org/10.6084/M9.FIGSHARE.3479141
+  DOI: 10.6084/M9.FIGSHARE.3479141
+
+- id: https://doi.org/10.1371/journal.pone.0115253
+  type: article-journal
+  author:
+  - family: Klein
+    given: Martin
+  - family: Sompel
+    given: Herbert Van de
+  - family: Sanderson
+    given: Robert
+  - family: Shankar
+    given: Harihar
+  - family: Balakireva
+    given: Lyudmila
+  - family: Zhou
+    given: Ke
+  - family: Tobin
+    given: Richard
+  issued:
+  - year: '2014'
+    month: '12'
+  title: 'Scholarly Context Not Found: One in Five Articles Suffers from Reference
+    Rot'
+  title-short: Scholarly Context Not Found
+  container-title: PLOS ONE
+  page: 'e115253'
+  volume: '9'
+  issue: '12'
+  keyword: Archives, Communications, Computer and information sciences, Evolutionary
+    immunology, Extrapolation, Internet, Publication ethics, Species interactions
+  URL: http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0115253
+  DOI: 10.1371/journal.pone.0115253
+  ISSN: '1932-6203'
+
+- id: https://www.w3.org/Provider/Style/URI
+  type: no-type
+  author:
+  - family: Berners-Lee
+    given: Tim
+  issued:
+  - year: '1998'
+  accessed:
+  - year: '2016'
+    month: '12'
+    day: '14'
+  title: 'Hypertext Style: Cool URIs don’t change.'
+  title-short: Hypertext Style
+  URL: https://www.w3.org/Provider/Style/URI
+...

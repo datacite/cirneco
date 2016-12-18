@@ -1,7 +1,8 @@
 site_url: https://blog.datacite.org
 site_title: DataCite Blog
-site_default_type: BlogPosting
-site_institution: DataCite
+default_type: BlogPosting
+institution: DataCite
+prefix: 10.23725
 license:
   name: Creative Commons Attribution
   url: "https://creativecommons.org/licenses/by/4.0/"

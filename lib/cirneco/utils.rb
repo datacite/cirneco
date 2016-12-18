@@ -32,37 +32,52 @@ module Cirneco
       filename = File.basename(filepath)
       return "File #{filename} ignored: not a markdown file" unless File.extname(filepath) == ".md"
 
-      file = IO.read(filepath)
+      old_metadata = Bergamasco::Markdown.read_yaml_for_doi_metadata(filepath)
+      return nil if old_metadata["doi"]
 
-      if options[:unregister]
-        doi = nil
-      else
-        prefix = options[:prefix] || ENV['PREFIX']
-        doi = encode_doi(prefix, options)
-      end
+      metadata = generate_metadata_for_work(filepath, options)
+      work = register_work_for_metadata(metadata)
 
-      updated_file = Bergamasco::Markdown.update_file(file, { "doi" => doi })
+      # datapath = options[:datapath] || ENV['DATAPATH'] || "data/doi.yml"
+      # data = Bergamasco::Markdown.read_yaml(datapath) || []
+      # data = [data] if data.is_a?(Hash)
+      # new_data = [{ "filename" => filename, "doi" => doi, "date" => Time.now.utc.iso8601 }]
+      # Bergamasco::Markdown.write_yaml(datapath, data + new_data)
 
-      if updated_file != file
-        IO.write(filepath, updated_file)
+      new_metadata = Bergamasco::Markdown.update_file(filepath, { "doi" => metadata["doi"] })
+      "DOI #{new_metadata["doi"]} added for #{filename}"
+    end
 
-        datapath = options[:datapath] || ENV['DATAPATH'] || "data/doi.yml"
-        data = Bergamasco::Markdown.read_yaml(datapath) || []
-        data = [data] if data.is_a?(Hash)
-        new_data = [{ "filename" => filename, "doi" => doi, "date" => Time.now.utc.iso8601 }]
-        Bergamasco::Markdown.write_yaml(datapath, data + new_data)
-      end
+    # currently only supports markdown files with YAML header
+    def unregister_file(filepath, options={})
+      filename = File.basename(filepath)
+      return "File #{filename} ignored: not a markdown file" unless File.extname(filepath) == ".md"
 
-      if doi.nil?
-        "DOI removed from #{filename}"
-      elsif updated_file != file
-        "DOI #{doi} added to #{filename}"
-      end
+      old_metadata = Bergamasco::Markdown.read_yaml_for_doi_metadata(filepath)
+      return nil unless old_metadata["doi"]
+
+      metadata = generate_metadata_for_work(filepath, options)
+      work = unregister_work_for_metadata(metadata)
+
+      # datapath = options[:datapath] || ENV['DATAPATH'] || "data/doi.yml"
+      # data = Bergamasco::Markdown.read_yaml(datapath) || []
+      # data = [data] if data.is_a?(Hash)
+      # new_data = [{ "filename" => filename, "doi" => doi, "date" => Time.now.utc.iso8601 }]
+      # Bergamasco::Markdown.write_yaml(datapath, data + new_data)
+
+      new_metadata = Bergamasco::Markdown.update_file(filepath, { "doi" => nil })
+      "DOI #{old_metadata["doi"]} removed for #{filename}"
     end
 
     def register_all_files(folderpath, options={})
       Dir.glob("#{folderpath}/*.md").map do |filepath|
         register_file(filepath, options)
+      end.join("\n")
+    end
+
+    def unregister_all_files(folderpath, options={})
+      Dir.glob("#{folderpath}/*.md").map do |filepath|
+        unregister_file(filepath, options)
       end.join("\n")
     end
 
@@ -79,8 +94,12 @@ module Cirneco
       authorpath = options[:authorpath] || ENV['SITE_AUTHORPATH']
       author_options = authorpath.present? ? Bergamasco::Markdown.read_yaml(authorpath) : {}
 
+      # read in optional yaml configuration file for references
+      referencespath = options[:referencespath] || ENV['SITE_REFERENCESPATH']
+      references = referencespath.present? ? Bergamasco::Markdown.read_yaml(referencespath) : {}
+
       # required metadata
-      prefix = options[:prefix] || ENV['PREFIX']
+      prefix = options[:prefix] || site_options["prefix"] || ENV['SITE_PREFIX']
       metadata["doi"] ||= encode_doi(prefix, options)
 
       site_url = site_options["site_url"] || ENV['SITE_URL']
@@ -100,7 +119,7 @@ module Cirneco
       metadata["publisher"] = site_options["site_title"] || ENV['SITE_TITLE']
       metadata["publication_year"] = metadata["date"][0..3].to_i
 
-      metadata["type"] ||= site_options["site_default_type"] || ENV['SITE_DEFAULT_TYPE'] || "BlogPosting"
+      metadata["type"] ||= site_options["default_type"] || ENV['SITE_DEFAULT_TYPE'] || "BlogPosting"
       resource_type_general = metadata["type"] == "Dataset" ? "Dataset" : "Text"
 
       metadata["resource_type"] = { value: metadata["type"],
@@ -113,13 +132,51 @@ module Cirneco
       # use default version 1.0
       metadata["version"] ||= "1.0"
 
+      # fetch reference metadata if available
+      metadata["related_identifiers"] = Array(metadata["references"]).map do |r|
+        reference = references.fetch(r, {})
+        if reference.present?
+          if reference["DOI"].present?
+            value = reference["DOI"].upcase
+            type = "DOI"
+          elsif /(http|https):\/\/(dx\.)?doi\.org\/(\w+)/.match(reference["URL"])
+            uri = Addressable::URI.parse(reference["URL"])
+            value = uri.path[1..-1].upcase
+            type = "DOI"
+          elsif reference["URL"].present?
+            value = reference["URL"]
+            type = "URL"
+          else
+            type = nil
+          end
+        else
+          if /(http|https):\/\/(dx\.)?doi\.org\/(\w+)/.match(r)
+            uri = Addressable::URI.parse(r)
+            value = uri.path[1..-1].upcase
+            type = "DOI"
+          elsif /(http|https):\/\//.match(r)
+            uri = Addressable::URI.parse(r)
+            value = uri.normalize.to_s
+            type = "URL"
+          else
+            type = nil
+          end
+        end
+
+        {
+          value: value,
+          related_identifier_type: type,
+          relation_type: "References"
+        }
+      end.select { |t| t[:related_identifier_type].present? }
+
       license_name = site_options.fetch("license", {}).fetch("name", nil) || ENV['SITE_LICENCE_NAME'] || "Creative Commons Attribution"
       license_url = site_options.fetch("license", {}).fetch("url", nil) || ENV['SITE_LICENCE_URL'] || "https://creativecommons.org/licenses/by/4.0/"
       metadata["rights_list"] = [{ value: license_name, rights_uri: license_url }]
 
       metadata["subjects"] = Array(metadata["tags"]).select { |t| t != "featured" }
 
-      contributor = site_options["site_institution"] || ENV['SITE_INSTITUTION']
+      contributor = site_options["institution"] || ENV['SITE_INSTITUTION']
       metadata["contributors"] = [{ literal: contributor, contributor_type: "HostingInstitution" }]
 
       metadata = metadata.extract!(*%w(doi url creators title publisher
@@ -131,11 +188,20 @@ module Cirneco
       site_url.to_s.chomp("\\") + "/" + File.basename(filepath)[0..-9] + "/"
     end
 
-    def create_work_from_metadata(metadata, options={})
+    def register_work_for_metadata(metadata)
       work = Cirneco::Work.new(metadata)
 
       filename  = metadata["doi"].split("/", 2).last + ".xml"
       IO.write(filename, work.data)
+
+      work
+    end
+
+    def unregister_work_for_metadata(metadata)
+      work = Cirneco::Work.new(metadata)
+
+      filename  = metadata["doi"].split("/", 2).last + ".xml"
+      File.delete(filename)
 
       work
     end

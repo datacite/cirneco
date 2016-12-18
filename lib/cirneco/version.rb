@@ -1,3 +1,3 @@
 module Cirneco
-  VERSION = "0.5.8"
+  VERSION = "0.6"
 end

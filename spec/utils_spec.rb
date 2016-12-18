@@ -45,19 +45,25 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
       filepath = fixture_path + 'cool-dois.html.md'
       number = 123
       response = subject.register_file(filepath, number: number)
-      expect(response).to eq("DOI 10.23725/0000-03VC added to cool-dois.html.md")
+      expect(response).to eq("DOI 10.23725/0000-03VC added for cool-dois.html.md")
     end
 
-    it 'should register_file unregister' do
+    it 'should unregister_file' do
       filepath = fixture_path + 'cool-dois.html.md'
-      response = subject.register_file(filepath, unregister: true)
-      expect(response).to eq("DOI removed from cool-dois.html.md")
+      response = subject.unregister_file(filepath)
+      expect(response).to eq("DOI 10.23725/0000-03VC removed for cool-dois.html.md")
     end
 
-    it 'should register_all_files unregister' do
+    it 'should register_all_files' do
       number = 123
-      response = subject.register_all_files(fixture_path, number: number, unregister: true)
-      expect(response).to eq("DOI removed from cool-dois.html.md")
+      response = subject.register_all_files(fixture_path, number: number)
+      expect(response).to eq("DOI 10.23725/0000-03VC added for cool-dois.html.md")
+    end
+
+    it 'should unregister_all_files' do
+      number = 123
+      response = subject.unregister_all_files(fixture_path)
+      expect(response).to eq("DOI 10.23725/0000-03VC removed for cool-dois.html.md")
     end
 
     it 'should ignore non-markdown file for register_file' do
@@ -72,7 +78,7 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
       metadata = subject.generate_metadata_for_work(filepath, number: number, csl: 'spec/fixtures/apa.csl', bibliography: 'spec/fixtures/references.bib')
       expect(metadata["url"]).to eq("https://blog.datacite.org/cool-dois/")
       expect(metadata["creators"]).to eq([{:given_name=>"Martin", :family_name=>"Fenner", :orcid=>"0000-0003-1419-2405"}])
-      expect(metadata["descriptions"]).to eq([{:value=>"In 1998 Tim Berners-Lee coined the term cool URIs (1998), that is URIs that don’t change. We know that URLs referenced in the scholarly literature are often not cool, leading to link rot (Klein et al., 2014) and making it hard or impossible to find...",:description_type=>"Abstract"}])
+      expect(metadata["descriptions"]).to eq([{:value=>"In 1998 Tim Berners-Lee coined the term cool URIs (1998), that is URIs that don’t change. We know that URLs referenced in the scholarly literature are often not cool, leading to link rot (Klein et al., 2014) and making it hard or impossible to find the referenced resource.",:description_type=>"Abstract"}])
       expect(metadata["related_identifiers"]).to eq([{:value=>"https://www.w3.org/Provider/Style/URI",
           :related_identifier_type=>"URL",
           :relation_type=>"References"},
@@ -81,11 +87,11 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
           :relation_type=>"References" }])
     end
 
-    it 'should create_work_from_yaml' do
+    it 'should register_work_for_metadata' do
       filepath = fixture_path + 'cool-dois.html.md'
       number = 123
       metadata = subject.generate_metadata_for_work(filepath, number: number, csl: 'spec/fixtures/apa.csl', bibliography: 'spec/fixtures/references.bib')
-      work = subject.create_work_from_metadata(metadata)
+      work = subject.register_work_for_metadata(metadata)
       expect(work.validation_errors).to be_empty
     end
   end
