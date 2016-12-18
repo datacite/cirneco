@@ -3,9 +3,12 @@ rvm:
 - 2.3.1
 
 before_install:
-  - sudo add-apt-repository ppa:kalakris/cmake -y
-  - sudo apt-get update -q
-  - sudo apt-get install cmake -y
+- wget https://github.com/jgm/pandoc/releases/download/1.15.2/pandoc-1.15.2-1-amd64.deb
+- sudo dpkg -i pandoc-1.15.2-1-amd64.deb
+- rm pandoc-1.15.2-1-amd64.deb
+- sudo add-apt-repository ppa:kalakris/cmake -y
+- sudo apt-get update -q
+- sudo apt-get install cmake -y
 
 install:
 - travis_retry bundle install
