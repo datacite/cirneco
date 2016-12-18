@@ -2,12 +2,19 @@ require 'spec_helper'
 
 describe Cirneco::Work, vcr: true, :order => :defined do
   let(:doi) { "10.23725/0000-03VC" }
+  let(:url) { "http://www.datacite.org" }
   let(:creators) { [{ given_name: "Elizabeth", family_name: "Miller", orcid: "0000-0001-5000-0007", affiliation: "DataCite" }] }
   let(:title) { "Full DataCite XML Example" }
   let(:publisher) { "DataCite" }
   let(:publication_year) { 2014 }
   let(:resource_type) { { value: "XML", resource_type_general: "Software" } }
-  let(:url) { "http://www.datacite.org" }
+  let(:metadata) { { "doi" => doi,
+                     "url" => url,
+                     "creators" => creators,
+                     "title" => title,
+                     "publisher" => publisher,
+                     "publication_year" => publication_year,
+                     "resource_type" => resource_type } }
   let(:media) { [{ mime_type: "application/pdf", url:"http://www.datacite.org/cirneco-test.pdf" }]}
   let(:username) { ENV['MDS_USERNAME'] }
   let(:password) { ENV['MDS_PASSWORD'] }
@@ -15,16 +22,10 @@ describe Cirneco::Work, vcr: true, :order => :defined do
   let(:fixture_path) { "spec/fixtures/" }
   let(:samples_path) { "resources/kernel-4.0/samples/" }
 
-  subject { Cirneco::Work.new(doi: doi,
-                                    creators: creators,
-                                    title: title,
-                                    publisher: publisher,
-                                    publication_year: publication_year,
-                                    resource_type: resource_type,
-                                    url: url,
-                                    media: media,
-                                    username: username,
-                                    password: password) }
+ subject { Cirneco::Work.new(metadata,
+                             media: media,
+                             username: username,
+                             password: password) }
 
   describe "Metadata API" do
     describe "get" do

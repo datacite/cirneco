@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Cirneco::Work, vcr: true do
   let(:doi) { "10.23725/0000-03VC" }
+  let(:url) { "http://www.datacite.org" }
   let(:creators) { [{ given_name: "Elizabeth", family_name: "Miller", orcid: "0000-0001-5000-0007" }] }
   let(:title) { "Full DataCite XML Example" }
   let(:publisher) { "DataCite" }
@@ -9,23 +10,24 @@ describe Cirneco::Work, vcr: true do
   let(:resource_type) { { value: "XML", resource_type_general: "Software" } }
   let(:subjects) { ["000 computer science"] }
   let(:descriptions) { [{ value: "XML example of all DataCite Metadata Schema v4.0 properties.", description_type: "Abstract" }] }
-  let(:rights) { [{ value: "CC0 1.0 Universal", rights_uri: "http://creativecommons.org/publicdomain/zero/1.0/" }] }
-  let(:url) { "http://www.datacite.org" }
+  let(:rights_list) { [{ value: "CC0 1.0 Universal", rights_uri: "http://creativecommons.org/publicdomain/zero/1.0/" }] }
+  let(:metadata) { { "doi" => doi,
+                     "url" => url,
+                     "creators" => creators,
+                     "title" => title,
+                     "publisher" => publisher,
+                     "publication_year" => publication_year,
+                     "resource_type" => resource_type,
+                     "subjects" => subjects,
+                     "descriptions" => descriptions,
+                     "rights_list" => rights_list } }
   let(:media) { [{ mime_type: "application/pdf", url:"http://www.datacite.org/cirneco-test.pdf" }]}
   let(:username) { ENV['MDS_USERNAME'] }
   let(:password) { ENV['MDS_PASSWORD'] }
   let(:fixture_path) { "spec/fixtures/" }
   let(:samples_path) { "resources/kernel-4.0/samples/" }
 
-  subject { Cirneco::Work.new(doi: doi,
-                              creators: creators,
-                              title: title,
-                              publisher: publisher,
-                              publication_year: publication_year,
-                              resource_type: resource_type,
-                              subjects: subjects,
-                              descriptions: descriptions,
-                              rights: rights) }
+  subject { Cirneco::Work.new(metadata) }
 
   describe 'schema' do
     it 'validates example full' do

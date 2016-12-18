@@ -65,5 +65,28 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
       response = subject.register_file(filepath)
       expect(response).to eq("File cool-dois.yml ignored: not a markdown file")
     end
+
+    it 'should generate metadata for work' do
+      filepath = fixture_path + 'cool-dois.html.md'
+      number = 123
+      metadata = subject.generate_metadata_for_work(filepath, number: number, csl: 'spec/fixtures/apa.csl', bibliography: 'spec/fixtures/references.bib')
+      expect(metadata["url"]).to eq("https://blog.datacite.org/cool-dois/")
+      expect(metadata["creators"]).to eq([{:given_name=>"Martin", :family_name=>"Fenner", :orcid=>"0000-0003-1419-2405"}])
+      expect(metadata["descriptions"]).to eq([{:value=>"In 1998 Tim Berners-Lee coined the term cool URIs (1998), that is URIs that don’t change. We know that URLs referenced in the scholarly literature are often not cool, leading to link rot (Klein et al., 2014) and making it hard or impossible to find...",:description_type=>"Abstract"}])
+      expect(metadata["related_identifiers"]).to eq([{:value=>"https://www.w3.org/Provider/Style/URI",
+          :related_identifier_type=>"URL",
+          :relation_type=>"References"},
+        { :value=>"10.1371/JOURNAL.PONE.0115253",
+          :related_identifier_type=>"DOI",
+          :relation_type=>"References" }])
+    end
+
+    it 'should create_work_from_yaml' do
+      filepath = fixture_path + 'cool-dois.html.md'
+      number = 123
+      metadata = subject.generate_metadata_for_work(filepath, number: number, csl: 'spec/fixtures/apa.csl', bibliography: 'spec/fixtures/references.bib')
+      work = subject.create_work_from_metadata(metadata)
+      expect(work.validation_errors).to be_empty
+    end
   end
 end

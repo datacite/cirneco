@@ -57,8 +57,6 @@ module Cirneco
         "DOI removed from #{filename}"
       elsif updated_file != file
         "DOI #{doi} added to #{filename}"
-      else
-        "DOI #{doi} found in #{filename}"
       end
     end
 
@@ -68,26 +66,78 @@ module Cirneco
       end.join("\n")
     end
 
-    def create_work_from_yaml(metadata:, **options)
-      return "Error" unless ["doi", "author", "title", "date", "summary"].all? { |k| metadata.key? k }
+    def generate_metadata_for_work(filepath, options={})
+      metadata = Bergamasco::Markdown.read_yaml_for_doi_metadata(filepath, options.except(:number))
 
-      creators = Array(metadata["author"])
+      return "Error: required metadata missing" unless ["author", "title", "date", "summary"].all? { |k| metadata.key? k }
 
-      publisher = options[:publisher] || ENV['SITE_TITLE']
-      publication_year = metadata["date"][0..3].to_i
+      # read in optional yaml configuration file for site
+      sitepath = options[:sitepath] || ENV['SITE_SITEPATH']
+      site_options = sitepath.present? ? Bergamasco::Markdown.read_yaml(sitepath) : {}
 
-      resource_type = metadata["type"] || options[:type] || ENV['SITE_DEFAULT_TYPE'] || "BlogPosting"
-      resource_type_general = resource_type == "Dataset" ? "Dataset" : "Text"
+      # read in optional yaml configuration file for authors
+      authorpath = options[:authorpath] || ENV['SITE_AUTHORPATH']
+      author_options = authorpath.present? ? Bergamasco::Markdown.read_yaml(authorpath) : {}
 
-      license_name = options[:license_name] || ENV['SITE_LICENCE_NAME'] || "Creative Commons Attribution"
-      license_url = options[:license_url] # || ENV['SITE_LICENCE_URL'] || "https://creativecommons.org/licenses/by/4.0/"
+      # required metadata
+      prefix = options[:prefix] || ENV['PREFIX']
+      metadata["doi"] ||= encode_doi(prefix, options)
 
-      descriptions = [{ value: metadata["summary"], description_type: "Abstract" }]
+      site_url = site_options["site_url"] || ENV['SITE_URL']
+      metadata["url"] ||= url_from_path(site_url, filepath)
 
-      contributor = options[:hosting_institution] || ENV['SITE_HOSTING_INSTITUTION']
-      contributors = [{ literal: contrbutor }]
+      metadata["creators"] = Array(metadata["author"]).map do |a|
+        author = author_options.fetch(a, {})
+        if author.present?
+          { given_name: author["given"],
+            family_name: author["family"],
+            orcid: author["orcid"] }
+        else
+          { literal: a }
+        end
+      end
 
-      Cirneco::Work.new(doi: metadata["doi"], creators: creators, title: metadata["title"], publisher: publisher, publication_year: publication_year, resource_type: { value: resource_type, resource_type_general: resource_type_general }, rights: [{ value: license_name, rights_uri: license_url }], subjects: Array(metadata["tags"], descriptions: descriptions, contributors: contributors) )
+      metadata["publisher"] = site_options["publisher"] || ENV['SITE_TITLE']
+      metadata["publication_year"] = metadata["date"][0..3].to_i
+
+      metadata["type"] ||= site_options["site_default_type"] || ENV['SITE_DEFAULT_TYPE'] || "BlogPosting"
+      resource_type_general = metadata["type"] == "Dataset" ? "Dataset" : "Text"
+
+      metadata["resource_type"] = { value: metadata["type"],
+                                    resource_type_general: resource_type_general }
+
+      # recommended metadata
+      metadata["descriptions"] = [{ value: metadata["summary"],
+                                    description_type: "Abstract" }]
+
+      # use default version 1.0
+      metadata["version"] ||= "1.0"
+
+      license_name = site_options.fetch("license", {}).fetch("name", nil) || ENV['SITE_LICENCE_NAME'] || "Creative Commons Attribution"
+      license_url = site_options.fetch("license", {}).fetch("url", nil) || ENV['SITE_LICENCE_URL'] || "https://creativecommons.org/licenses/by/4.0/"
+      metadata["rights_list"] = [{ value: license_name, rights_uri: license_url }]
+
+      metadata["subjects"] = Array(metadata["tags"]).select { |t| t != "featured" }
+
+      contributor = site_options["site_institution"] || ENV['SITE_INSTITUTION']
+      metadata["contributors"] = [{ literal: contributor, contributor_type: "HostingInstitution" }]
+
+      metadata = metadata.extract!(*%w(doi url creators title publisher
+        publication_year resource_type descriptions version rights_list subjects contributors
+        related_identifiers))
+    end
+
+    def url_from_path(site_url, filepath)
+      site_url.to_s.chomp("\\") + "/" + File.basename(filepath)[0..-9] + "/"
+    end
+
+    def create_work_from_metadata(metadata, options={})
+      work = Cirneco::Work.new(metadata)
+
+      filename  = metadata["doi"].split("/", 2).last + ".xml"
+      IO.write(filename, work.data)
+
+      work
     end
   end
 end
