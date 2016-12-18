@@ -87,23 +87,20 @@ module Cirneco
     end
 
     def generate_metadata_for_work(filepath, options={})
-      options[:csl] ||= "styles/apa.csl"
-      options[:bibliography] ||= "data/references.yaml"
+      sitepath = options[:sitepath] || ENV['SITE_SITEPATH'] || "data/site.yml"
+      authorpath = options[:authorpath] || ENV['SITE_AUTHORPATH'] || "data/authors.yml"
+      referencespath = options[:referencespath] || ENV['SITE_REFERENCESPATH'] || "data/references.yml"
+      # csl = options[:csl] || ENV['SITE_CSL'] || "styles/apa.csl"
+      # bibliography = options[:bibliography] || ENV['SITE_REFERENCESPATH'] || "data/references.yml"
+      # options = options.merge(csl: csl, bibliography: bibliography)
 
       metadata = Bergamasco::Markdown.read_yaml_for_doi_metadata(filepath, options.except(:number))
 
       return "Error: required metadata missing" unless ["author", "title", "date", "summary"].all? { |k| metadata.key? k }
 
-      # read in optional yaml configuration file for site
-      sitepath = options[:sitepath] || "data/site.yml"
+      # read in optional yaml configuration files for site, author and references
       site_options = sitepath.present? ? Bergamasco::Markdown.read_yaml(sitepath) : {}
-
-      # read in optional yaml configuration file for authors
-      authorpath = options[:authorpath] || "data/authors.yml"
       author_options = authorpath.present? ? Bergamasco::Markdown.read_yaml(authorpath) : {}
-
-      # read in optional yaml configuration file for references
-      referencespath = options[:referencespath] || "data/references.yaml"
       references = referencespath.present? ? Bergamasco::Markdown.read_yaml(referencespath) : {}
 
       # required metadata
