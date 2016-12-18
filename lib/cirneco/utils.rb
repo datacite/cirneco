@@ -197,6 +197,7 @@ module Cirneco
         IO.write(filename, work.data)
       else
         puts work.validation_errors
+        puts work.inspect
       end
 
       work
@@ -210,6 +211,7 @@ module Cirneco
         File.delete(filename) if File.exist?(filename)
       else
         puts work.validation_errors
+        puts work.inspect
       end
 
       work
