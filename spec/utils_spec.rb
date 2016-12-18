@@ -86,6 +86,7 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
       number = 123
       metadata = subject.generate_metadata_for_work(filepath, number: number, csl: 'spec/fixtures/apa.csl', bibliography: 'spec/fixtures/references.bib')
       work = subject.create_work_from_metadata(metadata)
+      puts work.inspect
       expect(work.validation_errors).to be_empty
     end
   end
