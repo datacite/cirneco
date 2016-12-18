@@ -138,7 +138,7 @@ module Cirneco
 
       # fetch reference metadata if available
       metadata["related_identifiers"] = Array(metadata["references"]).map do |r|
-        reference = references.fetch(r, {})
+        reference = references ? references.fetch(r, {}) : nil
         if reference.present?
           if reference["DOI"].present?
             value = reference["DOI"].upcase
