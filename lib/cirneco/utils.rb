@@ -3,8 +3,12 @@ require 'securerandom'
 require 'bergamasco'
 require 'time'
 
+require_relative 'base'
+
 module Cirneco
   module Utils
+    include Cirneco::Base
+
     # "ZZZZZZZ" decoded as number
     UPPER_LIMIT = 34359738367
 
