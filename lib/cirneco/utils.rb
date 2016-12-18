@@ -154,6 +154,7 @@ module Cirneco
             type = nil
           end
         else
+          puts "#{r} missing for DOI #{metadata["doi"]}"
           if /(http|https):\/\/(dx\.)?doi\.org\/(\w+)/.match(r)
             uri = Addressable::URI.parse(r)
             value = uri.path[1..-1].upcase
