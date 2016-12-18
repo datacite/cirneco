@@ -99,9 +99,9 @@ module Cirneco
       return "Error: required metadata missing" unless ["author", "title", "date", "summary"].all? { |k| metadata.key? k }
 
       # read in optional yaml configuration files for site, author and references
-      site_options = sitepath.present? ? Bergamasco::Markdown.read_yaml(sitepath) : {}
-      author_options = authorpath.present? ? Bergamasco::Markdown.read_yaml(authorpath) : {}
-      references = referencespath.present? ? Bergamasco::Markdown.read_yaml(referencespath) : {}
+      site_options = Bergamasco::Markdown.read_yaml(sitepath) || {}
+      author_options = Bergamasco::Markdown.read_yaml(authorpath) || {}
+      references = Bergamasco::Markdown.read_yaml(referencespath) || {}
 
       # required metadata
       prefix = options[:prefix] || site_options["prefix"] || ENV['PREFIX']
