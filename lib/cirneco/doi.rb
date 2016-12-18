@@ -49,6 +49,8 @@ module Cirneco
     end
 
     desc "mint DOCUMENTS", "mint documents"
+    method_option :csl, :default => ENV['SITE_CSLPATH']
+    method_option :bibliography, :default => ENV['SITE_REFERENCESPATH']
     method_option :username, :default => ENV['MDS_USERNAME']
     method_option :password, :default => ENV['MDS_PASSWORD']
     method_option :prefix, :default => ENV['PREFIX']
@@ -65,6 +67,8 @@ module Cirneco
     end
 
     desc "hide DOCUMENTS", "hide documents"
+    method_option :csl, :default => ENV['SITE_CSLPATH']
+    method_option :bibliography, :default => ENV['SITE_REFERENCESPATH']
     method_option :username, :default => ENV['MDS_USERNAME']
     method_option :password, :default => ENV['MDS_PASSWORD']
     method_option :sandbox, :default => ENV['SANDBOX']

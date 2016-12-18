@@ -100,7 +100,7 @@ module Cirneco
       references = referencespath.present? ? Bergamasco::Markdown.read_yaml(referencespath) : {}
 
       # required metadata
-      prefix = options[:prefix] || site_options["prefix"] || ENV['SITE_PREFIX']
+      prefix = options[:prefix] || site_options["prefix"] || ENV['PREFIX']
       metadata["doi"] ||= encode_doi(prefix, options)
 
       site_url = site_options["site_url"] || ENV['SITE_URL']

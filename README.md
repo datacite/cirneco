@@ -39,19 +39,9 @@ gem install cirneco
 
 Configure ENV variables `MDS_USERNAME`, `MDS_PASSWORD` and `PREFIX`, e.g. by storing them in file `.env` (see `.env.xample`) in same directory you run the command.
 
-## Commands
+## DataCite MDS API Commands
 
-The commands map to the commands available in the [DataCite MDS API](https://mds.datacite.org/static/apidoc), and two additional commands allow the generation and check of random DOIs.
-
-Generate a random DOI in the format `xxxx-xxxy` where `y` is the checksum
-```
-cirneco doi generate
-```
-
-Check DOI for valid checksum
-```
-cirneco doi check 10.5555/1234
-```
+The commands map to the commands available in the [DataCite MDS API](https://mds.datacite.org/static/apidoc).
 
 Return all DOIs registered for the data center
 ```
@@ -86,6 +76,40 @@ cirneco media get 10.5555/1234
 Post media information from file `1234.txt` in same directory
 ```
 cirneco media post 1234.xml
+```
+
+## Utility Commands
+Commands to generate and check random DOIs, and for registering DOIs using
+markdown files with metadata in YAML frontmatter
+
+Generate a random DOI in the format `xxxx-xxxy` where `y` is the checksum
+```
+cirneco doi generate
+```
+
+Check DOI for valid checksum
+```
+cirneco doi check 10.5555/1234
+```
+
+Mint a DOI with metadata from a markdown file with YAML frontmatter
+```
+cirneco doi mint /source/posts/cool-dois.html.md
+```
+
+Mint DOIs with metadata for all markdown files in a folder
+```
+cirneco doi mint /source/posts
+```
+
+Hide DOI metadata for a markdown file with YAML frontmatter
+```
+cirneco doi hide /source/posts/cool-dois.html.md
+```
+
+Hide DOIs with metadata for all markdown files in a folder
+```
+cirneco doi hide /source/posts
 ```
 
 ## Development
