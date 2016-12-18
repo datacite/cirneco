@@ -72,13 +72,13 @@ module Cirneco
     def register_all_files(folderpath, options={})
       Dir.glob("#{folderpath}/*.md").map do |filepath|
         register_file(filepath, options)
-      end.join("\n")
+      end.compact.join("\n")
     end
 
     def unregister_all_files(folderpath, options={})
       Dir.glob("#{folderpath}/*.md").map do |filepath|
         unregister_file(filepath, options)
-      end.join("\n")
+      end.compact.join("\n")
     end
 
     def generate_metadata_for_work(filepath, options={})

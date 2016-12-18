@@ -28,7 +28,7 @@ module Cirneco
       end
     end
 
-    desc "generate PREFIX", "generate a DOI name"
+    desc "generate DOI", "generate a DOI name"
     method_option :prefix, :default => ENV['PREFIX']
     method_option :number, :type => :numeric, :aliases => '-n'
     def generate
@@ -71,9 +71,9 @@ module Cirneco
     def unregister(filepath)
 
       if File.directory?(filepath)
-        response = register_all_files(filepath, options.merge(unregister: true))
+        response = unregister_all_files(filepath, options)
       else
-        response = register_file(filepath, options.merge(unregister: true))
+        response = unregister_file(filepath, options)
       end
 
       puts response
