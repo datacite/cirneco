@@ -68,7 +68,6 @@ module Cirneco
     method_option :authorpath, :default => ENV['SITE_AUTHORPATH']
     method_option :referencespath, :default => ENV['SITE_REFERENCESPATH']
     method_option :csl, :default => ENV['SITE_CSLPATH']
-    method_option :bibliography, :default => ENV['SITE_REFERENCESPATH']
     method_option :number, :type => :numeric, :aliases => '-n'
     method_option :username, :default => ENV['MDS_USERNAME']
     method_option :password, :default => ENV['MDS_PASSWORD']

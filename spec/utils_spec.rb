@@ -4,6 +4,8 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
   let(:prefix) { ENV['PREFIX'] }
   let(:username) { ENV['MDS_USERNAME'] }
   let(:password) { ENV['MDS_PASSWORD'] }
+  let(:csl) { "spec/fixtures/apa.csl" }
+  let(:bibliography) { "spec/fixtures/bibliography.yaml" }
   let(:options) { { username: username, password: password, sandbox: true } }
 
   subject { Cirneco::DataCenter.new(prefix: prefix,
@@ -44,25 +46,25 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
     it 'should mint for file' do
       filepath = fixture_path + 'cool-dois.html.md'
       number = 123
-      response = subject.mint_doi_for_file(filepath, number: number)
+      response = subject.mint_doi_for_file(filepath, number: number, csl: csl, bibliography: bibliography)
       expect(response).to eq("DOI 10.23725/0000-03VC minted for cool-dois.html.md")
     end
 
     it 'should hide for file' do
       filepath = fixture_path + 'cool-dois.html.md'
-      response = subject.hide_doi_for_file(filepath)
+      response = subject.hide_doi_for_file(filepath, csl: csl, bibliography: bibliography)
       expect(response).to eq("DOI 10.23725/0000-03VC hidden for cool-dois.html.md")
     end
 
     it 'should mint for all files' do
       number = 123
-      response = subject.mint_dois_for_all_files(fixture_path, number: number)
+      response = subject.mint_dois_for_all_files(fixture_path, number: number, csl: csl, bibliography: bibliography)
       expect(response).to eq("DOI 10.23725/0000-03VC minted for cool-dois.html.md")
     end
 
     it 'should hide for all files' do
       number = 123
-      response = subject.hide_dois_for_all_files(fixture_path)
+      response = subject.hide_dois_for_all_files(fixture_path, csl: csl, bibliography: bibliography)
       expect(response).to eq("DOI 10.23725/0000-03VC hidden for cool-dois.html.md")
     end
 

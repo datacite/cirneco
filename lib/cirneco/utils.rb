@@ -90,9 +90,8 @@ module Cirneco
       sitepath = options[:sitepath] || ENV['SITE_SITEPATH'] || "data/site.yml"
       authorpath = options[:authorpath] || ENV['SITE_AUTHORPATH'] || "data/authors.yml"
       referencespath = options[:referencespath] || ENV['SITE_REFERENCESPATH'] || "data/references.yml"
-      # csl = options[:csl] || ENV['SITE_CSL'] || "styles/apa.csl"
-      # bibliography = options[:bibliography] || ENV['SITE_REFERENCESPATH'] || "data/references.yml"
-      # options = options.merge(csl: csl, bibliography: bibliography)
+      csl = options[:csl] || ENV['SITE_CSL'] || "styles/apa.csl"
+      options = options.merge(csl: csl, bibliography: referencespath)
 
       metadata = Bergamasco::Markdown.read_yaml_for_doi_metadata(filepath, options.except(:number))
 

@@ -15,6 +15,8 @@ describe Cirneco::Doi do
   let(:username) { ENV['MDS_USERNAME'] }
   let(:password) { ENV['MDS_PASSWORD'] }
   let(:sandbox) { ENV['SANDBOX'] }
+  let(:csl) { "spec/fixtures/apa.csl" }
+  let(:bibliography) { "spec/fixtures/bibliography.yaml" }
   let(:api_options) { { username: username, password: password, sandbox: true } }
 
   describe "MDS DOI API", vcr: true, :order => :defined do
@@ -66,18 +68,22 @@ describe Cirneco::Doi do
 
   context "mint and hide DOIs", :order => :defined do
     it 'mints a doi' do
+      subject.options = { csl: csl, bibliography: bibliography }
       expect { subject.mint filepath }.to output("DOI 10.23725/0000-03VC minted for #{filename}\n").to_stdout
     end
 
     it 'hides a doi' do
+      subject.options = { csl: csl, bibliography: bibliography }
       expect { subject.hide filepath }.to output("DOI 10.23725/0000-03VC hidden for #{filename}\n").to_stdout
     end
 
     it 'mints dois for contents of a folder' do
+      subject.options = { csl: csl, bibliography: bibliography }
       expect { subject.mint fixture_path }.to output("DOI 10.23725/0000-03VC minted for #{filename}\n").to_stdout
     end
 
     it 'hides dois for contents of a folder' do
+      subject.options = { csl: csl, bibliography: bibliography }
       expect { subject.hide fixture_path }.to output("DOI 10.23725/0000-03VC hidden for #{filename}\n").to_stdout
     end
 
