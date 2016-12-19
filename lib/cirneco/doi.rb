@@ -13,7 +13,7 @@ module Cirneco
     desc "get DOI", "get handle url for DOI"
     method_option :username, :default => ENV['MDS_USERNAME']
     method_option :password, :default => ENV['MDS_PASSWORD']
-    method_option :sandbox, :default => ENV['SANDBOX']
+    method_option :sandbox, :type => :boolean, :force => false
     def get(doi)
       if doi == "all"
         response = get_dois(options)
@@ -31,7 +31,7 @@ module Cirneco
     desc "put DOI", "put handle url for DOI"
     method_option :username, :default => ENV['MDS_USERNAME']
     method_option :password, :default => ENV['MDS_PASSWORD']
-    method_option :sandbox, :default => ENV['SANDBOX']
+    method_option :sandbox, :type => :boolean, :force => false
     method_option :url
     def put(doi)
       response = put_doi(doi, options)
@@ -72,7 +72,7 @@ module Cirneco
     method_option :username, :default => ENV['MDS_USERNAME']
     method_option :password, :default => ENV['MDS_PASSWORD']
     method_option :prefix, :default => ENV['PREFIX']
-    method_option :sandbox, :default => ENV['SANDBOX']
+    method_option :sandbox, :type => :boolean, :force => false
     def mint(filepath)
 
       if File.directory?(filepath)
@@ -92,7 +92,7 @@ module Cirneco
     method_option :bibliography, :default => ENV['SITE_REFERENCESPATH']
     method_option :username, :default => ENV['MDS_USERNAME']
     method_option :password, :default => ENV['MDS_PASSWORD']
-    method_option :sandbox, :default => ENV['SANDBOX']
+    method_option :sandbox, :type => :boolean, :force => false
     def hide(filepath)
 
       if File.directory?(filepath)

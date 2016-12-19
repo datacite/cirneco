@@ -14,7 +14,6 @@ describe Cirneco::Doi do
   let(:filepath) { fixture_path + filename }
   let(:username) { ENV['MDS_USERNAME'] }
   let(:password) { ENV['MDS_PASSWORD'] }
-  let(:sandbox) { ENV['SANDBOX'] }
   let(:csl) { "spec/fixtures/apa.csl" }
   let(:bibliography) { "spec/fixtures/bibliography.yaml" }
   let(:api_options) { { username: username, password: password, sandbox: true } }

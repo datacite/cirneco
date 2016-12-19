@@ -14,7 +14,7 @@ module Cirneco
     desc "get DOI", "get media for DOI"
     method_option :username, :default => ENV['MDS_USERNAME']
     method_option :password, :default => ENV['MDS_PASSWORD']
-    method_option :sandbox, :default => ENV['SANDBOX']
+    method_option :sandbox, :type => :boolean, :force => false
     def get(doi)
       response = get_media(doi, options.merge(raw: true))
 
@@ -31,7 +31,7 @@ module Cirneco
     desc "post DOI", "post media for DOI"
     method_option :username, :default => ENV['MDS_USERNAME']
     method_option :password, :default => ENV['MDS_PASSWORD']
-    method_option :sandbox, :default => ENV['SANDBOX']
+    method_option :sandbox, :type => :boolean, :force => false
     method_option :file, :aliases => '-f'
     def post(doi)
       filename  = options[:file] || doi.split("/", 2).last + ".txt"

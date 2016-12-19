@@ -63,17 +63,15 @@ module Cirneco
     end
 
     def mint_dois_for_all_files(folderpath, options={})
-      response = Dir.glob("#{folderpath}/*.md").map do |filepath|
+      Dir.glob("#{folderpath}/*.md").map do |filepath|
         mint_doi_for_file(filepath, options)
-      end.select { |r| r != "No new DOI minted." }
-      response.present? ? response.join("\n") : "No new DOI minted"
+      end.uniq.join("\n")
     end
 
     def hide_dois_for_all_files(folderpath, options={})
-      response = Dir.glob("#{folderpath}/*.md").map do |filepath|
+      Dir.glob("#{folderpath}/*.md").map do |filepath|
         hide_doi_for_file(filepath, options)
-      end.select { |r| r != "No new DOI hidden." }
-      response.present? ? response.join("\n") : "No new DOI hidden"
+      end.uniq.join("\n")
     end
 
     def generate_metadata_for_work(filepath, options={})

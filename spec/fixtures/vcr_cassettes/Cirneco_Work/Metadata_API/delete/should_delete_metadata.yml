@@ -21,7 +21,7 @@ http_interactions:
       Server:
       - nginx/1.4.6 (Ubuntu)
       Date:
-      - Mon, 19 Dec 2016 06:31:23 GMT
+      - Mon, 19 Dec 2016 08:14:47 GMT
       Content-Type:
       - text/html;charset=UTF-8
       Connection:
@@ -36,5 +36,5 @@ http_interactions:
       encoding: UTF-8
       string: OK
     http_version: 
-  recorded_at: Mon, 19 Dec 2016 06:31:24 GMT
+  recorded_at: Mon, 19 Dec 2016 08:14:47 GMT
 recorded_with: VCR 3.0.3
