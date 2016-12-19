@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cirneco (0.6.24)
+    cirneco (0.6.25)
       activesupport (~> 4.2, >= 4.2.5)
       base32-crockford-checksum (~> 0.2.2)
       bergamasco (~> 0.2)

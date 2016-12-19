@@ -33,7 +33,7 @@ module Cirneco
       return "File #{filename} ignored: not a markdown file" unless File.extname(filepath) == ".md"
 
       old_metadata = Bergamasco::Markdown.read_yaml_for_doi_metadata(filepath)
-      return nil if old_metadata["doi"] && old_metadata["published"]
+      return "No new DOI minted." if old_metadata["doi"] && old_metadata["published"]
 
       metadata = generate_metadata_for_work(filepath, options)
       work = register_work_for_metadata(metadata)
@@ -51,7 +51,7 @@ module Cirneco
       return "File #{filename} ignored: not a markdown file" unless File.extname(filepath) == ".md"
 
       old_metadata = Bergamasco::Markdown.read_yaml_for_doi_metadata(filepath)
-      return nil unless old_metadata["doi"] && old_metadata["published"]
+      return "No new DOI hidden." unless old_metadata["doi"] && old_metadata["published"]
 
       metadata = generate_metadata_for_work(filepath, options)
       work = unregister_work_for_metadata(metadata)
@@ -63,15 +63,17 @@ module Cirneco
     end
 
     def mint_dois_for_all_files(folderpath, options={})
-      Dir.glob("#{folderpath}/*.md").map do |filepath|
+      response = Dir.glob("#{folderpath}/*.md").map do |filepath|
         mint_doi_for_file(filepath, options)
-      end.compact.join("\n")
+      end.select { |r| r != "No new DOI minted." }
+      response.present? ? response.join("\n") : "No new DOIs minted."
     end
 
     def hide_dois_for_all_files(folderpath, options={})
-      Dir.glob("#{folderpath}/*.md").map do |filepath|
+      response = Dir.glob("#{folderpath}/*.md").map do |filepath|
         hide_doi_for_file(filepath, options)
-      end.compact.join("\n")
+      end.select { |r| r != "No new DOI hidden." }
+      response.present? ? response.join("\n") : "No new DOIs hidden."
     end
 
     def generate_metadata_for_work(filepath, options={})
