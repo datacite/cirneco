@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: delete
-    uri: https://mds.test.datacite.org/metadata/10.23725/0000-03VC
+    uri: https://mds.test.datacite.org/metadata/10.5072/0000-03VC
     body:
       encoding: US-ASCII
       string: ''
@@ -21,7 +21,7 @@ http_interactions:
       Server:
       - nginx/1.4.6 (Ubuntu)
       Date:
-      - Sun, 11 Dec 2016 18:35:35 GMT
+      - Mon, 19 Dec 2016 06:31:23 GMT
       Content-Type:
       - text/html;charset=UTF-8
       Connection:
@@ -36,5 +36,5 @@ http_interactions:
       encoding: UTF-8
       string: OK
     http_version: 
-  recorded_at: Sun, 11 Dec 2016 18:35:35 GMT
+  recorded_at: Mon, 19 Dec 2016 06:31:24 GMT
 recorded_with: VCR 3.0.3

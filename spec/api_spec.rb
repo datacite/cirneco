@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Cirneco::Work, vcr: true, :order => :defined do
-  let(:doi) { "10.23725/0000-03VC" }
+  let(:doi) { "10.5072/0000-03VC" }
   let(:url) { "http://www.datacite.org" }
   let(:creators) { [{ given_name: "Elizabeth", family_name: "Miller", orcid: "0000-0001-5000-0007", affiliation: "DataCite" }] }
   let(:title) { "Full DataCite XML Example" }
@@ -46,9 +46,9 @@ describe Cirneco::Work, vcr: true, :order => :defined do
     context "post" do
       it 'should post metadata' do
         response = subject.post_metadata(subject.data, options)
-        expect(response.body["data"]).to eq("OK (10.23725/0000-03VC)")
+        expect(response.body["data"]).to eq("OK (10.5072/0000-03VC)")
         expect(response.status).to eq(201)
-        expect(response.headers["Location"]).to eq("https://mds.test.datacite.org/metadata/10.23725/0000-03VC")
+        expect(response.headers["Location"]).to eq("https://mds.test.datacite.org/metadata/10.5072/0000-03VC")
       end
     end
   end
@@ -66,7 +66,7 @@ describe Cirneco::Work, vcr: true, :order => :defined do
       it 'should get all dois' do
         response = subject.get_dois(options)
         dois = response.body["data"]
-        expect(dois.length).to eq(12)
+        expect(dois.length).to eq(13)
         expect(dois.first).to eq("10.23725/0000-03VC")
       end
 

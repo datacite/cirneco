@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://mds.test.datacite.org/media/10.23725/0000-03VC
+    uri: https://mds.test.datacite.org/media/10.5072/0000-03VC
     body:
       encoding: UTF-8
       string: application/pdf=http://www.datacite.org/cirneco-test.pdf
@@ -23,7 +23,7 @@ http_interactions:
       Server:
       - nginx/1.4.6 (Ubuntu)
       Date:
-      - Sun, 11 Dec 2016 18:35:36 GMT
+      - Mon, 19 Dec 2016 06:31:24 GMT
       Content-Type:
       - text/html;charset=UTF-8
       Connection:
@@ -38,5 +38,5 @@ http_interactions:
       encoding: UTF-8
       string: OK
     http_version: 
-  recorded_at: Sun, 11 Dec 2016 18:35:36 GMT
+  recorded_at: Mon, 19 Dec 2016 06:31:25 GMT
 recorded_with: VCR 3.0.3

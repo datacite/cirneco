@@ -8,7 +8,7 @@ http_interactions:
       string: |
         <?xml version="1.0" encoding="UTF-8"?>
         <resource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://datacite.org/schema/kernel-4" xsi:schemaLocation="http://datacite.org/schema/kernel-4 http://schema.datacite.org/meta/kernel-4/metadata.xsd">
-          <identifier identifierType="DOI">10.23725/0000-03VC</identifier>
+          <identifier identifierType="DOI">10.5072/0000-03VC</identifier>
           <creators>
             <creator>
               <creatorName>Miller, Elizabeth</creatorName>
@@ -41,11 +41,11 @@ http_interactions:
       Server:
       - nginx/1.4.6 (Ubuntu)
       Date:
-      - Sun, 11 Dec 2016 18:35:35 GMT
+      - Mon, 19 Dec 2016 06:31:23 GMT
       Content-Type:
       - text/html;charset=UTF-8
       Location:
-      - https://mds.test.datacite.org/metadata/10.23725/0000-03VC
+      - https://mds.test.datacite.org/metadata/10.5072/0000-03VC
       Connection:
       - keep-alive
       Pragma:
@@ -56,7 +56,7 @@ http_interactions:
       - no-cache, no-store
     body:
       encoding: UTF-8
-      string: OK (10.23725/0000-03VC)
+      string: OK (10.5072/0000-03VC)
     http_version: 
-  recorded_at: Sun, 11 Dec 2016 18:35:35 GMT
+  recorded_at: Mon, 19 Dec 2016 06:31:24 GMT
 recorded_with: VCR 3.0.3

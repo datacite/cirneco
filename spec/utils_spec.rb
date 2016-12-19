@@ -16,14 +16,14 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
     it 'should get all dois by prefix' do
       response = subject.get_dois_by_prefix(prefix, options)
       dois = response.body["data"]
-      expect(dois.length).to eq(4)
-      expect(dois.first).to eq("10.23725/0000-03VC")
+      expect(dois.length).to eq(1)
+      expect(dois.first).to eq("10.5072/0000-03VC")
     end
   end
 
   context "base32" do
     it 'should decode doi' do
-      doi = "10.23725/0000-03WD"
+      doi = "10.5072/0000-03WD"
       expect(subject.decode_doi(doi)).to eq(124)
     end
 
@@ -34,11 +34,11 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
 
     it 'should encode doi' do
       number = 123
-      expect(subject.encode_doi(prefix, number: number)).to eq("10.23725/0000-03VC")
+      expect(subject.encode_doi(prefix, number: number)).to eq("10.5072/0000-03VC")
     end
 
     it 'should encode doi random number' do
-      expect(subject.encode_doi(prefix)).to start_with("10.23725")
+      expect(subject.encode_doi(prefix)).to start_with("10.5072")
     end
   end
 
@@ -47,25 +47,25 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
       filepath = fixture_path + 'cool-dois.html.md'
       number = 123
       response = subject.mint_doi_for_file(filepath, number: number, csl: csl, bibliography: bibliography)
-      expect(response).to eq("DOI 10.23725/0000-03VC minted for cool-dois.html.md")
+      expect(response).to eq("DOI 10.5072/0000-03VC minted for cool-dois.html.md")
     end
 
     it 'should hide for file' do
       filepath = fixture_path + 'cool-dois.html.md'
       response = subject.hide_doi_for_file(filepath, csl: csl, bibliography: bibliography)
-      expect(response).to eq("DOI 10.23725/0000-03VC hidden for cool-dois.html.md")
+      expect(response).to eq("DOI 10.5072/0000-03VC hidden for cool-dois.html.md")
     end
 
     it 'should mint for all files' do
       number = 123
       response = subject.mint_dois_for_all_files(fixture_path, number: number, csl: csl, bibliography: bibliography)
-      expect(response).to eq("DOI 10.23725/0000-03VC minted for cool-dois.html.md")
+      expect(response).to eq("DOI 10.5072/0000-03VC minted for cool-dois.html.md")
     end
 
     it 'should hide for all files' do
       number = 123
       response = subject.hide_dois_for_all_files(fixture_path, csl: csl, bibliography: bibliography)
-      expect(response).to eq("DOI 10.23725/0000-03VC hidden for cool-dois.html.md")
+      expect(response).to eq("DOI 10.5072/0000-03VC hidden for cool-dois.html.md")
     end
 
     it 'should ignore non-markdown file for mint file' do
