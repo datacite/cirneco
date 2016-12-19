@@ -1,0 +1,125 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://mds.test.datacite.org/metadata
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <resource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://datacite.org/schema/kernel-4" xsi:schemaLocation="http://datacite.org/schema/kernel-4 http://schema.datacite.org/meta/kernel-4/metadata.xsd">
+          <identifier identifierType="DOI">10.5072/0000-03VC</identifier>
+          <creators>
+            <creator>
+              <creatorName>Fenner, Martin</creatorName>
+              <givenName>Martin</givenName>
+              <familyName>Fenner</familyName>
+              <nameIdentifier schemeURI="http://orcid.org/" nameIdentifierScheme="ORCID">0000-0003-1419-2405</nameIdentifier>
+            </creator>
+          </creators>
+          <titles>
+            <title>Cool DOI's</title>
+          </titles>
+          <publisher>DataCite Blog</publisher>
+          <publicationYear>2016</publicationYear>
+          <resourceType resourceTypeGeneral="Text">BlogPosting</resourceType>
+          <subjects>
+            <subject>doi</subject>
+          </subjects>
+          <contributors>
+            <contributor contributorType="HostingInstitution">
+              <contributorName>DataCite</contributorName>
+            </contributor>
+          </contributors>
+          <dates>
+            <date dateType="Issued">2016-12-15</date>
+          </dates>
+          <relatedIdentifiers>
+            <relatedIdentifier relatedIdentifierType="URL" relationType="References">https://www.w3.org/Provider/Style/URI</relatedIdentifier>
+            <relatedIdentifier relatedIdentifierType="DOI" relationType="References">10.1371/JOURNAL.PONE.0115253</relatedIdentifier>
+          </relatedIdentifiers>
+          <version>1.0</version>
+          <rightsList>
+            <rights rightsURI="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution</rights>
+          </rightsList>
+          <descriptions>
+            <description descriptionType="Abstract">In 1998 Tim Berners-Lee coined the term cool URIs (1998), that is URIs that don’t change. We know that URLs referenced in the scholarly literature are often not cool, leading to link rot (Klein et al., 2014) and making it hard or impossible to find the referenced resource.</description>
+          </descriptions>
+        </resource>
+    headers:
+      User-Agent:
+      - Maremma - https://github.com/datacite/maremma
+      Content-Type:
+      - application/xml;charset=UTF-8
+      Accept:
+      - text/html,application/json,application/xml;q=0.9, text/plain;q=0.8,image/png,*/*;q=0.5
+      Authorization:
+      - Basic <MDS_TOKEN>
+  response:
+    status:
+      code: 201
+      message: ''
+    headers:
+      Server:
+      - nginx/1.4.6 (Ubuntu)
+      Date:
+      - Mon, 19 Dec 2016 06:59:48 GMT
+      Content-Type:
+      - text/html;charset=UTF-8
+      Location:
+      - https://mds.test.datacite.org/metadata/10.5072/0000-03VC
+      Connection:
+      - keep-alive
+      Pragma:
+      - no-cache
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      Cache-Control:
+      - no-cache, no-store
+    body:
+      encoding: UTF-8
+      string: OK (10.5072/0000-03VC)
+    http_version: 
+  recorded_at: Mon, 19 Dec 2016 06:59:48 GMT
+- request:
+    method: put
+    uri: https://mds.test.datacite.org/doi/10.5072/0000-03VC
+    body:
+      encoding: UTF-8
+      string: |-
+        doi=10.5072/0000-03VC
+        url=https://blog.datacite.org/cool-dois/
+    headers:
+      User-Agent:
+      - Maremma - https://github.com/datacite/maremma
+      Content-Type:
+      - text/plain;charset=UTF-8
+      Accept:
+      - text/html,application/json,application/xml;q=0.9, text/plain;q=0.8,image/png,*/*;q=0.5
+      Authorization:
+      - Basic <MDS_TOKEN>
+  response:
+    status:
+      code: 201
+      message: ''
+    headers:
+      Server:
+      - nginx/1.4.6 (Ubuntu)
+      Date:
+      - Mon, 19 Dec 2016 06:59:49 GMT
+      Content-Type:
+      - text/html;charset=UTF-8
+      Connection:
+      - keep-alive
+      Pragma:
+      - no-cache
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      Cache-Control:
+      - no-cache, no-store
+    body:
+      encoding: UTF-8
+      string: OK
+    http_version: 
+  recorded_at: Mon, 19 Dec 2016 06:59:49 GMT
+recorded_with: VCR 3.0.3

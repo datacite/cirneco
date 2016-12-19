@@ -36,7 +36,7 @@ module Cirneco
       return "No new DOI minted" if old_metadata["doi"] && old_metadata["published"]
 
       metadata = generate_metadata_for_work(filepath, options)
-      work = register_work_for_metadata(metadata)
+      work = post_metadata_for_work(metadata, options)
 
       return "Errors for DOI #{metadata["doi"]}:\n#{work.validation_errors}" if work.validation_errors.present?
 
@@ -54,7 +54,7 @@ module Cirneco
       return "No new DOI hidden" unless old_metadata["doi"] && old_metadata["published"]
 
       metadata = generate_metadata_for_work(filepath, options)
-      work = unregister_work_for_metadata(metadata)
+      work = hide_metadata_for_work(metadata, options)
 
       return "Errors for DOI #{old_metadata["doi"]}:\n#{work.validation_errors}" if work.validation_errors.present?
 
@@ -184,22 +184,21 @@ module Cirneco
       site_url.to_s.chomp("\\") + "/" + File.basename(filepath)[0..-9] + "/"
     end
 
-    def register_work_for_metadata(metadata)
+    def post_metadata_for_work(metadata, options={})
       work = Cirneco::Work.new(metadata)
+      return work.validation_errors if work.validation_errors.present?
 
-      filename  = metadata["doi"].split("/", 2).last + ".xml"
-      IO.write(filename, work.data)
+      response = work.post_metadata(work.data, options)
+      return response unless response.status == 201
 
-      work
+      work.put_doi(metadata["doi"], options.merge(url: metadata["url"]))
     end
 
-    def unregister_work_for_metadata(metadata)
+    def hide_metadata_for_work(metadata, options={})
       work = Cirneco::Work.new(metadata)
+      return work.validation_errors if work.validation_errors.present?
 
-      filename  = metadata["doi"].split("/", 2).last + ".xml"
-      File.delete(filename) if File.exist?(filename)
-
-      work
+      work.delete_metadata(metadata["doi"], options)
     end
   end
 end
