@@ -55,6 +55,10 @@ describe Cirneco::Doi do
       expect { subject.generate }.to output("No PREFIX provided. Use --prefix option or PREFIX ENV variable\n").to_stdout
     end
 
+    it 'decodes a doi' do
+      expect { subject.decode doi }.to output("DOI #{doi} was encoded with 123\n").to_stdout
+    end
+
     it 'checks a doi' do
       expect { subject.check doi }.to output("Checksum for #{doi} is valid\n").to_stdout
     end

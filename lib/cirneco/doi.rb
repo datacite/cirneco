@@ -54,6 +54,17 @@ module Cirneco
       end
     end
 
+    desc "decode DOI", "decode DOI encoded using Crockford base32 algorithm"
+    def decode(doi)
+      number = decode_doi(doi)
+
+      if number > 0
+        puts "DOI #{doi} was encoded with #{number}"
+      else
+        puts "DOI #{doi} could not be decoded"
+      end
+    end
+
     desc "check DOI", "check DOI using Crockford base32 checksum"
     def check(doi)
       if decode_doi(doi) > 0

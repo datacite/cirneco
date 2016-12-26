@@ -87,9 +87,14 @@ Generate a random DOI in the format `xxxx-xxxy` where `y` is the checksum
 cirneco doi generate
 ```
 
+Decode DOI
+```
+cirneco doi decode 10.5072/0000-03VC
+```
+
 Check DOI for valid checksum
 ```
-cirneco doi check 10.5555/1234
+cirneco doi check 10.5072/0000-03VC
 ```
 
 Mint a DOI with metadata from a markdown file with YAML frontmatter
