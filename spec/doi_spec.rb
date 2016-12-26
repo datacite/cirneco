@@ -80,6 +80,11 @@ describe Cirneco::Doi do
       expect { subject.hide filepath }.to output("DOI 10.5072/0000-03VC hidden for #{filename}\n").to_stdout
     end
 
+    it 'mints and hides a doi' do
+      subject.options = { csl: csl, bibliography: bibliography }
+      expect { subject.mint_and_hide filepath }.to output("DOI 10.5072/0000-03VC minted and hidden for #{filename}\n").to_stdout
+    end
+
     it 'mints dois for contents of a folder' do
       subject.options = { csl: csl, bibliography: bibliography }
       expect { subject.mint fixture_path }.to output("DOI 10.5072/0000-03VC minted for #{filename}\n").to_stdout
@@ -88,6 +93,11 @@ describe Cirneco::Doi do
     it 'hides dois for contents of a folder' do
       subject.options = { csl: csl, bibliography: bibliography }
       expect { subject.hide fixture_path }.to output("DOI 10.5072/0000-03VC hidden for #{filename}\n").to_stdout
+    end
+
+    it 'mints and hides dois for contents of a folder' do
+      subject.options = { csl: csl, bibliography: bibliography }
+      expect { subject.mint_and_hide fixture_path }.to output("DOI 10.5072/0000-03VC minted and hidden for #{filename}\n").to_stdout
     end
 
     it 'should ignore non-markdown file for mint file' do

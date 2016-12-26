@@ -45,6 +45,23 @@ module Cirneco
     end
 
     # currently only supports markdown files with YAML header
+    def mint_and_hide_doi_for_file(filepath, options={})
+      filename = File.basename(filepath)
+      return "File #{filename} ignored: not a markdown file" unless File.extname(filepath) == ".md"
+
+      old_metadata = Bergamasco::Markdown.read_yaml_for_doi_metadata(filepath)
+      return "DOI #{old_metadata["doi"]} not changed for #{filename}" if old_metadata["doi"] && old_metadata["published"]
+
+      metadata = generate_metadata_for_work(filepath, options)
+      work = post_and_hide_metadata_for_work(metadata, options)
+
+      # return "Errors for DOI #{metadata["doi"]}:\n#{work.validation_errors}" if work.validation_errors.present?
+
+      new_metadata = Bergamasco::Markdown.update_file(filepath, "doi" => metadata["doi"], "published" => false)
+      "DOI #{new_metadata["doi"]} minted and hidden for #{filename}"
+    end
+
+    # currently only supports markdown files with YAML header
     # DOIs are never deleted, but we can remove the metadata from the DataCite index
     def hide_doi_for_file(filepath, options={})
       filename = File.basename(filepath)
@@ -65,6 +82,12 @@ module Cirneco
     def mint_dois_for_all_files(folderpath, options={})
       Dir.glob("#{folderpath}/*.md").map do |filepath|
         mint_doi_for_file(filepath, options)
+      end.join("\n")
+    end
+
+    def mint_and_hide_dois_for_all_files(folderpath, options={})
+      Dir.glob("#{folderpath}/*.md").map do |filepath|
+        mint_and_hide_doi_for_file(filepath, options)
       end.join("\n")
     end
 
@@ -192,6 +215,19 @@ module Cirneco
       return response unless response.status == 201
 
       work.put_doi(metadata["doi"], options.merge(url: metadata["url"]))
+    end
+
+    def post_and_hide_metadata_for_work(metadata, options={})
+      work = Cirneco::Work.new(metadata)
+      return work.validation_errors if work.validation_errors.present?
+
+      response = work.post_metadata(work.data, options)
+      return response unless response.status == 201
+
+      response = work.put_doi(metadata["doi"], options.merge(url: metadata["url"]))
+      return response unless response.status == 201
+
+      work.delete_metadata(metadata["doi"], options)
     end
 
     def hide_metadata_for_work(metadata, options={})

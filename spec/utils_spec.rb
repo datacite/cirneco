@@ -56,6 +56,13 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
       expect(response).to eq("DOI 10.5072/0000-03VC hidden for cool-dois.html.md")
     end
 
+    it 'should mint and hide for file' do
+      filepath = fixture_path + 'cool-dois.html.md'
+      number = 123
+      response = subject.mint_and_hide_doi_for_file(filepath, number: number, csl: csl, bibliography: bibliography)
+      expect(response).to eq("DOI 10.5072/0000-03VC minted and hidden for cool-dois.html.md")
+    end
+
     it 'should mint for all files' do
       number = 123
       response = subject.mint_dois_for_all_files(fixture_path, number: number, csl: csl, bibliography: bibliography)
@@ -66,6 +73,12 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
       number = 123
       response = subject.hide_dois_for_all_files(fixture_path, csl: csl, bibliography: bibliography)
       expect(response).to eq("DOI 10.5072/0000-03VC hidden for cool-dois.html.md")
+    end
+
+    it 'should mint and hide for all files' do
+      number = 123
+      response = subject.mint_and_hide_dois_for_all_files(fixture_path, number: number, csl: csl, bibliography: bibliography)
+      expect(response).to eq("DOI 10.5072/0000-03VC minted and hidden for cool-dois.html.md")
     end
 
     it 'should ignore non-markdown file for mint file' do

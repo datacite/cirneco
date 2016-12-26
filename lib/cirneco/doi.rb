@@ -74,7 +74,7 @@ module Cirneco
       end
     end
 
-    desc "mint DOCUMENTS", "mint documents"
+    desc "mint DOCUMENT", "mint document"
     method_option :sitepath, :default => ENV['SITE_SITEPATH']
     method_option :authorpath, :default => ENV['SITE_AUTHORPATH']
     method_option :referencespath, :default => ENV['SITE_REFERENCESPATH']
@@ -95,7 +95,28 @@ module Cirneco
       puts response
     end
 
-    desc "hide DOCUMENTS", "hide documents"
+    desc "mint and hide DOCUMENT", "mint and hide document"
+    method_option :sitepath, :default => ENV['SITE_SITEPATH']
+    method_option :authorpath, :default => ENV['SITE_AUTHORPATH']
+    method_option :referencespath, :default => ENV['SITE_REFERENCESPATH']
+    method_option :csl, :default => ENV['SITE_CSLPATH']
+    method_option :number, :type => :numeric, :aliases => '-n'
+    method_option :username, :default => ENV['MDS_USERNAME']
+    method_option :password, :default => ENV['MDS_PASSWORD']
+    method_option :prefix, :default => ENV['PREFIX']
+    method_option :sandbox, :type => :boolean, :force => false
+    def mint_and_hide(filepath)
+
+      if File.directory?(filepath)
+        response = mint_and_hide_dois_for_all_files(filepath, options)
+      else
+        response = mint_and_hide_doi_for_file(filepath, options)
+      end
+
+      puts response
+    end
+
+    desc "hide DOCUMENT", "hide document"
     method_option :sitepath, :default => ENV['SITE_SITEPATH']
     method_option :authorpath, :default => ENV['SITE_AUTHORPATH']
     method_option :referencespath, :default => ENV['SITE_REFERENCESPATH']

@@ -107,6 +107,16 @@ Mint DOIs with metadata for all markdown files in a folder
 cirneco doi mint /source/posts
 ```
 
+Mint a DOI and hide metadata from a markdown file with YAML frontmatter
+```
+cirneco doi mint_and_hide /source/posts/cool-dois.html.md
+```
+
+Mint DOIs and hide metadata for all markdown files in a folder
+```
+cirneco doi mint_and_hide /source/posts
+```
+
 Hide DOI metadata for a markdown file with YAML frontmatter
 ```
 cirneco doi hide /source/posts/cool-dois.html.md
