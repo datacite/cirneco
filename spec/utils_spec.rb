@@ -112,5 +112,14 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
       expect(response.body["data"]).to eq("OK")
       expect(response.status).to eq(200)
     end
+
+    # it 'should generate jats xml' do
+    #   filepath = fixture_path + 'cool-dois.html.md'
+    #   number = 123
+    #   options = { csl: 'spec/fixtures/apa.csl', bibliography: 'spec/fixtures/references.yaml' }
+    #   metadata = subject.generate_metadata_for_work(filepath, options)
+    #   xml_path = subject.generate_jats(filepath, options.merge(metadata: metadata))
+    #   expect(xml_path).to eq(fixture_path + 'cool-dois.xml')
+    # end
   end
 end

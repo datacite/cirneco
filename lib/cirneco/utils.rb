@@ -33,12 +33,12 @@ module Cirneco
       return "File #{filename} ignored: not a markdown file" unless File.extname(filepath) == ".md"
 
       old_metadata = Bergamasco::Markdown.read_yaml_for_doi_metadata(filepath)
-      return "No new DOI minted" if old_metadata["doi"] && old_metadata["published"]
+      return "DOI #{old_metadata["doi"]} not changed for #{filename}" if old_metadata["doi"] && old_metadata["published"]
 
       metadata = generate_metadata_for_work(filepath, options)
       work = post_metadata_for_work(metadata, options)
 
-      return "Errors for DOI #{metadata["doi"]}:\n#{work.validation_errors}" if work.validation_errors.present?
+      # return "Errors for DOI #{metadata["doi"]}:\n#{work.validation_errors}" if work.validation_errors.present?
 
       new_metadata = Bergamasco::Markdown.update_file(filepath, "doi" => metadata["doi"], "published" => true)
       "DOI #{new_metadata["doi"]} minted for #{filename}"
@@ -51,12 +51,12 @@ module Cirneco
       return "File #{filename} ignored: not a markdown file" unless File.extname(filepath) == ".md"
 
       old_metadata = Bergamasco::Markdown.read_yaml_for_doi_metadata(filepath)
-      return "No new DOI hidden" unless old_metadata["doi"] && old_metadata["published"]
+      return "DOI #{old_metadata["doi"]} not changed for #{filename}" unless old_metadata["doi"] && old_metadata["published"]
 
       metadata = generate_metadata_for_work(filepath, options)
       work = hide_metadata_for_work(metadata, options)
 
-      return "Errors for DOI #{old_metadata["doi"]}:\n#{work.validation_errors}" if work.validation_errors.present?
+      # return "Errors for DOI #{old_metadata["doi"]}:\n#{work.validation_errors}" if work.validation_errors.present?
 
       new_metadata = Bergamasco::Markdown.update_file(filepath, "published" => false)
       "DOI #{old_metadata["doi"]} hidden for #{filename}"
@@ -65,20 +65,20 @@ module Cirneco
     def mint_dois_for_all_files(folderpath, options={})
       Dir.glob("#{folderpath}/*.md").map do |filepath|
         mint_doi_for_file(filepath, options)
-      end.uniq.join("\n")
+      end.join("\n")
     end
 
     def hide_dois_for_all_files(folderpath, options={})
       Dir.glob("#{folderpath}/*.md").map do |filepath|
         hide_doi_for_file(filepath, options)
-      end.uniq.join("\n")
+      end.join("\n")
     end
 
     def generate_metadata_for_work(filepath, options={})
       sitepath = options[:sitepath] || ENV['SITE_SITEPATH'] || "data/site.yml"
       authorpath = options[:authorpath] || ENV['SITE_AUTHORPATH'] || "data/authors.yml"
       referencespath = options[:referencespath] || ENV['SITE_REFERENCESPATH'] || "data/references.yaml"
-      csl = options[:csl] || ENV['SITE_CSL'] || "styles/apa.csl"
+      csl = options[:csl] || ENV['SITE_CSLPATH'] || "styles/apa.csl"
       options = options.merge(csl: csl, bibliography: referencespath)
 
       metadata = Bergamasco::Markdown.read_yaml_for_doi_metadata(filepath, options.except(:number))
@@ -162,9 +162,9 @@ module Cirneco
         }
       end.select { |t| t[:related_identifier_type].present? }
 
-      license_name = site_options.fetch("license", {}).fetch("name", nil) || ENV['SITE_LICENCE_NAME'] || "Creative Commons Attribution"
-      license_url = site_options.fetch("license", {}).fetch("url", nil) || ENV['SITE_LICENCE_URL'] || "https://creativecommons.org/licenses/by/4.0/"
-      metadata["rights_list"] = [{ value: license_name, rights_uri: license_url }]
+      metadata["license_name"] = site_options.fetch("license", {}).fetch("name", nil) || ENV['SITE_LICENCE_NAME'] || "Creative Commons Attribution"
+      metadata["license_url"] = site_options.fetch("license", {}).fetch("url", nil) || ENV['SITE_LICENCE_URL'] || "https://creativecommons.org/licenses/by/4.0/"
+      metadata["rights_list"] = [{ value: metadata["license_name"], rights_uri: metadata["license_url"] }]
 
       metadata["subjects"] = Array(metadata["tags"]).select { |t| t != "featured" }
 
@@ -172,9 +172,11 @@ module Cirneco
       metadata["contributors"] = [{ literal: contributor, contributor_type: "HostingInstitution" }]
 
       metadata["date_issued"] = metadata["date"]
+      metadata["publication_month"] = metadata["date"][5..6]
+      metadata["publication_day"] = metadata["date"][8..9]
 
       metadata = metadata.extract!(*%w(doi url creators title publisher
-        publication_year resource_type descriptions version rights_list subjects contributors
+        publication_year publication_month publication_day resource_type descriptions version license_name license_url rights_list subjects contributors
         date_issued related_identifiers))
     end
 
@@ -197,6 +199,10 @@ module Cirneco
       return work.validation_errors if work.validation_errors.present?
 
       work.delete_metadata(metadata["doi"], options)
+    end
+
+    def generate_jats(filepath, options={})
+      Bergamasco::Pandoc.write_jats(filepath, options)
     end
   end
 end

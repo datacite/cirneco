@@ -1,10 +1,10 @@
 PATH
   remote: .
   specs:
-    cirneco (0.7.2)
+    cirneco (0.7.3)
       activesupport (~> 4.2, >= 4.2.5)
       base32-crockford-checksum (~> 0.2.2)
-      bergamasco (~> 0.2)
+      bergamasco (~> 0.3)
       builder (~> 3.2, >= 3.2.2)
       dotenv (~> 2.1, >= 2.1.1)
       maremma (~> 3.1)
@@ -22,11 +22,10 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.3.8)
     base32-crockford-checksum (0.2.3)
-    bergamasco (0.2.14)
+    bergamasco (0.3.4)
       activesupport (~> 4.2, >= 4.2.5)
       addressable (~> 2.3.8)
       builder (~> 3.2, >= 3.2.2)
-      commonmarker (~> 0.14.0)
       loofah (~> 2.0, >= 2.0.3)
       multi_json (~> 1.11.2)
       nokogiri (~> 1.6.7)
@@ -36,8 +35,6 @@ GEM
     builder (3.2.2)
     codeclimate-test-reporter (1.0.3)
       simplecov
-    commonmarker (0.14.0)
-      ruby-enum (~> 0.4)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     diff-lcs (1.2.5)
@@ -93,8 +90,6 @@ GEM
     rspec-xsd (0.1.0)
       nokogiri (~> 1.6)
       rspec (~> 3)
-    ruby-enum (0.6.0)
-      i18n
     safe_yaml (1.0.4)
     simplecov (0.12.0)
       docile (~> 1.1.0)
