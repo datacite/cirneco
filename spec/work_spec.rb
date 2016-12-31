@@ -40,18 +40,18 @@ describe Cirneco::Work, vcr: true do
     end
 
     it 'validates data' do
-      expect(subject.validation_errors).to be_empty
+      expect(subject.validation_errors.body["errors"]).to be_empty
     end
 
     it 'validates work without resource_type_general with errors' do
       subject.resource_type[:resource_type_general] = nil
-      expect(subject.validation_errors).to eq(["Element '{http://datacite.org/schema/kernel-4}resourceType', attribute 'resourceTypeGeneral': [facet 'enumeration'] The value '' is not an element of the set {'Audiovisual', 'Collection', 'Dataset', 'Event', 'Image', 'InteractiveResource', 'Model', 'PhysicalObject', 'Service', 'Software', 'Sound', 'Text', 'Workflow', 'Other'}.", "Element '{http://datacite.org/schema/kernel-4}resourceType', attribute 'resourceTypeGeneral': '' is not a valid value of the atomic type '{http://datacite.org/schema/kernel-4}resourceType'."])
+      expect(subject.validation_errors.body["errors"]).to eq([{"title"=>"Element '{http://datacite.org/schema/kernel-4}resourceType', attribute 'resourceTypeGeneral': [facet 'enumeration'] The value '' is not an element of the set {'Audiovisual', 'Collection', 'Dataset', 'Event', 'Image', 'InteractiveResource', 'Model', 'PhysicalObject', 'Service', 'Software', 'Sound', 'Text', 'Workflow', 'Other'}."}, {"title"=>"Element '{http://datacite.org/schema/kernel-4}resourceType', attribute 'resourceTypeGeneral': '' is not a valid value of the atomic type '{http://datacite.org/schema/kernel-4}resourceType'."}])
     end
 
     it 'validates work without title with errors' do
       subject.title = nil
-      expect(subject.validation_errors).to eq(["Element '{http://datacite.org/schema/kernel-4}title': [facet 'minLength'] The value has a length of '0'; this underruns the allowed minimum length of '1'.",
-        "Element '{http://datacite.org/schema/kernel-4}title': '' is not a valid value of the atomic type '{http://datacite.org/schema/kernel-4}nonemptycontentStringType'."])
+      expect(subject.validation_errors.body["errors"]).to eq([{"title"=>"Element '{http://datacite.org/schema/kernel-4}title': [facet 'minLength'] The value has a length of '0'; this underruns the allowed minimum length of '1'."},
+        {"title"=>"Element '{http://datacite.org/schema/kernel-4}title': '' is not a valid value of the atomic type '{http://datacite.org/schema/kernel-4}nonemptycontentStringType'."}])
     end
   end
 end

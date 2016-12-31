@@ -14,6 +14,7 @@ module Cirneco
     method_option :username, :default => ENV['MDS_USERNAME']
     method_option :password, :default => ENV['MDS_PASSWORD']
     method_option :sandbox, :type => :boolean, :force => false
+    method_option :limit, :type => :numeric, :default => 25
     def get(doi)
       if doi == "all"
         response = get_dois(options)
@@ -23,6 +24,8 @@ module Cirneco
 
       if response.body["errors"]
         puts "Error: " + response.body["errors"].first.fetch("title", "An error occured")
+      elsif doi == "all"
+        puts response.body["data"][0...options[:limit]]
       else
         puts response.body["data"]
       end
@@ -52,6 +55,14 @@ module Cirneco
       else
         puts "No PREFIX provided. Use --prefix option or PREFIX ENV variable"
       end
+    end
+
+    desc "generate DOI", "generate a DOI name"
+    method_option :lower_limit, :type => :numeric, :default => 0
+    method_option :namespace, :default => 'MS-'
+    method_option :number, :type => :numeric, :aliases => '-n'
+    def accession_number
+      puts generate_accession_number(options)
     end
 
     desc "decode DOI", "decode DOI encoded using Crockford base32 algorithm"
@@ -86,10 +97,10 @@ module Cirneco
     method_option :sandbox, :type => :boolean, :force => false
     def mint(filepath)
 
-      if File.directory?(filepath)
-        response = mint_dois_for_all_files(filepath, options)
+      if filepath.is_a?(Array)
+        response = mint_dois_for_all_urls(filepath, options)
       else
-        response = mint_doi_for_file(filepath, options)
+        response = mint_doi_for_url(filepath, options)
       end
 
       puts response
@@ -107,10 +118,10 @@ module Cirneco
     method_option :sandbox, :type => :boolean, :force => false
     def mint_and_hide(filepath)
 
-      if File.directory?(filepath)
-        response = mint_and_hide_dois_for_all_files(filepath, options)
+      if filepath.is_a?(Array)
+        response = mint_and_hide_dois_for_all_urls(filepath, options)
       else
-        response = mint_and_hide_doi_for_file(filepath, options)
+        response = mint_and_hide_doi_for_url(filepath, options)
       end
 
       puts response
@@ -127,10 +138,10 @@ module Cirneco
     method_option :sandbox, :type => :boolean, :force => false
     def hide(filepath)
 
-      if File.directory?(filepath)
-        response = hide_dois_for_all_files(filepath, options)
+      if filepath.is_a?(Array)
+        response = hide_dois_for_all_urls(filepath, options)
       else
-        response = hide_doi_for_file(filepath, options)
+        response = hide_doi_for_url(filepath, options)
       end
 
       puts response

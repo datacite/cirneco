@@ -11,7 +11,7 @@ module Cirneco
     include Cirneco::Api
     include Cirneco::Utils
 
-    attr_accessor :doi, :url, :creators, :title, :publisher, :publication_year, :resource_type, :version, :related_identifiers, :rights_list, :descriptions, :contributors, :date_issued, :subjects, :media, :username, :password, :validation_errors
+    attr_accessor :doi, :url, :creators, :title, :publisher, :publication_year, :resource_type, :version, :alternate_identifier, :related_identifiers, :rights_list, :descriptions, :contributors, :date_issued, :date_created, :date_updated, :subjects, :media, :username, :password, :validation_errors
 
     def initialize(metadata, **options)
       @doi = metadata.fetch("doi", nil)
@@ -24,9 +24,12 @@ module Cirneco
       @version = metadata.fetch("version", nil)
       @rights_list = metadata.fetch("rights_list", nil)
       @date_issued = metadata.fetch("date_issued", nil)
+      @date_created = metadata.fetch("date_created", nil)
+      @date_updated = metadata.fetch("date_updated", nil)
       @subjects = metadata.fetch("subjects", nil)
       @descriptions = metadata.fetch("descriptions", nil)
       @contributors = metadata.fetch("contributors", nil)
+      @alternate_identifier = metadata.fetch("alternate_identifier", nil)
       @related_identifiers = metadata.fetch("related_identifiers", nil)
 
       @media = options.fetch(:media, nil)
@@ -120,15 +123,15 @@ module Cirneco
     end
 
     def insert_dates(xml)
-      return xml unless date_issued.present?
-
       xml.dates do
-        insert_date(xml)
+        insert_date(xml, date_created, 'Created') if date_created.present?
+        insert_date(xml, date_issued, 'Issued') if date_issued.present?
+        insert_date(xml, date_updated, 'Updated') if date_updated.present?
       end
     end
 
-    def insert_date(xml)
-      xml.date(date_issued, 'dateType' => 'Issued')
+    def insert_date(xml, date, date_type)
+      xml.date(date, 'dateType' => date_type)
     end
 
     def insert_subjects(xml)
@@ -198,7 +201,7 @@ module Cirneco
     end
 
     def validation_errors
-      @validation_errors ||= schema.validate(Nokogiri::XML(data)).map { |error| error.to_s }
+      @validation_errors ||= OpenStruct.new(body: { "errors" => schema.validate(Nokogiri::XML(data)).map { |error| { "title" => error.to_s } } })
     end
   end
 end
