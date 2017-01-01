@@ -50,6 +50,15 @@ describe Cirneco::Doi do
       subject.options = { number: number }
       expect { subject.accession_number }.to output("MS-123\n").to_stdout
     end
+
+    it 'updates accession_number for file' do
+      expect { subject.name fixture_path + 'cool-dois.html.md' }.to output("Accession number MS-123 not changed for cool-dois.html.md\n").to_stdout
+    end
+
+    it 'updates accession_number for all files with opt-in' do
+      subject.options = { opt_in: true }
+      expect { subject.name fixture_path }.to output("Accession number MS-124 not changed for cool-dois-minted.html.md\nFile cool-dois-no-accession-number.html.md ignored: no empty accession_number\nAccession number MS-123 not changed for cool-dois.html.md\n").to_stdout
+    end
   end
 
   context "base32" do

@@ -85,6 +85,22 @@ module Cirneco
       end
     end
 
+    desc "name DOCUMENT", "name document"
+    method_option :length, :type => :numeric
+    method_option :lower_limit, :type => :numeric
+    method_option :split, :type => :numeric, :default => 4
+    method_option :namespace, :default => 'MS-'
+    method_option :opt_in, :type => :boolean
+    def name(filepath)
+      if File.directory?(filepath)
+        response = update_all_accession_numbers(filepath, options)
+      else
+        response = update_accession_number(filepath, options)
+      end
+
+      puts response
+    end
+
     desc "mint DOCUMENT", "mint document"
     method_option :sitepath, :default => ENV['SITE_SITEPATH']
     method_option :authorpath, :default => ENV['SITE_AUTHORPATH']
@@ -95,12 +111,12 @@ module Cirneco
     method_option :password, :default => ENV['MDS_PASSWORD']
     method_option :prefix, :default => ENV['PREFIX']
     method_option :sandbox, :type => :boolean, :force => false
-    def mint(filepath)
+    def mint(url)
 
-      if filepath.is_a?(Array)
-        response = mint_dois_for_all_urls(filepath, options)
+      if url.is_a?(Array)
+        response = mint_dois_for_all_urls(url, options)
       else
-        response = mint_doi_for_url(filepath, options)
+        response = mint_doi_for_url(url, options)
       end
 
       puts response
@@ -116,12 +132,12 @@ module Cirneco
     method_option :password, :default => ENV['MDS_PASSWORD']
     method_option :prefix, :default => ENV['PREFIX']
     method_option :sandbox, :type => :boolean, :force => false
-    def mint_and_hide(filepath)
+    def mint_and_hide(url)
 
-      if filepath.is_a?(Array)
-        response = mint_and_hide_dois_for_all_urls(filepath, options)
+      if url.is_a?(Array)
+        response = mint_and_hide_dois_for_all_urls(url, options)
       else
-        response = mint_and_hide_doi_for_url(filepath, options)
+        response = mint_and_hide_doi_for_url(url, options)
       end
 
       puts response
@@ -136,12 +152,12 @@ module Cirneco
     method_option :username, :default => ENV['MDS_USERNAME']
     method_option :password, :default => ENV['MDS_PASSWORD']
     method_option :sandbox, :type => :boolean, :force => false
-    def hide(filepath)
+    def hide(url)
 
-      if filepath.is_a?(Array)
-        response = hide_dois_for_all_urls(filepath, options)
+      if url.is_a?(Array)
+        response = hide_dois_for_all_urls(url, options)
       else
-        response = hide_doi_for_url(filepath, options)
+        response = hide_doi_for_url(url, options)
       end
 
       puts response

@@ -65,16 +65,20 @@ module Cirneco
     end
 
     def get_all_accession_numbers(folderpath)
-      Dir.glob("#{folderpath}/*.md").map do |filepath|
+      Dir.glob("#{folderpath}/*.md").sort.map do |filepath|
         get_accession_number(filepath)
       end.select { |a| a > 0 }.sort
     end
 
     def update_accession_number(filepath, options={})
       filename = File.basename(filepath)
-      return "File #{filename} ignored: not a markdown file" unless File.extname(filepath) == ".md"
+      return "File #{filename} ignored: not a markdown or html file" unless %w(.md .html).include?(File.extname(filepath))
 
       old_metadata = Bergamasco::Markdown.read_yaml_for_doi_metadata(filepath)
+      return "File #{filename} ignored: no yaml front matter" unless old_metadata.present?
+
+      return "File #{filename} ignored: no empty accession_number" if options[:opt_in] && !old_metadata.key?("accession_number")
+
       return "Accession number #{old_metadata["accession_number"]} not changed for #{filename}" if old_metadata["accession_number"]
 
       if old_metadata["doi"].present?
@@ -91,9 +95,9 @@ module Cirneco
       "Accession number #{new_metadata["accession_number"]} generated for #{filename}"
     end
 
-    def update_all_accession_numbers(folderpath)
-      Dir.glob("#{folderpath}/*.md").map do |filepath|
-        update_accession_number(filepath)
+    def update_all_accession_numbers(folderpath, options={})
+      Dir.glob("#{folderpath}/*.md").sort.map do |filepath|
+        update_accession_number(filepath, options)
       end
     end
 
