@@ -48,7 +48,7 @@ module Cirneco
 
     desc "generate DOI", "generate a DOI name"
     method_option :prefix, :default => ENV['PREFIX']
-    method_option :number, :type => :numeric, :aliases => '-n'
+    method_option :number, :aliases => '-n'
     def generate
       if options[:prefix]
         puts encode_doi(options[:prefix], number: options[:number])
@@ -60,7 +60,7 @@ module Cirneco
     desc "generate DOI", "generate a DOI name"
     method_option :lower_limit, :type => :numeric, :default => 0
     method_option :namespace, :default => 'MS-'
-    method_option :number, :type => :numeric, :aliases => '-n'
+    method_option :number, :aliases => '-n'
     def accession_number
       puts generate_accession_number(options)
     end
@@ -106,7 +106,7 @@ module Cirneco
     method_option :authorpath, :default => ENV['SITE_AUTHORPATH']
     method_option :referencespath, :default => ENV['SITE_REFERENCESPATH']
     method_option :csl, :default => ENV['SITE_CSLPATH']
-    method_option :number, :type => :numeric, :aliases => '-n'
+    method_option :number, :aliases => '-n'
     method_option :username, :default => ENV['MDS_USERNAME']
     method_option :password, :default => ENV['MDS_PASSWORD']
     method_option :prefix, :default => ENV['PREFIX']
@@ -127,7 +127,7 @@ module Cirneco
     method_option :authorpath, :default => ENV['SITE_AUTHORPATH']
     method_option :referencespath, :default => ENV['SITE_REFERENCESPATH']
     method_option :csl, :default => ENV['SITE_CSLPATH']
-    method_option :number, :type => :numeric, :aliases => '-n'
+    method_option :number, :aliases => '-n'
     method_option :username, :default => ENV['MDS_USERNAME']
     method_option :password, :default => ENV['MDS_PASSWORD']
     method_option :prefix, :default => ENV['PREFIX']
