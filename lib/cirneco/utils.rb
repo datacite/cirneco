@@ -204,7 +204,7 @@ module Cirneco
       metadata["version"] ||= "1.0"
 
       # fetch reference metadata if available
-      metadata["related_identifiers"] = format_citations(metadata["citation"])
+      metadata["related_identifiers"] = get_related_identifiers(metadata)
 
       if metadata["license"].present?
         value = LICENSES.fetch(metadata["license_url"], nil)
@@ -283,9 +283,13 @@ module Cirneco
       end
     end
 
-    def format_citations(citations)
-      Array(citations).map do |r|
+    def get_related_identifiers(metadata)
+      citations = Array(metadata["citation"])
+      parts = Array(metadata["IsPartOf"]).map { |r| r["relation_type"] = "IsPartOf" }
+
+      (citations + parts).map do |r|
         id = r.fetch("@id", "")
+        relation_type = r.fetch("relation_type", "References")
 
         if /(http|https):\/\/(dx\.)?doi\.org\/(\w+)/.match(id)
           uri = Addressable::URI.parse(id)
@@ -302,7 +306,7 @@ module Cirneco
         {
           value: value,
           related_identifier_type: type,
-          relation_type: "References"
+          relation_type: relation_type
         }
       end.select { |t| t[:related_identifier_type].present? }
     end

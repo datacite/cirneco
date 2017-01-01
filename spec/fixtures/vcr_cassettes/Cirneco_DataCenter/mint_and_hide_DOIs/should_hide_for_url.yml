@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: delete
-    uri: https://mds.test.datacite.org/metadata/10.5072/0000-03WD
+    uri: https://mds-sandbox.datacite.org/metadata/10.5072/0000-03WD
     body:
       encoding: US-ASCII
       string: ''
@@ -19,9 +19,9 @@ http_interactions:
       message: ''
     headers:
       Server:
-      - nginx/1.4.6 (Ubuntu)
+      - openresty/1.11.2.1
       Date:
-      - Sat, 31 Dec 2016 14:53:33 GMT
+      - Sun, 01 Jan 2017 16:05:20 GMT
       Content-Type:
       - text/html;charset=UTF-8
       Connection:
@@ -32,9 +32,13 @@ http_interactions:
       - Thu, 01 Jan 1970 00:00:00 GMT
       Cache-Control:
       - no-cache, no-store
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
     body:
       encoding: UTF-8
       string: OK
     http_version: 
-  recorded_at: Sat, 31 Dec 2016 14:53:33 GMT
+  recorded_at: Sun, 01 Jan 2017 16:05:20 GMT
 recorded_with: VCR 3.0.3

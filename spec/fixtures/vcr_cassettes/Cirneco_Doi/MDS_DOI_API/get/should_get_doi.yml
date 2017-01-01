@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://mds.test.datacite.org/doi/10.5072/0000-03VC
+    uri: https://mds-sandbox.datacite.org/doi/10.5072/0000-03VC
     body:
       encoding: US-ASCII
       string: ''
@@ -19,9 +19,9 @@ http_interactions:
       message: ''
     headers:
       Server:
-      - nginx/1.4.6 (Ubuntu)
+      - openresty/1.11.2.1
       Date:
-      - Sat, 31 Dec 2016 14:59:14 GMT
+      - Sun, 01 Jan 2017 15:59:42 GMT
       Content-Type:
       - text/html;charset=UTF-8
       Connection:
@@ -32,9 +32,13 @@ http_interactions:
       - Thu, 01 Jan 1970 00:00:00 GMT
       Cache-Control:
       - no-cache, no-store
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
     body:
       encoding: UTF-8
       string: http://www.datacite.org
     http_version: 
-  recorded_at: Sat, 31 Dec 2016 14:59:14 GMT
+  recorded_at: Sun, 01 Jan 2017 15:59:42 GMT
 recorded_with: VCR 3.0.3

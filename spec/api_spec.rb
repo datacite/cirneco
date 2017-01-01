@@ -33,7 +33,7 @@ describe Cirneco::Work, vcr: true, :order => :defined do
         response = subject.post_metadata(subject.data, options)
         expect(response.body["data"]).to eq("OK (10.5072/0000-03VC)")
         expect(response.status).to eq(201)
-        expect(response.headers["Location"]).to eq("https://mds.test.datacite.org/metadata/10.5072/0000-03VC")
+        expect(response.headers["Location"]).to eq("http://mds-sandbox.datacite.org/metadata/10.5072/0000-03VC")
       end
     end
 
@@ -66,7 +66,7 @@ describe Cirneco::Work, vcr: true, :order => :defined do
       it 'should get all dois' do
         response = subject.get_dois(options)
         dois = response.body["data"]
-        expect(dois.length).to eq(503)
+        expect(dois.length).to eq(504)
         expect(dois.first).to eq("10.23725/0000-03VC")
       end
 

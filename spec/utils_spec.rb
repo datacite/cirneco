@@ -17,7 +17,7 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
     it 'should get all dois by prefix' do
       response = subject.get_dois_by_prefix(prefix, options)
       dois = response.body["data"]
-      expect(dois.length).to eq(62)
+      expect(dois.length).to eq(64)
       expect(dois.first).to eq("10.5072/0000-03VC")
     end
   end

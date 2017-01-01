@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://mds.test.datacite.org/metadata
+    uri: https://mds-sandbox.datacite.org/metadata
     body:
       encoding: UTF-8
       string: |
@@ -23,6 +23,9 @@ http_interactions:
           <publisher>DataCite</publisher>
           <publicationYear>2016</publicationYear>
           <resourceType resourceTypeGeneral="Text">BlogPosting</resourceType>
+          <alternateIdentifiers>
+            <alternateIdentifier alternateIdentifierType="Local accession number">MS-123</alternateIdentifier>
+          </alternateIdentifiers>
           <subjects>
             <subject>doi</subject>
           </subjects>
@@ -55,13 +58,11 @@ http_interactions:
       message: ''
     headers:
       Server:
-      - nginx/1.4.6 (Ubuntu)
+      - openresty/1.11.2.1
       Date:
-      - Sat, 31 Dec 2016 15:33:07 GMT
+      - Sun, 01 Jan 2017 15:59:36 GMT
       Content-Type:
       - text/html;charset=UTF-8
-      Location:
-      - https://mds.test.datacite.org/metadata/10.5072/0000-03VC
       Connection:
       - keep-alive
       Pragma:
@@ -70,14 +71,20 @@ http_interactions:
       - Thu, 01 Jan 1970 00:00:00 GMT
       Cache-Control:
       - no-cache, no-store
+      Location:
+      - http://mds-sandbox.datacite.org/metadata/10.5072/0000-03VC
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
     body:
       encoding: UTF-8
       string: OK (10.5072/0000-03VC)
     http_version: 
-  recorded_at: Sat, 31 Dec 2016 15:33:07 GMT
+  recorded_at: Sun, 01 Jan 2017 15:59:36 GMT
 - request:
     method: put
-    uri: https://mds.test.datacite.org/doi/10.5072/0000-03VC
+    uri: https://mds-sandbox.datacite.org/doi/10.5072/0000-03VC
     body:
       encoding: UTF-8
       string: |-
@@ -98,9 +105,9 @@ http_interactions:
       message: ''
     headers:
       Server:
-      - nginx/1.4.6 (Ubuntu)
+      - openresty/1.11.2.1
       Date:
-      - Sat, 31 Dec 2016 15:33:08 GMT
+      - Sun, 01 Jan 2017 15:59:37 GMT
       Content-Type:
       - text/html;charset=UTF-8
       Connection:
@@ -111,9 +118,13 @@ http_interactions:
       - Thu, 01 Jan 1970 00:00:00 GMT
       Cache-Control:
       - no-cache, no-store
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
     body:
       encoding: UTF-8
       string: OK
     http_version: 
-  recorded_at: Sat, 31 Dec 2016 15:33:08 GMT
+  recorded_at: Sun, 01 Jan 2017 15:59:37 GMT
 recorded_with: VCR 3.0.3

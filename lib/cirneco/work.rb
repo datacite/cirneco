@@ -55,6 +55,7 @@ module Cirneco
       insert_publisher(xml)
       insert_publication_year(xml)
       insert_resource_type(xml)
+      insert_alternate_identifiers(xml)
       insert_subjects(xml)
       insert_contributors(xml)
       insert_dates(xml)
@@ -120,6 +121,14 @@ module Cirneco
 
     def insert_resource_type(xml)
       xml.resourceType(resource_type[:value], 'resourceTypeGeneral' => resource_type[:resource_type_general])
+    end
+
+    def insert_alternate_identifiers(xml)
+      return xml unless alternate_identifier.present?
+
+      xml.alternateIdentifiers do
+        xml.alternateIdentifier(alternate_identifier, 'alternateIdentifierType' => "Local accession number")
+      end
     end
 
     def insert_dates(xml)

@@ -16,6 +16,6 @@ module Cirneco
     end
 
     # default values for some ENV variables
-    ENV['MDS_URL'] ||= "https://mds.test.datacite.org"
+    ENV['MDS_URL'] ||= "https://mds-sandbox.datacite.org"
   end
 end
