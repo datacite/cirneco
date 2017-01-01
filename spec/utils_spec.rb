@@ -103,7 +103,7 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
 
     it 'should update for all files' do
       response = subject.update_all_accession_numbers(fixture_path)
-      expect(response).to eq(["Accession number MS-124 not changed for cool-dois-minted.html.md", "Accession number MS-123 not changed for cool-dois.html.md"])
+      expect(response).to eq(["Accession number MS-123 not changed for cool-dois.html.md", "Accession number MS-124 not changed for cool-dois-minted.html.md"])
     end
   end
 
