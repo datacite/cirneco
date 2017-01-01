@@ -168,6 +168,15 @@ module Cirneco
       end.join("\n")
     end
 
+    def get_urls_for_works(url)
+      doc = Nokogiri::HTML(open(url))
+      json = doc.at_xpath("//script[@type='application/ld+json']")
+      return [url] unless json.present?
+
+      metadata = ActiveSupport::JSON.decode(json.text)
+      metadata.fetch("hasPart", []).map { |p| p["@id"] } + [url]
+    end
+
     def generate_metadata_for_work(url, options={})
       doc = Nokogiri::HTML(open(url))
       json = doc.at_xpath("//script[@type='application/ld+json']")

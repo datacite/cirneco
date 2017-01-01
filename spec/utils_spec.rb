@@ -108,6 +108,12 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
   end
 
   context "mint and hide DOIs" do
+    it 'get urls for works' do
+      filepath = fixture_path + 'index.html'
+      response = subject.get_urls_for_works(filepath)
+      expect(response.length).to eq(66)
+    end
+
     it 'should mint for url' do
       filepath = fixture_path + 'cool-dois.html'
       response = subject.mint_doi_for_url(filepath, options)
