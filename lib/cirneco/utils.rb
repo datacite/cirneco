@@ -72,7 +72,7 @@ module Cirneco
 
     def update_accession_number(filepath, options={})
       filename = File.basename(filepath)
-      return "File #{filename} ignored: not a markdown or html file" unless %w(.md .html).include?(File.extname(filepath))
+      return "File #{filename} ignored: not a markdown or html file" unless %w(.md .html .erb).include?(File.extname(filepath))
 
       old_metadata = Bergamasco::Markdown.read_yaml_for_doi_metadata(filepath)
       return "File #{filename} ignored: no yaml front matter" unless old_metadata.present?
