@@ -5,6 +5,7 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
   let(:username) { ENV['MDS_USERNAME'] }
   let(:password) { ENV['MDS_PASSWORD'] }
   let(:source_dir) { "/spec/fixtures/" }
+  let(:bibliography) { "spec/fixtures/references.yaml" }
   let(:options) { { username: username,
                     password: password,
                     sandbox: true,
@@ -206,7 +207,7 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
 
     it 'should generate jats xml' do
       filepath = fixture_path + 'cool-dois/index.html'
-      expect(subject.generate_jats_for_url(filepath, options)).to eq("JATS XML written for cool-dois.html.md")
+      expect(subject.generate_jats_for_url(filepath, options.merge(bibliography: bibliography))).to eq("JATS XML written for cool-dois.html.md")
     end
 
     it 'should generate jats for all urls' do
