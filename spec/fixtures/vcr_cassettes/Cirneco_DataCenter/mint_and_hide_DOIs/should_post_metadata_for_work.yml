@@ -37,6 +37,7 @@ http_interactions:
           <relatedIdentifiers>
             <relatedIdentifier relatedIdentifierType="URL" relationType="References">https://www.w3.org/Provider/Style/URI</relatedIdentifier>
             <relatedIdentifier relatedIdentifierType="DOI" relationType="References">10.1371/JOURNAL.PONE.0115253</relatedIdentifier>
+            <relatedIdentifier relatedIdentifierType="URL" relationType="IsPartOf">https://blog.datacite.org/</relatedIdentifier>
           </relatedIdentifiers>
           <version>1.0</version>
           <descriptions>
@@ -60,7 +61,7 @@ http_interactions:
       Server:
       - openresty/1.11.2.1
       Date:
-      - Mon, 02 Jan 2017 09:16:27 GMT
+      - Mon, 02 Jan 2017 21:21:36 GMT
       Content-Type:
       - text/html;charset=UTF-8
       Connection:
@@ -81,7 +82,7 @@ http_interactions:
       encoding: UTF-8
       string: OK (10.5072/0000-03VC)
     http_version: 
-  recorded_at: Mon, 02 Jan 2017 09:16:27 GMT
+  recorded_at: Mon, 02 Jan 2017 21:21:36 GMT
 - request:
     method: put
     uri: https://mds-sandbox.datacite.org/doi/10.5072/0000-03VC
@@ -107,7 +108,7 @@ http_interactions:
       Server:
       - openresty/1.11.2.1
       Date:
-      - Mon, 02 Jan 2017 09:16:27 GMT
+      - Mon, 02 Jan 2017 21:21:37 GMT
       Content-Type:
       - text/html;charset=UTF-8
       Connection:
@@ -126,5 +127,48 @@ http_interactions:
       encoding: UTF-8
       string: OK
     http_version: 
-  recorded_at: Mon, 02 Jan 2017 09:16:27 GMT
+  recorded_at: Mon, 02 Jan 2017 21:21:37 GMT
+- request:
+    method: post
+    uri: https://mds-sandbox.datacite.org/media/10.5072/0000-03VC
+    body:
+      encoding: UTF-8
+      string: application/xml=https://blog.datacite.org/cool-dois/cool-dois.xml
+    headers:
+      User-Agent:
+      - Maremma - https://github.com/datacite/maremma
+      Content-Type:
+      - text/plain;charset=UTF-8
+      Accept:
+      - text/html,application/json,application/xml;q=0.9, text/plain;q=0.8,image/png,*/*;q=0.5
+      Authorization:
+      - Basic <MDS_TOKEN>
+  response:
+    status:
+      code: 200
+      message: ''
+    headers:
+      Server:
+      - openresty/1.11.2.1
+      Date:
+      - Mon, 02 Jan 2017 21:21:37 GMT
+      Content-Type:
+      - text/html;charset=UTF-8
+      Connection:
+      - keep-alive
+      Pragma:
+      - no-cache
+      Expires:
+      - Thu, 01 Jan 1970 00:00:00 GMT
+      Cache-Control:
+      - no-cache, no-store
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+    body:
+      encoding: UTF-8
+      string: OK
+    http_version: 
+  recorded_at: Mon, 02 Jan 2017 21:21:37 GMT
 recorded_with: VCR 3.0.3

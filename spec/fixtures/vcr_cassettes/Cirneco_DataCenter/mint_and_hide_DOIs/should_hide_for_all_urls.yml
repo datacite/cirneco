@@ -23,18 +23,18 @@ http_interactions:
       Location:
       - https://blog.datacite.org/cool-dois/
       Expires:
-      - Mon, 02 Jan 2017 09:38:08 GMT
+      - Mon, 02 Jan 2017 21:39:42 GMT
       Content-Type:
       - text/html;charset=utf-8
       Content-Length:
       - '157'
       Date:
-      - Mon, 02 Jan 2017 09:36:56 GMT
+      - Mon, 02 Jan 2017 21:21:31 GMT
     body:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Mon, 02 Jan 2017 09:36:57 GMT
+  recorded_at: Mon, 02 Jan 2017 21:21:32 GMT
 - request:
     method: delete
     uri: https://mds-sandbox.datacite.org/metadata/10.5072/0000-NW90
@@ -56,7 +56,7 @@ http_interactions:
       Server:
       - openresty/1.11.2.1
       Date:
-      - Mon, 02 Jan 2017 09:36:57 GMT
+      - Mon, 02 Jan 2017 21:21:33 GMT
       Content-Length:
       - '17'
       Connection:
@@ -75,5 +75,5 @@ http_interactions:
       encoding: UTF-8
       string: DOI doesn't exist
     http_version: 
-  recorded_at: Mon, 02 Jan 2017 09:36:57 GMT
+  recorded_at: Mon, 02 Jan 2017 21:21:33 GMT
 recorded_with: VCR 3.0.3

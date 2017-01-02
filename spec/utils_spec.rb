@@ -184,7 +184,7 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
       metadata = subject.generate_metadata_for_work(filepath)
       response = subject.post_metadata_for_work(metadata, options)
       expect(response.body["data"]).to eq("OK")
-      expect(response.status).to eq(201)
+      expect(response.status).to eq(200)
     end
 
     it 'should hide_metadata_for_work' do

@@ -109,7 +109,7 @@ module Cirneco
       return "DOI #{metadata["doi"]} not changed for #{filename}" if metadata["doi"] && metadata["date_issued"]
 
       response = post_metadata_for_work(metadata, options)
-      return "Errors for DOI #{metadata["doi"]}: #{response.body['errors'].first['title']}\n" if response.body['errors']
+      return "Errors for DOI #{metadata["doi"]}: #{response.body['errors'].first['title']}\n" if response.body['errors'].present?
 
       new_metadata = Bergamasco::Markdown.update_file(source_path, "doi" => metadata["doi"], "published" => true)
       "DOI #{new_metadata["doi"]} minted for #{filename}"
@@ -123,7 +123,7 @@ module Cirneco
       return "DOI #{metadata["doi"]} not changed for #{filename}" if metadata["doi"] && metadata["date_issued"]
 
       response = post_metadata_for_work(metadata, options)
-      return "Errors for DOI #{metadata["doi"]}: #{response.body['errors'].first['title']}\n" if response.body['errors']
+      return "Errors for DOI #{metadata["doi"]}: #{response.body['errors'].first['title']}\n" if response.body['errors'].present?
 
       new_metadata = Bergamasco::Markdown.update_file(source_path, "doi" => metadata["doi"], "published" => false)
       "DOI #{new_metadata["doi"]} minted and hidden for #{filename}"
@@ -139,7 +139,7 @@ module Cirneco
       return "DOI #{metadata["doi"]} not active for #{filename}" unless metadata["date_issued"]
 
       response = hide_metadata_for_work(metadata, options)
-      return "Errors for DOI #{metadata["doi"]}: #{response.body['errors'].first['title']}\n" if response.body['errors']
+      return "Errors for DOI #{metadata["doi"]}: #{response.body['errors'].first['title']}\n" if response.body['errors'].present?
 
       new_metadata = Bergamasco::Markdown.update_file(source_path, "published" => false)
       "DOI #{metadata["doi"]} hidden for #{filename}"
@@ -231,13 +231,15 @@ module Cirneco
         metadata["subjects"] = Array(metadata["keywords"].split(", ")).select { |k| k != "featured" }
       end
 
+      metadata["media"] = format_media(metadata)
+
       metadata["date_created"] = metadata["dateCreated"]
       metadata["date_issued"] = metadata["datePublished"]
       metadata["date_updated"] = metadata["dateModified"]
 
       metadata = metadata.extract!(*%w(doi alternate_identifier url creators title
         publisher publication_year resource_type descriptions version rights_list
-        subjects date_issued date_created date_updated related_identifiers))
+        subjects date_issued date_created date_updated related_identifiers media))
     end
 
     def post_metadata_for_work(metadata, options={})
@@ -250,7 +252,14 @@ module Cirneco
       response = work.post_metadata(work.data, options)
       return response unless response.status == 201
 
-      work.put_doi(metadata["doi"], options.merge(url: metadata["url"]))
+      response = work.put_doi(metadata["doi"], options.merge(url: metadata["url"]))
+      return response unless response.status == 201
+
+      if work.media.present?
+        work.post_media(metadata["doi"], options.merge(media: work.media))
+      else
+        response
+      end
     end
 
     def post_and_hide_metadata_for_work(metadata, options={})
@@ -266,7 +275,14 @@ module Cirneco
       response = work.put_doi(metadata["doi"], options.merge(url: metadata["url"]))
       return response unless response.status == 201
 
-      work.delete_metadata(metadata["doi"], options)
+      response = work.delete_metadata(metadata["doi"], options)
+      return response unless response.status == 201
+
+      if work.media.present?
+        work.post_media(metadata["doi"], options.merge(media: work.media))
+      else
+        response
+      end
     end
 
     def hide_metadata_for_work(metadata, options={})
@@ -400,6 +416,13 @@ module Cirneco
           relation_type: relation_type
         }
       end.select { |t| t[:related_identifier_type].present? }
+    end
+
+    def format_media(metadata)
+      [metadata["encoding"]].compact.map do |m|
+        { mime_type: m["fileFormat"],
+          url: m["@id"] }
+      end
     end
 
     def filepath_from_url(url, options={})

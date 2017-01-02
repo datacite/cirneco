@@ -11,6 +11,7 @@ describe Cirneco::Work, vcr: true do
   let(:subjects) { ["000 computer science"] }
   let(:descriptions) { [{ value: "XML example of all DataCite Metadata Schema v4.0 properties.", description_type: "Abstract" }] }
   let(:rights_list) { [{ value: "CC0 1.0 Universal", rights_uri: "http://creativecommons.org/publicdomain/zero/1.0/" }] }
+  let(:media) { [{ mime_type: "application/pdf", url:"http://www.datacite.org/cirneco-test.pdf" }]}
   let(:metadata) { { "doi" => doi,
                      "url" => url,
                      "creators" => creators,
@@ -20,8 +21,8 @@ describe Cirneco::Work, vcr: true do
                      "resource_type" => resource_type,
                      "subjects" => subjects,
                      "descriptions" => descriptions,
-                     "rights_list" => rights_list } }
-  let(:media) { [{ mime_type: "application/pdf", url:"http://www.datacite.org/cirneco-test.pdf" }]}
+                     "rights_list" => rights_list,
+                     "media" => media } }
   let(:username) { ENV['MDS_USERNAME'] }
   let(:password) { ENV['MDS_PASSWORD'] }
   let(:fixture_path) { "spec/fixtures/" }
@@ -52,6 +53,12 @@ describe Cirneco::Work, vcr: true do
       subject.title = nil
       expect(subject.validation_errors.body["errors"]).to eq([{"title"=>"Element '{http://datacite.org/schema/kernel-4}title': [facet 'minLength'] The value has a length of '0'; this underruns the allowed minimum length of '1'."},
         {"title"=>"Element '{http://datacite.org/schema/kernel-4}title': '' is not a valid value of the atomic type '{http://datacite.org/schema/kernel-4}nonemptycontentStringType'."}])
+    end
+  end
+
+  describe 'media' do
+    it 'includes media' do
+      expect(subject.media).to eq([{:mime_type=>"application/pdf", :url=>"http://www.datacite.org/cirneco-test.pdf"}])
     end
   end
 end

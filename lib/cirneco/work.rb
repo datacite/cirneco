@@ -31,8 +31,7 @@ module Cirneco
       @contributors = metadata.fetch("contributors", nil)
       @alternate_identifier = metadata.fetch("alternate_identifier", nil)
       @related_identifiers = metadata.fetch("related_identifiers", nil)
-
-      @media = options.fetch(:media, nil)
+      @media = metadata.fetch("media", nil)
 
       @username = options.fetch(:username, nil)
       @password = options.fetch(:password, nil)
