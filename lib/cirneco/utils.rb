@@ -301,9 +301,10 @@ module Cirneco
 
     def get_related_identifiers(metadata)
       citations = Array(metadata["citation"])
-      parts = Array(metadata["IsPartOf"]).map { |r| r["relation_type"] = "IsPartOf" }
+      parent = [metadata["isPartOf"]].compact.map { |r| r.merge("relation_type" => "IsPartOf") }
+      children = Array(metadata["hasPart"]).map { |r| r.merge("relation_type" => "HasPart") }
 
-      (citations + parts).map do |r|
+      (citations + parent + children).map do |r|
         id = r.fetch("@id", "")
         relation_type = r.fetch("relation_type", "References")
 

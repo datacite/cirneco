@@ -163,7 +163,10 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
           :relation_type=>"References"},
         { :value=>"10.1371/JOURNAL.PONE.0115253",
           :related_identifier_type=>"DOI",
-          :relation_type=>"References" }])
+          :relation_type=>"References" },
+        { :value=>"https://blog.datacite.org/",
+          :related_identifier_type=>"URL",
+          :relation_type=>"IsPartOf"}])
     end
 
     it 'should generate metadata for work no JSON-LD' do
@@ -199,6 +202,16 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
     #   xml_path = subject.generate_jats(filepath, options.merge(metadata: metadata))
     #   expect(xml_path).to eq(fixture_path + 'cool-dois.xml')
     # end
+  end
+
+  context "get_related_identifiers" do
+    it 'isPartOf' do
+      metadata = { "isPartOf" => {
+        "@type" => "Blog",
+        "@id" => "https://blog.datacite.org",
+        "name" => "DataCite Blog" } }
+      expect(subject.get_related_identifiers(metadata)).to eq([{:value=>"https://blog.datacite.org/", :related_identifier_type=>"URL", :relation_type=>"IsPartOf"}])
+    end
   end
 
   context "filepath from url" do
