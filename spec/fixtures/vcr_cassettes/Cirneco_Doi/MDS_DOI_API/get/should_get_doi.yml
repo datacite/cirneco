@@ -21,7 +21,7 @@ http_interactions:
       Server:
       - openresty/1.11.2.1
       Date:
-      - Sun, 01 Jan 2017 15:59:42 GMT
+      - Mon, 02 Jan 2017 09:16:04 GMT
       Content-Type:
       - text/html;charset=UTF-8
       Connection:
@@ -40,5 +40,5 @@ http_interactions:
       encoding: UTF-8
       string: http://www.datacite.org
     http_version: 
-  recorded_at: Sun, 01 Jan 2017 15:59:42 GMT
+  recorded_at: Mon, 02 Jan 2017 09:16:05 GMT
 recorded_with: VCR 3.0.3

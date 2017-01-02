@@ -4,10 +4,12 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
   let(:prefix) { ENV['PREFIX'] }
   let(:username) { ENV['MDS_USERNAME'] }
   let(:password) { ENV['MDS_PASSWORD'] }
+  let(:source_dir) { "/spec/fixtures/" }
   let(:options) { { username: username,
                     password: password,
                     sandbox: true,
-                    source_path: "/spec/fixtures/" } }
+                    index_dir: source_dir,
+                    source_dir: source_dir } }
 
   subject { Cirneco::DataCenter.new(prefix: prefix,
                                     username: username,
@@ -17,8 +19,8 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
     it 'should get all dois by prefix' do
       response = subject.get_dois_by_prefix(prefix, options)
       dois = response.body["data"]
-      expect(dois.length).to eq(64)
-      expect(dois.first).to eq("10.5072/0000-03VC")
+      expect(dois.length).to eq(76)
+      expect(dois.first).to eq("10.5072/0000-00SS")
     end
   end
 
@@ -111,7 +113,7 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
     it 'get urls for works' do
       filepath = fixture_path + 'index.html'
       response = subject.get_urls_for_works(filepath)
-      expect(response.length).to eq(66)
+      expect(response.length).to eq(2)
     end
 
     it 'should mint for url' do
@@ -133,21 +135,21 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
     end
 
     it 'should mint for all urls' do
-      filepath = fixture_path + 'cool-dois.html'
-      response = subject.mint_dois_for_all_urls([filepath], options)
-      expect(response).to eq("DOI 10.5072/0000-03VC minted for cool-dois.html")
+      filepath = fixture_path + 'index.html'
+      response = subject.mint_dois_for_all_urls(filepath, options)
+      expect(response).to eq("DOI 10.5072/0000-03VC minted for cool-dois.html\nDOI 10.5072/0000-00SS minted for index.html")
     end
 
     it 'should hide for all urls' do
-      filepath = fixture_path + 'cool-dois-minted.html'
-      response = subject.hide_dois_for_all_urls([filepath], options)
-      expect(response).to eq("DOI 10.5072/0000-03WD hidden for cool-dois-minted.html")
+      filepath = fixture_path + 'index-minted.html'
+      response = subject.hide_dois_for_all_urls(filepath, options)
+      expect(response).to eq("No DOI for cool-dois.html\nErrors for DOI 10.5072/0000-NW90: Not found\n")
     end
 
     it 'should mint and hide for all urls' do
-      filepath = fixture_path + 'cool-dois.html'
-      response = subject.mint_and_hide_dois_for_all_urls([filepath], options)
-      expect(response).to eq("DOI 10.5072/0000-03VC minted and hidden for cool-dois.html")
+      filepath = fixture_path + 'index.html'
+      response = subject.mint_and_hide_dois_for_all_urls(filepath, options)
+      expect(response).to eq("DOI 10.5072/0000-03VC minted and hidden for cool-dois.html\nDOI 10.5072/0000-00SS minted and hidden for index.html")
     end
 
     it 'should generate metadata for work' do
@@ -197,5 +199,53 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
     #   xml_path = subject.generate_jats(filepath, options.merge(metadata: metadata))
     #   expect(xml_path).to eq(fixture_path + 'cool-dois.xml')
     # end
+  end
+
+  context "filepath from url" do
+    it 'https://blog.datacite.org/' do
+      url = 'https://blog.datacite.org/'
+      filename, build_path, source_path = subject.filepath_from_url(url, index_dir: source_dir)
+      expect(filename).to eq("index.html")
+      expect(source_path).to eq(fixture_path + "index.html.erb")
+      expect(build_path).to eq(fixture_path + "index.html")
+    end
+
+    it 'https://blog.datacite.org' do
+      url = 'https://blog.datacite.org'
+      filename, build_path, source_path = subject.filepath_from_url(url, index_dir: source_dir)
+      expect(filename).to eq("index.html")
+      expect(source_path).to eq(fixture_path + "index.html.erb")
+      expect(build_path).to eq(fixture_path + "index.html")
+    end
+
+    it 'index.html' do
+      url = fixture_path + 'index.html'
+      filename, build_path, source_path = subject.filepath_from_url(url, index_dir: source_dir)
+      expect(filename).to eq("index.html")
+      expect(source_path).to eq(fixture_path + "index.html.erb")
+      expect(build_path).to eq(fixture_path + "index.html")
+    end
+
+    it 'index.html basename' do
+      url = 'index.html'
+      filename, build_path, source_path = subject.filepath_from_url(url, index_dir: source_dir)
+      expect(filename).to eq("index.html")
+      expect(source_path).to eq(fixture_path + "index.html.erb")
+      expect(build_path).to eq(fixture_path + "index.html")
+    end
+
+    it 'cool-dois.html' do
+      url = fixture_path + 'cool-dois.html'
+      filename, build_path, source_path = subject.filepath_from_url(url, source_dir: source_dir)
+      expect(source_path).to eq(fixture_path + "cool-dois.html.md")
+      expect(build_path).to eq(fixture_path + "cool-dois.html")
+    end
+
+    it 'cool-dois.html basename' do
+      url = 'cool-dois.html'
+      filename, build_path, source_path = subject.filepath_from_url(url, source_dir: source_dir)
+      expect(source_path).to eq(fixture_path + "cool-dois.html.md")
+      expect(build_path).to eq(fixture_path + "cool-dois.html")
+    end
   end
 end

@@ -103,68 +103,66 @@ module Cirneco
 
     # fetch schema.org metadata in JSON-LD format to mint DOI
     def mint_doi_for_url(url, options={})
-      filename = File.basename(url)
-      source_path = options[:source_path] || "/"
-      filepath = Dir.pwd + source_path + filename + ".md"
+      filename, build_path, source_path = filepath_from_url(url, options)
 
-      metadata = generate_metadata_for_work(url, options)
+      metadata = generate_metadata_for_work(build_path, options)
       return "DOI #{metadata["doi"]} not changed for #{filename}" if metadata["doi"] && metadata["date_issued"]
 
       response = post_metadata_for_work(metadata, options)
       return "Errors for DOI #{metadata["doi"]}: #{response.body['errors'].first['title']}\n" if response.body['errors']
 
-      new_metadata = Bergamasco::Markdown.update_file(filepath, "doi" => metadata["doi"], "published" => true)
+      new_metadata = Bergamasco::Markdown.update_file(source_path, "doi" => metadata["doi"], "published" => true)
       "DOI #{new_metadata["doi"]} minted for #{filename}"
     end
 
     # fetch schema.org metadata in JSON-LD format to mint DOI
     def mint_and_hide_doi_for_url(url, options={})
-      filename = File.basename(url)
-      source_path = options[:source_path] || "/"
-      filepath = Dir.pwd + source_path + filename + ".md"
+      filename, build_path, source_path = filepath_from_url(url, options)
 
-      metadata = generate_metadata_for_work(url, options)
+      metadata = generate_metadata_for_work(build_path, options)
       return "DOI #{metadata["doi"]} not changed for #{filename}" if metadata["doi"] && metadata["date_issued"]
 
       response = post_metadata_for_work(metadata, options)
       return "Errors for DOI #{metadata["doi"]}: #{response.body['errors'].first['title']}\n" if response.body['errors']
 
-      new_metadata = Bergamasco::Markdown.update_file(filepath, "doi" => metadata["doi"], "published" => false)
+      new_metadata = Bergamasco::Markdown.update_file(source_path, "doi" => metadata["doi"], "published" => false)
       "DOI #{new_metadata["doi"]} minted and hidden for #{filename}"
     end
 
     # fetch schema.org metadata in JSON-LD format to mint DOI
     # DOIs are never deleted, but we can remove the metadata from the DataCite index
     def hide_doi_for_url(url, options={})
-      filename = File.basename(url)
-      source_path = options[:source_path] || "/"
-      filepath = Dir.pwd + source_path + filename + ".md"
+      filename, build_path, source_path = filepath_from_url(url, options)
 
-      metadata = generate_metadata_for_work(url, options)
-      return "DOI #{metadata["doi"]} not changed for #{filename}" unless metadata["doi"] && metadata["date_issued"]
+      metadata = generate_metadata_for_work(build_path, options)
+      return "No DOI for #{filename}" unless metadata["doi"]
+      return "DOI #{metadata["doi"]} not active for #{filename}" unless metadata["date_issued"]
 
       response = hide_metadata_for_work(metadata, options)
       return "Errors for DOI #{metadata["doi"]}: #{response.body['errors'].first['title']}\n" if response.body['errors']
 
-      new_metadata = Bergamasco::Markdown.update_file(filepath, "published" => false)
+      new_metadata = Bergamasco::Markdown.update_file(source_path, "published" => false)
       "DOI #{metadata["doi"]} hidden for #{filename}"
     end
 
-    def mint_dois_for_all_urls(urls, options={})
-      urls.map do |url|
-        mint_doi_for_url(url, options)
+    def mint_dois_for_all_urls(url, options={})
+      urls = get_urls_for_works(url)
+      urls.map do |u|
+        mint_doi_for_url(u, options)
       end.join("\n")
     end
 
-    def mint_and_hide_dois_for_all_urls(urls, options={})
-      urls.map do |url|
-        mint_and_hide_doi_for_url(url, options)
+    def mint_and_hide_dois_for_all_urls(url, options={})
+      urls = get_urls_for_works(url)
+      urls.map do |u|
+        mint_and_hide_doi_for_url(u, options)
       end.join("\n")
     end
 
-    def hide_dois_for_all_urls(urls, options={})
-      urls.map do |url|
-        hide_doi_for_url(url, options)
+    def hide_dois_for_all_urls(url, options={})
+      urls = get_urls_for_works(url)
+      urls.map do |u|
+        hide_doi_for_url(u, options)
       end.join("\n")
     end
 
@@ -329,6 +327,38 @@ module Cirneco
           relation_type: relation_type
         }
       end.select { |t| t[:related_identifier_type].present? }
+    end
+
+    def filepath_from_url(url, options={})
+      if doi_from_url(url)
+        response = Maremma.head(url, limit: 0)
+        url = response.headers.fetch("Location", "")
+      end
+
+      uri = Addressable::URI.parse(url.gsub(/\/$/, ""))
+      filename = (File.basename(uri.path, ".html").presence || "index") + ".html"
+
+      if filename == "index.html"
+        index_dir = options[:index_dir].presence || "/"
+        build_path = Dir.pwd + index_dir + filename
+        source_path = build_path + ".erb"
+      else
+        source_dir = options[:source_dir].presence || "/"
+        build_path = Dir.pwd + source_dir + filename
+        source_path = build_path + ".md"
+      end
+      [filename, build_path, source_path]
+    end
+
+    def doi_from_url(url)
+      return nil unless url.present?
+
+      if /(http|https):\/\/(dx\.)?doi\.org\/(\w+)/.match(url)
+        uri = Addressable::URI.parse(url)
+        uri.path[1..-1].upcase
+      elsif url.starts_with?("doi:")
+        url[4..-1].upcase
+      end
     end
 
     def orcid_from_url(url)

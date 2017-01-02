@@ -1,0 +1,42 @@
+---
+title: DataCite Blog
+type: Blog
+author:
+- tcruse
+- lrueda
+- kgarza
+- mfenner
+date: 2015-08-03
+accession_number: MS-25-1785
+doi: 10.5072/0000-00SS
+published: false
+---
+<div class="container-fluid">
+  <div class="row">
+    <div class='col-md-8'>
+      <div class="search-wide">
+        <form action="/index.html" method="get" id="search-form" class="form-horizontal" role="form" data-site-url="<%= ENV['SITE_URL'] %>" data-search-url="<%= data.site.search_url %>">
+          <div class="input-group">
+            <input type="text" id="query" name="query" placeholder="Search blog" class="form-control">
+            <div class="input-group-btn">
+              <button type="submit" class="btn btn-primary hidden-xs">Search</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div id="content"></div>
+  <div class="row">
+    <div class='col-md-4 post-list' id="left-col">
+    </div>
+    <div class='col-md-4 post-list' id="right-col">
+    </div>
+    <div class='col-md-3 col-md-offset-1'>
+      <div id="tags"/>
+    </div>
+  </div></div>
+  <div class="row">
+    <div class='col-md-8' id="pager"></div>
+  </div>
+</div>

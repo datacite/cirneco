@@ -105,6 +105,8 @@ module Cirneco
     method_option :sitepath, :default => ENV['SITE_SITEPATH']
     method_option :authorpath, :default => ENV['SITE_AUTHORPATH']
     method_option :referencespath, :default => ENV['SITE_REFERENCESPATH']
+    method_option :source_dir
+    method_option :index_dir
     method_option :csl, :default => ENV['SITE_CSLPATH']
     method_option :number, :aliases => '-n'
     method_option :username, :default => ENV['MDS_USERNAME']
@@ -112,13 +114,7 @@ module Cirneco
     method_option :prefix, :default => ENV['PREFIX']
     method_option :sandbox, :type => :boolean, :force => false
     def mint(url)
-
-      if url.is_a?(Array)
-        response = mint_dois_for_all_urls(url, options)
-      else
-        response = mint_doi_for_url(url, options)
-      end
-
+      response = mint_dois_for_all_urls(url, options)
       puts response
     end
 
@@ -126,6 +122,8 @@ module Cirneco
     method_option :sitepath, :default => ENV['SITE_SITEPATH']
     method_option :authorpath, :default => ENV['SITE_AUTHORPATH']
     method_option :referencespath, :default => ENV['SITE_REFERENCESPATH']
+    method_option :source_dir
+    method_option :index_dir
     method_option :csl, :default => ENV['SITE_CSLPATH']
     method_option :number, :aliases => '-n'
     method_option :username, :default => ENV['MDS_USERNAME']
@@ -133,13 +131,7 @@ module Cirneco
     method_option :prefix, :default => ENV['PREFIX']
     method_option :sandbox, :type => :boolean, :force => false
     def mint_and_hide(url)
-
-      if url.is_a?(Array)
-        response = mint_and_hide_dois_for_all_urls(url, options)
-      else
-        response = mint_and_hide_doi_for_url(url, options)
-      end
-
+      response = mint_and_hide_dois_for_all_urls(url, options)
       puts response
     end
 
@@ -147,19 +139,15 @@ module Cirneco
     method_option :sitepath, :default => ENV['SITE_SITEPATH']
     method_option :authorpath, :default => ENV['SITE_AUTHORPATH']
     method_option :referencespath, :default => ENV['SITE_REFERENCESPATH']
+    method_option :source_dir
+    method_option :index_dir
     method_option :csl, :default => ENV['SITE_CSLPATH']
     method_option :bibliography, :default => ENV['SITE_REFERENCESPATH']
     method_option :username, :default => ENV['MDS_USERNAME']
     method_option :password, :default => ENV['MDS_PASSWORD']
     method_option :sandbox, :type => :boolean, :force => false
     def hide(url)
-
-      if url.is_a?(Array)
-        response = hide_dois_for_all_urls(url, options)
-      else
-        response = hide_doi_for_url(url, options)
-      end
-
+      response = hide_dois_for_all_urls(url, options)
       puts response
     end
   end

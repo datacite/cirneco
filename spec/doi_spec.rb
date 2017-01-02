@@ -17,7 +17,7 @@ describe Cirneco::Doi do
   let(:csl) { "spec/fixtures/apa.csl" }
   let(:bibliography) { "spec/fixtures/bibliography.yaml" }
   let(:api_options) { { username: username, password: password, sandbox: true } }
-  let(:mint_options) { { username: username, password: password, sandbox: true, source_path: "/spec/fixtures/", csl: csl, bibliography: bibliography } }
+  let(:mint_options) { { username: username, password: password, sandbox: true, source_dir: "/spec/fixtures/", index_dir: "/spec/fixtures/", csl: csl, bibliography: bibliography } }
 
   describe "MDS DOI API", vcr: true, :order => :defined do
     context "put" do
@@ -105,20 +105,21 @@ describe Cirneco::Doi do
     end
 
     it 'mints dois for list of urls' do
+      filepath = fixture_path + 'index.html'
       subject.options = mint_options
-      expect { subject.mint [filepath] }.to output("DOI 10.5072/0000-03VC minted for #{filename}\n").to_stdout
+      expect { subject.mint filepath }.to output("DOI 10.5072/0000-03VC minted for cool-dois.html\nDOI 10.5072/0000-00SS minted for index.html\n").to_stdout
     end
 
     it 'hides dois for list of urls' do
-      filename = 'cool-dois-minted.html'
-      filepath = fixture_path + filename
-      subject.options = mint_options.merge(filepath: filepath)
-      expect { subject.hide [filepath] }.to output("DOI 10.5072/0000-03WD hidden for #{filename}\n").to_stdout
+      filepath = fixture_path + 'index.html'
+      subject.options = mint_options
+      expect { subject.hide filepath }.to output("No DOI for cool-dois.html\nNo DOI for index.html\n").to_stdout
     end
 
     it 'mints and hides dois for list of urls' do
+      filepath = fixture_path + 'index.html'
       subject.options = mint_options
-      expect { subject.mint_and_hide [filepath] }.to output("DOI 10.5072/0000-03VC minted and hidden for #{filename}\n").to_stdout
+      expect { subject.mint_and_hide filepath }.to output("DOI 10.5072/0000-03VC minted and hidden for cool-dois.html\nDOI 10.5072/0000-00SS minted and hidden for index.html\n").to_stdout
     end
   end
 end
