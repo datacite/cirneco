@@ -333,8 +333,9 @@ module Cirneco
         url = response.headers.fetch("Location", "")
       end
 
-      url.slice!(Dir.pwd + options[:build_dir].to_s)
-      uri = Addressable::URI.parse(url.gsub(/index\.html$/, "").gsub(/\/$/, ""))
+      uri = Addressable::URI.parse(url.gsub(Dir.pwd + options[:build_dir].to_s, "")
+                                      .gsub(/index\.html$/, "")
+                                      .gsub(/\/$/, ""))
       basename = File.basename(uri.path, ".html").presence || "index"
 
       if basename.starts_with?("index")
