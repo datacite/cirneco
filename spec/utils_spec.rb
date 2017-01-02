@@ -215,6 +215,13 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
       response = subject.generate_jats_for_all_urls(filepath, options)
       expect(response).to eq("JATS XML written for cool-dois.html.md\nJATS XML written for index.html.erb")
     end
+
+    # it 'should validate jats xml' do
+    #   filepath = fixture_path + 'cool-dois/index.html'
+    #   expect(subject.generate_jats_for_url(filepath, options.merge(bibliography: bibliography))).to eq("JATS XML written for cool-dois.html.md")
+    #   xml = IO.read(fixture_path + 'cool-dois/cool-dois.xml')
+    #   expect(subject.validate_jats(xml).body["errors"]).to be_empty
+    # end
   end
 
   context "get_related_identifiers" do

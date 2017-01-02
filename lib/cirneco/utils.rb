@@ -9,6 +9,8 @@ module Cirneco
     # "ZZZZZZZ" decoded as number
     UPPER_LIMIT = 34359738367
 
+    JATS_SCHEMA = File.expand_path("../../../resources/jats-1.1/JATS-journalpublishing1.xsd", __FILE__)
+
     LICENSES = {
       "https://creativecommons.org/licenses/by/4.0/" => "Creative Commons Attribution (CC-BY 4.0)",
       "https://creativecommons.org/publicdomain/zero/1.0/" => "Creative Commons Public Domain Dedication (CC0 1.0)"
@@ -325,6 +327,9 @@ module Cirneco
       metadata["publication_month"] = metadata.fetch("date", "")[5..6].to_i
       metadata["publication_day"] = metadata.fetch("date", "")[8..9].to_i
 
+      # metadata["accession_number"] = metadata["alternateName"]
+      metadata["journal_title"] = metadata.fetch("isPartOf", {}).fetch("name", nil)
+
       if metadata["description"].present?
         metadata["descriptions"] = [{ value: metadata["description"], description_type: "Abstract" }]
       end
@@ -342,7 +347,7 @@ module Cirneco
 
       metadata = metadata.extract!(*%w(publisher doi tags title author date
         publication_year publication_month publication_day license_name
-        license_url))
+        license_url accession_number journal_title))
     end
 
     def generate_jats_for_url(url, options={})
@@ -371,6 +376,13 @@ module Cirneco
       urls.map do |u|
         generate_jats_for_url(u, options)
       end.join("\n")
+    end
+
+    def validate_jats(xml)
+      schema = Nokogiri::XML::Schema(open(JATS_SCHEMA))
+      puts schema.validate(Nokogiri::XML(xml))
+
+      OpenStruct.new(body: { "errors" => schema.validate(Nokogiri::XML(xml)).map { |error| { "title" => error.to_s } } })
     end
 
     def url_from_path(site_url, filepath)
@@ -428,7 +440,7 @@ module Cirneco
     def filepath_from_url(url, options={})
       if doi_from_url(url)
         response = Maremma.head(url, limit: 0)
-        url = response.headers.fetch("Location", "")
+        url = response.headers.present? ? response.headers.fetch("Location", "") : ""
       end
 
       uri = Addressable::URI.parse(url.gsub(Dir.pwd + options[:build_dir].to_s, "")
