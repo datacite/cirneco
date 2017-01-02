@@ -197,8 +197,6 @@ module Cirneco
       metadata["publisher"] = metadata.fetch("publisher", {}).fetch("name", nil)
       metadata["publication_year"] = metadata.fetch("datePublished", "")[0..3].to_i
 
-      resource_type_general =
-
       resource_type_general = case metadata["@type"]
         when "Dataset" then "Dataset"
         when "Blog" then "Collection"
