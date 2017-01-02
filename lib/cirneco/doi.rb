@@ -105,8 +105,8 @@ module Cirneco
     method_option :sitepath, :default => ENV['SITE_SITEPATH']
     method_option :authorpath, :default => ENV['SITE_AUTHORPATH']
     method_option :referencespath, :default => ENV['SITE_REFERENCESPATH']
-    method_option :source_dir
-    method_option :index_dir
+    method_option :source_dir, :default => ENV['SOURCE_DIR']
+    method_option :index_dir, :default => ENV['INDEX_DIR']
     method_option :csl, :default => ENV['SITE_CSLPATH']
     method_option :number, :aliases => '-n'
     method_option :username, :default => ENV['MDS_USERNAME']
@@ -122,8 +122,8 @@ module Cirneco
     method_option :sitepath, :default => ENV['SITE_SITEPATH']
     method_option :authorpath, :default => ENV['SITE_AUTHORPATH']
     method_option :referencespath, :default => ENV['SITE_REFERENCESPATH']
-    method_option :source_dir
-    method_option :index_dir
+    method_option :source_dir, :default => ENV['SOURCE_DIR']
+    method_option :index_dir, :default => ENV['INDEX_DIR']
     method_option :csl, :default => ENV['SITE_CSLPATH']
     method_option :number, :aliases => '-n'
     method_option :username, :default => ENV['MDS_USERNAME']
@@ -139,8 +139,8 @@ module Cirneco
     method_option :sitepath, :default => ENV['SITE_SITEPATH']
     method_option :authorpath, :default => ENV['SITE_AUTHORPATH']
     method_option :referencespath, :default => ENV['SITE_REFERENCESPATH']
-    method_option :source_dir
-    method_option :index_dir
+    method_option :source_dir, :default => ENV['SOURCE_DIR']
+    method_option :index_dir, :default => ENV['INDEX_DIR']
     method_option :csl, :default => ENV['SITE_CSLPATH']
     method_option :bibliography, :default => ENV['SITE_REFERENCESPATH']
     method_option :username, :default => ENV['MDS_USERNAME']
