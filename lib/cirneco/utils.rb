@@ -333,15 +333,18 @@ module Cirneco
         url = response.headers.fetch("Location", "")
       end
 
-      uri = Addressable::URI.parse(url.gsub(/\/$/, ""))
-      filename = (File.basename(uri.path, ".html").presence || "index") + ".html"
+      url.slice!(Dir.pwd + options[:build_dir].to_s)
+      uri = Addressable::URI.parse(url.gsub(/index\.html$/, "").gsub(/\/$/, ""))
+      basename = File.basename(uri.path, ".html").presence || "index"
 
-      if filename == "index.html"
-        source_path = Dir.pwd + options[:source_dir].to_s + filename + ".erb"
-        build_path = Dir.pwd + options[:build_dir].to_s + filename
+      if basename.starts_with?("index")
+        filename = basename + ".html.erb"
+        source_path = Dir.pwd + options[:source_dir].to_s + filename
+        build_path = Dir.pwd + options[:build_dir].to_s + basename + ".html"
       else
-        source_path = Dir.pwd + options[:source_dir].to_s + options[:posts_dir].to_s + filename + ".md"
-        build_path = Dir.pwd + options[:build_dir].to_s + options[:posts_dir].to_s + filename
+        filename = basename + ".html.md"
+        source_path = Dir.pwd + options[:source_dir].to_s + options[:posts_dir].to_s + filename
+        build_path = Dir.pwd + options[:build_dir].to_s + basename + "/index.html"
       end
       [filename, build_path, source_path]
     end

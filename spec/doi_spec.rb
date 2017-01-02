@@ -10,7 +10,7 @@ describe Cirneco::Doi do
   let(:prefix) { ENV['PREFIX'] }
   let(:doi) { "10.5072/0000-03VC" }
   let(:url) { "http://www.datacite.org" }
-  let(:filename) { 'cool-dois.html' }
+  let(:filename) { 'cool-dois/index.html' }
   let(:filepath) { fixture_path + filename }
   let(:username) { ENV['MDS_USERNAME'] }
   let(:password) { ENV['MDS_PASSWORD'] }
@@ -89,37 +89,37 @@ describe Cirneco::Doi do
   context "mint and hide DOIs", vcr: true, :order => :defined do
     it 'mints a doi' do
       subject.options = mint_options
-      expect { subject.mint filepath }.to output("DOI 10.5072/0000-03VC minted for #{filename}\n").to_stdout
+      expect { subject.mint filepath }.to output("DOI 10.5072/0000-03VC minted for cool-dois.html.md\n").to_stdout
     end
 
     it 'hides a doi' do
-      filename = 'cool-dois-minted.html'
+      filename = 'cool-dois-minted/index.html'
       filepath = fixture_path + filename
       subject.options = mint_options.merge(filepath: filepath)
-      expect { subject.hide filepath }.to output("DOI 10.5072/0000-03WD hidden for #{filename}\n").to_stdout
+      expect { subject.hide filepath }.to output("DOI 10.5072/0000-03WD hidden for cool-dois-minted.html.md\n").to_stdout
     end
 
     it 'mints and hides a doi' do
       subject.options = mint_options
-      expect { subject.mint_and_hide filepath }.to output("DOI 10.5072/0000-03VC minted and hidden for #{filename}\n").to_stdout
+      expect { subject.mint_and_hide filepath }.to output("DOI 10.5072/0000-03VC minted and hidden for cool-dois.html.md\n").to_stdout
     end
 
     it 'mints dois for list of urls' do
       filepath = fixture_path + 'index.html'
       subject.options = mint_options
-      expect { subject.mint filepath }.to output("DOI 10.5072/0000-03VC minted for cool-dois.html\nDOI 10.5072/0000-00SS minted for index.html\n").to_stdout
+      expect { subject.mint filepath }.to output("DOI 10.5072/0000-03VC minted for cool-dois.html.md\nDOI 10.5072/0000-00SS minted for index.html.erb\n").to_stdout
     end
 
     it 'hides dois for list of urls' do
       filepath = fixture_path + 'index.html'
       subject.options = mint_options
-      expect { subject.hide filepath }.to output("No DOI for cool-dois.html\nNo DOI for index.html\n").to_stdout
+      expect { subject.hide filepath }.to output("No DOI for cool-dois.html.md\nNo DOI for index.html.erb\n").to_stdout
     end
 
     it 'mints and hides dois for list of urls' do
       filepath = fixture_path + 'index.html'
       subject.options = mint_options
-      expect { subject.mint_and_hide filepath }.to output("DOI 10.5072/0000-03VC minted and hidden for cool-dois.html\nDOI 10.5072/0000-00SS minted and hidden for index.html\n").to_stdout
+      expect { subject.mint_and_hide filepath }.to output("DOI 10.5072/0000-03VC minted and hidden for cool-dois.html.md\nDOI 10.5072/0000-00SS minted and hidden for index.html.erb\n").to_stdout
     end
   end
 end

@@ -60,7 +60,7 @@ http_interactions:
       Server:
       - openresty/1.11.2.1
       Date:
-      - Mon, 02 Jan 2017 09:16:07 GMT
+      - Mon, 02 Jan 2017 11:19:25 GMT
       Content-Type:
       - text/html;charset=UTF-8
       Connection:
@@ -81,7 +81,7 @@ http_interactions:
       encoding: UTF-8
       string: OK (10.5072/0000-03VC)
     http_version: 
-  recorded_at: Mon, 02 Jan 2017 09:16:07 GMT
+  recorded_at: Mon, 02 Jan 2017 11:19:25 GMT
 - request:
     method: put
     uri: https://mds-sandbox.datacite.org/doi/10.5072/0000-03VC
@@ -107,7 +107,7 @@ http_interactions:
       Server:
       - openresty/1.11.2.1
       Date:
-      - Mon, 02 Jan 2017 09:16:07 GMT
+      - Mon, 02 Jan 2017 11:19:25 GMT
       Content-Type:
       - text/html;charset=UTF-8
       Connection:
@@ -126,5 +126,5 @@ http_interactions:
       encoding: UTF-8
       string: OK
     http_version: 
-  recorded_at: Mon, 02 Jan 2017 09:16:07 GMT
+  recorded_at: Mon, 02 Jan 2017 11:19:26 GMT
 recorded_with: VCR 3.0.3

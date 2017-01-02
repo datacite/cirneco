@@ -117,43 +117,43 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
     end
 
     it 'should mint for url' do
-      filepath = fixture_path + 'cool-dois.html'
+      filepath = fixture_path + 'cool-dois/index.html'
       response = subject.mint_doi_for_url(filepath, options)
-      expect(response).to eq("DOI 10.5072/0000-03VC minted for cool-dois.html")
+      expect(response).to eq("DOI 10.5072/0000-03VC minted for cool-dois.html.md")
     end
 
     it 'should hide for url' do
       filepath = fixture_path + 'cool-dois-minted.html'
       response = subject.hide_doi_for_url(filepath, options)
-      expect(response).to eq("DOI 10.5072/0000-03WD hidden for cool-dois-minted.html")
+      expect(response).to eq("DOI 10.5072/0000-03WD hidden for cool-dois-minted.html.md")
     end
 
     it 'should mint and hide for url' do
-      filepath = fixture_path + 'cool-dois.html'
+      filepath = fixture_path + 'cool-dois/index.html'
       response = subject.mint_and_hide_doi_for_url(filepath, options)
-      expect(response).to eq("DOI 10.5072/0000-03VC minted and hidden for cool-dois.html")
+      expect(response).to eq("DOI 10.5072/0000-03VC minted and hidden for cool-dois.html.md")
     end
 
     it 'should mint for all urls' do
       filepath = fixture_path + 'index.html'
       response = subject.mint_dois_for_all_urls(filepath, options)
-      expect(response).to eq("DOI 10.5072/0000-03VC minted for cool-dois.html\nDOI 10.5072/0000-00SS minted for index.html")
+      expect(response).to eq("DOI 10.5072/0000-03VC minted for cool-dois.html.md\nDOI 10.5072/0000-00SS minted for index.html.erb")
     end
 
     it 'should hide for all urls' do
       filepath = fixture_path + 'index-minted.html'
       response = subject.hide_dois_for_all_urls(filepath, options)
-      expect(response).to eq("No DOI for cool-dois.html\nErrors for DOI 10.5072/0000-NW90: Not found\n")
+      expect(response).to eq("No DOI for cool-dois.html.md\nErrors for DOI 10.5072/0000-NW90: Not found\n")
     end
 
     it 'should mint and hide for all urls' do
       filepath = fixture_path + 'index.html'
       response = subject.mint_and_hide_dois_for_all_urls(filepath, options)
-      expect(response).to eq("DOI 10.5072/0000-03VC minted and hidden for cool-dois.html\nDOI 10.5072/0000-00SS minted and hidden for index.html")
+      expect(response).to eq("DOI 10.5072/0000-03VC minted and hidden for cool-dois.html.md\nDOI 10.5072/0000-00SS minted and hidden for index.html.erb")
     end
 
     it 'should generate metadata for work' do
-      filepath = fixture_path + 'cool-dois.html'
+      filepath = fixture_path + 'cool-dois/index.html'
       metadata = subject.generate_metadata_for_work(filepath)
       expect(metadata["url"]).to eq("https://blog.datacite.org/cool-dois/")
       expect(metadata["creators"]).to eq([{:given_name=>"Martin", :family_name=>"Fenner", :orcid=>"0000-0003-1419-2405"}])
@@ -167,17 +167,17 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
     end
 
     it 'should generate metadata for work no JSON-LD' do
-      filepath = fixture_path + 'cool-dois-no-json-ld.html'
+      filepath = fixture_path + 'cool-dois-no-json-ld/index.html'
       expect(subject.generate_metadata_for_work(filepath)).to eq("Error: no schema.org metadata found")
     end
 
     it 'should generate metadata for work missing required metadata' do
-      filepath = fixture_path + 'cool-dois-missing-metadata.html'
+      filepath = fixture_path + 'cool-dois-missing-metadata/index.html'
       expect(subject.generate_metadata_for_work(filepath)).to eq("Error: required metadata missing")
     end
 
     it 'should post_metadata_for_work' do
-      filepath = fixture_path + 'cool-dois.html'
+      filepath = fixture_path + 'cool-dois/index.html'
       metadata = subject.generate_metadata_for_work(filepath)
       response = subject.post_metadata_for_work(metadata, options)
       expect(response.body["data"]).to eq("OK")
@@ -185,7 +185,7 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
     end
 
     it 'should hide_metadata_for_work' do
-      filepath = fixture_path + 'cool-dois.html'
+      filepath = fixture_path + 'cool-dois/index.html'
       metadata = subject.generate_metadata_for_work(filepath)
       response = subject.hide_metadata_for_work(metadata, options)
       expect(response.body["data"]).to eq("OK")
@@ -205,7 +205,7 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
     it 'https://blog.datacite.org/' do
       url = 'https://blog.datacite.org/'
       filename, build_path, source_path = subject.filepath_from_url(url, build_dir: source_dir, source_dir: source_dir)
-      expect(filename).to eq("index.html")
+      expect(filename).to eq("index.html.erb")
       expect(source_path).to eq(fixture_path + "index.html.erb")
       expect(build_path).to eq(fixture_path + "index.html")
     end
@@ -213,7 +213,7 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
     it 'https://blog.datacite.org' do
       url = 'https://blog.datacite.org'
       filename, build_path, source_path = subject.filepath_from_url(url, build_dir: source_dir, source_dir: source_dir)
-      expect(filename).to eq("index.html")
+      expect(filename).to eq("index.html.erb")
       expect(source_path).to eq(fixture_path + "index.html.erb")
       expect(build_path).to eq(fixture_path + "index.html")
     end
@@ -221,7 +221,7 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
     it 'index.html' do
       url = fixture_path + 'index.html'
       filename, build_path, source_path = subject.filepath_from_url(url, build_dir: source_dir, source_dir: source_dir)
-      expect(filename).to eq("index.html")
+      expect(filename).to eq("index.html.erb")
       expect(source_path).to eq(fixture_path + "index.html.erb")
       expect(build_path).to eq(fixture_path + "index.html")
     end
@@ -229,7 +229,7 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
     it 'index.html basename' do
       url = 'index.html'
       filename, build_path, source_path = subject.filepath_from_url(url, build_dir: source_dir, source_dir: source_dir)
-      expect(filename).to eq("index.html")
+      expect(filename).to eq("index.html.erb")
       expect(source_path).to eq(fixture_path + "index.html.erb")
       expect(build_path).to eq(fixture_path + "index.html")
     end
@@ -237,15 +237,17 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
     it 'cool-dois.html' do
       url = fixture_path + 'cool-dois.html'
       filename, build_path, source_path = subject.filepath_from_url(url, build_dir: source_dir, source_dir: source_dir)
+      expect(filename).to eq("cool-dois.html.md")
       expect(source_path).to eq(fixture_path + "cool-dois.html.md")
-      expect(build_path).to eq(fixture_path + "cool-dois.html")
+      expect(build_path).to eq(fixture_path + "cool-dois/index.html")
     end
 
     it 'cool-dois.html basename' do
       url = 'cool-dois.html'
       filename, build_path, source_path = subject.filepath_from_url(url, build_dir: source_dir, source_dir: source_dir)
+      expect(filename).to eq("cool-dois.html.md")
       expect(source_path).to eq(fixture_path + "cool-dois.html.md")
-      expect(build_path).to eq(fixture_path + "cool-dois.html")
+      expect(build_path).to eq(fixture_path + "cool-dois/index.html")
     end
   end
 end
