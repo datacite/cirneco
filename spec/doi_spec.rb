@@ -15,7 +15,7 @@ describe Cirneco::Doi do
   let(:username) { ENV['MDS_USERNAME'] }
   let(:password) { ENV['MDS_PASSWORD'] }
   let(:csl) { "spec/fixtures/apa.csl" }
-  let(:bibliography) { "spec/fixtures/bibliography.yaml" }
+  let(:bibliography) { "spec/fixtures/references.yaml" }
   let(:api_options) { { username: username, password: password, sandbox: true } }
   let(:mint_options) { { username: username, password: password, sandbox: true, source_dir: "/spec/fixtures/", build_dir: "/spec/fixtures/", csl: csl, bibliography: bibliography } }
 
@@ -120,6 +120,14 @@ describe Cirneco::Doi do
       filepath = fixture_path + 'index.html'
       subject.options = mint_options
       expect { subject.mint_and_hide filepath }.to output("DOI 10.5072/0000-03VC minted and hidden for cool-dois.html.md\nDOI 10.5072/0000-00SS minted and hidden for index.html.erb\n").to_stdout
+    end
+  end
+
+  context "jats" do
+    it 'writes jats for list of urls' do
+      filepath = fixture_path + 'index.html'
+      subject.options = mint_options
+      expect { subject.write_jats filepath }.to output("JATS XML written for cool-dois.html.md\nJATS XML written for index.html.erb\n").to_stdout
     end
   end
 end

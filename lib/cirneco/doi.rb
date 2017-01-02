@@ -153,5 +153,18 @@ module Cirneco
       response = hide_dois_for_all_urls(url, options)
       puts response
     end
+
+    desc "write_jats DOCUMENT", "write_jats document"
+    method_option :sitepath, :default => ENV['SITE_SITEPATH']
+    method_option :authorpath, :default => ENV['SITE_AUTHORPATH']
+    method_option :referencespath, :default => ENV['SITE_REFERENCESPATH']
+    method_option :source_dir, :default => ENV['SOURCE_DIR']
+    method_option :build_dir, :default => ENV['BUILD_DIR']
+    method_option :posts_dir, :default => ENV['POSTS_DIR']
+    method_option :csl, :default => ENV['SITE_CSLPATH']
+    def write_jats(url)
+      response = generate_jats_for_all_urls(url, options)
+      puts response
+    end
   end
 end

@@ -279,8 +279,82 @@ module Cirneco
       work.delete_metadata(metadata["doi"], options)
     end
 
-    def generate_jats(filepath, options={})
-      Bergamasco::Pandoc.write_jats(filepath, options)
+    def generate_metadata_for_jats(url, options={})
+      doc = Nokogiri::HTML(open(url))
+      json = doc.at_xpath("//script[@type='application/ld+json']")
+      return "Error: no schema.org metadata found" unless json.present?
+
+      metadata = ActiveSupport::JSON.decode(json.text)
+
+      return "Error: required metadata missing" unless ["name", "author", "publisher", "datePublished", "@type"].all? { |k| metadata.key? k }
+
+      # required metadata
+      if /(http|https):\/\/(dx\.)?doi\.org\/(\w+)/.match(metadata["@id"])
+        uri = Addressable::URI.parse(metadata["@id"])
+        metadata["doi"] = uri.path[1..-1].upcase
+      end
+
+      metadata["title"] = metadata["name"]
+      metadata["author"] = format_authors(metadata["author"]).map do |a|
+        { "given_name" => a[:given_name],
+          "family_name" => a[:family_name],
+          "name" => a[:name],
+          "orcid" => a[:orcid] }.compact
+      end
+
+      metadata["publisher"] = metadata.fetch("publisher", {}).fetch("name", nil)
+      metadata["tags"] = metadata["keywords"].to_s.split(", ").select { |k| k != "featured" }
+      metadata["date"] = metadata.fetch("datePublished", "")
+      metadata["publication_year"] = metadata.fetch("date", "")[0..3].to_i
+      metadata["publication_month"] = metadata.fetch("date", "")[5..6].to_i
+      metadata["publication_day"] = metadata.fetch("date", "")[8..9].to_i
+
+      if metadata["description"].present?
+        metadata["descriptions"] = [{ value: metadata["description"], description_type: "Abstract" }]
+      end
+
+      # use default version 1.0
+      metadata["version"] ||= "1.0"
+
+      # fetch reference metadata if available
+      metadata["related_identifiers"] = get_related_identifiers(metadata)
+
+      if metadata["license"].present?
+        metadata["license_name"] = LICENSES.fetch(metadata["license"], nil)
+        metadata["license_url"] = metadata["license"]
+      end
+
+      metadata = metadata.extract!(*%w(publisher doi tags title author date
+        publication_year publication_month publication_day license_name
+        license_url))
+    end
+
+    def generate_jats_for_url(url, options={})
+      filename, build_path, source_path = filepath_from_url(url, options)
+      metadata = generate_metadata_for_jats(build_path, options)
+      file = IO.read(source_path)
+      content = Bergamasco::Markdown.split_yaml_frontmatter(file).last
+      text = Bergamasco::Markdown.join_yaml_frontmatter(metadata, content)
+
+      xml = Bergamasco::Pandoc.convert_to_jats(text, options)
+
+      if metadata["doi"].present?
+        xmlname = metadata["doi"].split('/', 2).last
+      else
+        xmlname = filename.gsub(/\.html\.(erb|md)/, ".xml")
+      end
+
+      xmlpath = build_path.gsub("index.html", xmlname)
+      IO.write(xmlpath, xml)
+
+      "JATS XML written for #{filename}"
+    end
+
+    def generate_jats_for_all_urls(url, options={})
+      urls = get_urls_for_works(url)
+      urls.map do |u|
+        generate_jats_for_url(u, options)
+      end.join("\n")
     end
 
     def url_from_path(site_url, filepath)
@@ -292,10 +366,10 @@ module Cirneco
         orcid = orcid_from_url(author["@id"])
         name = (author["givenName"].present? || author["familyName"].present?) ? nil : author["name"]
 
-        { given_name: author["givenName"],
-          family_name: author["familyName"],
-          name: name,
-          orcid: orcid }.compact
+        { :given_name => author["givenName"],
+          :family_name => author["familyName"],
+          :name => name,
+          :orcid => orcid }.compact
       end
     end
 

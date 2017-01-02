@@ -194,14 +194,26 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
       expect(response.body["data"]).to eq("OK")
       expect(response.status).to eq(200)
     end
+  end
 
-    # it 'should generate jats xml' do
-    #   filepath = fixture_path + 'cool-dois.html.md'
-    #   number = 123
-    #   metadata = subject.generate_metadata_for_work(filepath)
-    #   xml_path = subject.generate_jats(filepath, options.merge(metadata: metadata))
-    #   expect(xml_path).to eq(fixture_path + 'cool-dois.xml')
-    # end
+  context "jats" do
+    it 'should generate metadata for jats' do
+      filepath = fixture_path + 'cool-dois/index.html'
+      metadata = subject.generate_metadata_for_jats(filepath)
+      expect(metadata["author"]).to eq([{"given_name"=>"Martin", "family_name"=>"Fenner", "orcid"=>"0000-0003-1419-2405"}])
+      expect(metadata["license_url"]).to eq("https://creativecommons.org/licenses/by/4.0/")
+    end
+
+    it 'should generate jats xml' do
+      filepath = fixture_path + 'cool-dois/index.html'
+      expect(subject.generate_jats_for_url(filepath, options)).to eq("JATS XML written for cool-dois.html.md")
+    end
+
+    it 'should generate jats for all urls' do
+      filepath = fixture_path + 'index.html'
+      response = subject.generate_jats_for_all_urls(filepath, options)
+      expect(response).to eq("JATS XML written for cool-dois.html.md\nJATS XML written for index.html.erb")
+    end
   end
 
   context "get_related_identifiers" do
