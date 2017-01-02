@@ -339,7 +339,7 @@ module Cirneco
       xml = Bergamasco::Pandoc.convert_to_jats(text, options)
 
       if metadata["doi"].present?
-        xmlname = metadata["doi"].split('/', 2).last
+        xmlname = metadata["doi"].split('/', 2).last + ".xml"
       else
         xmlname = filename.gsub(/\.html\.(erb|md)/, ".xml")
       end
