@@ -8,7 +8,7 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
   let(:options) { { username: username,
                     password: password,
                     sandbox: true,
-                    index_dir: source_dir,
+                    build_dir: source_dir,
                     source_dir: source_dir } }
 
   subject { Cirneco::DataCenter.new(prefix: prefix,
@@ -204,7 +204,7 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
   context "filepath from url" do
     it 'https://blog.datacite.org/' do
       url = 'https://blog.datacite.org/'
-      filename, build_path, source_path = subject.filepath_from_url(url, index_dir: source_dir)
+      filename, build_path, source_path = subject.filepath_from_url(url, build_dir: source_dir, source_dir: source_dir)
       expect(filename).to eq("index.html")
       expect(source_path).to eq(fixture_path + "index.html.erb")
       expect(build_path).to eq(fixture_path + "index.html")
@@ -212,7 +212,7 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
 
     it 'https://blog.datacite.org' do
       url = 'https://blog.datacite.org'
-      filename, build_path, source_path = subject.filepath_from_url(url, index_dir: source_dir)
+      filename, build_path, source_path = subject.filepath_from_url(url, build_dir: source_dir, source_dir: source_dir)
       expect(filename).to eq("index.html")
       expect(source_path).to eq(fixture_path + "index.html.erb")
       expect(build_path).to eq(fixture_path + "index.html")
@@ -220,7 +220,7 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
 
     it 'index.html' do
       url = fixture_path + 'index.html'
-      filename, build_path, source_path = subject.filepath_from_url(url, index_dir: source_dir)
+      filename, build_path, source_path = subject.filepath_from_url(url, build_dir: source_dir, source_dir: source_dir)
       expect(filename).to eq("index.html")
       expect(source_path).to eq(fixture_path + "index.html.erb")
       expect(build_path).to eq(fixture_path + "index.html")
@@ -228,7 +228,7 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
 
     it 'index.html basename' do
       url = 'index.html'
-      filename, build_path, source_path = subject.filepath_from_url(url, index_dir: source_dir)
+      filename, build_path, source_path = subject.filepath_from_url(url, build_dir: source_dir, source_dir: source_dir)
       expect(filename).to eq("index.html")
       expect(source_path).to eq(fixture_path + "index.html.erb")
       expect(build_path).to eq(fixture_path + "index.html")
@@ -236,14 +236,14 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
 
     it 'cool-dois.html' do
       url = fixture_path + 'cool-dois.html'
-      filename, build_path, source_path = subject.filepath_from_url(url, source_dir: source_dir)
+      filename, build_path, source_path = subject.filepath_from_url(url, build_dir: source_dir, source_dir: source_dir)
       expect(source_path).to eq(fixture_path + "cool-dois.html.md")
       expect(build_path).to eq(fixture_path + "cool-dois.html")
     end
 
     it 'cool-dois.html basename' do
       url = 'cool-dois.html'
-      filename, build_path, source_path = subject.filepath_from_url(url, source_dir: source_dir)
+      filename, build_path, source_path = subject.filepath_from_url(url, build_dir: source_dir, source_dir: source_dir)
       expect(source_path).to eq(fixture_path + "cool-dois.html.md")
       expect(build_path).to eq(fixture_path + "cool-dois.html")
     end

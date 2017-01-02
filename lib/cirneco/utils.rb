@@ -337,13 +337,11 @@ module Cirneco
       filename = (File.basename(uri.path, ".html").presence || "index") + ".html"
 
       if filename == "index.html"
-        index_dir = options[:index_dir].presence || "/"
-        build_path = Dir.pwd + index_dir + filename
-        source_path = build_path + ".erb"
+        source_path = Dir.pwd + options[:source_dir].to_s + filename + ".erb"
+        build_path = Dir.pwd + options[:build_dir].to_s + filename
       else
-        source_dir = options[:source_dir].presence || "/"
-        build_path = Dir.pwd + source_dir + filename
-        source_path = build_path + ".md"
+        source_path = Dir.pwd + options[:source_dir].to_s + options[:posts_dir].to_s + filename + ".md"
+        build_path = Dir.pwd + options[:build_dir].to_s + options[:posts_dir].to_s + filename
       end
       [filename, build_path, source_path]
     end

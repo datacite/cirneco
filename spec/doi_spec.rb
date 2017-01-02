@@ -17,7 +17,7 @@ describe Cirneco::Doi do
   let(:csl) { "spec/fixtures/apa.csl" }
   let(:bibliography) { "spec/fixtures/bibliography.yaml" }
   let(:api_options) { { username: username, password: password, sandbox: true } }
-  let(:mint_options) { { username: username, password: password, sandbox: true, source_dir: "/spec/fixtures/", index_dir: "/spec/fixtures/", csl: csl, bibliography: bibliography } }
+  let(:mint_options) { { username: username, password: password, sandbox: true, source_dir: "/spec/fixtures/", build_dir: "/spec/fixtures/", csl: csl, bibliography: bibliography } }
 
   describe "MDS DOI API", vcr: true, :order => :defined do
     context "put" do
