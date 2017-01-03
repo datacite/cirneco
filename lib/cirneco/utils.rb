@@ -245,7 +245,7 @@ module Cirneco
     end
 
     def post_metadata_for_work(metadata, options={})
-      return Openstruct.new(body: { "errors" => [{"title" => "Error: required metadata missing" }] }) unless ["title", "creators", "publisher", "publication_year", "resource_type"].all? { |k| metadata.key? k }
+      return OpenStruct.new(body: { "errors" => [{"title" => "Error: required metadata missing" }] }) unless ["title", "creators", "publisher", "publication_year", "resource_type"].all? { |k| metadata.key? k }
 
       prefix = options[:prefix] || ENV['PREFIX']
       metadata["doi"] = encode_doi(prefix, number: metadata["alternate_identifier"]) if metadata["doi"].blank?
@@ -267,7 +267,7 @@ module Cirneco
     end
 
     def post_and_hide_metadata_for_work(metadata, options={})
-      return Openstruct.new(body: { "errors" => [{"title" => "Error: required metadata missing" }] }) unless ["title", "creators", "publisher", "publication_year", "resource_type"].all? { |k| metadata.key? k }
+      return OpenStruct.new(body: { "errors" => [{"title" => "Error: required metadata missing" }] }) unless ["title", "creators", "publisher", "publication_year", "resource_type"].all? { |k| metadata.key? k }
 
       prefix = options[:prefix] || ENV['PREFIX']
       metadata["doi"] = encode_doi(prefix, number: metadata["alternate_identifier"]) if metadata["doi"].blank?
@@ -292,7 +292,7 @@ module Cirneco
     end
 
     def hide_metadata_for_work(metadata, options={})
-      return Openstruct.new(body: { "errors" => [{"title" => "Error: required metadata missing" }] }) unless ["title", "creators", "publisher", "publication_year", "resource_type"].all? { |k| metadata.key? k }
+      return OpenStruct.new(body: { "errors" => [{"title" => "Error: required metadata missing" }] }) unless ["title", "creators", "publisher", "publication_year", "resource_type"].all? { |k| metadata.key? k }
 
       prefix = options[:prefix] || ENV['PREFIX']
       metadata["doi"] = encode_doi(prefix, number: metadata["alternate_identifier"]) if metadata["doi"].blank?
