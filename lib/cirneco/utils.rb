@@ -246,7 +246,7 @@ module Cirneco
 
     def post_metadata_for_work(metadata, options={})
       prefix = options[:prefix] || ENV['PREFIX']
-      metadata["doi"] ||= encode_doi(prefix, number: metadata["alternate_identifier"])
+      metadata["doi"] = encode_doi(prefix, number: metadata["alternate_identifier"]) if metadata["doi"].blank?
 
       work = Cirneco::Work.new(metadata)
       return work.validation_errors if work.validation_errors.body["errors"].present?
@@ -266,7 +266,7 @@ module Cirneco
 
     def post_and_hide_metadata_for_work(metadata, options={})
       prefix = options[:prefix] || ENV['PREFIX']
-      metadata["doi"] ||= encode_doi(prefix, number: metadata["alternate_identifier"])
+      metadata["doi"] = encode_doi(prefix, number: metadata["alternate_identifier"]) if metadata["doi"].blank?
 
       work = Cirneco::Work.new(metadata)
       return work.validation_errors if work.validation_errors.body["errors"].present?
@@ -289,7 +289,7 @@ module Cirneco
 
     def hide_metadata_for_work(metadata, options={})
       prefix = options[:prefix] || ENV['PREFIX']
-      metadata["doi"] ||= encode_doi(prefix, number: metadata["alternate_identifier"])
+      metadata["doi"] = encode_doi(prefix, number: metadata["alternate_identifier"]) if metadata["doi"].blank?
 
       work = Cirneco::Work.new(metadata)
       return work.validation_errors if work.validation_errors.body["errors"].present?
