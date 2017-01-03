@@ -358,13 +358,7 @@ module Cirneco
       text = Bergamasco::Markdown.join_yaml_frontmatter(metadata, content)
 
       xml = Bergamasco::Pandoc.convert_to_jats(text, options)
-
-      if metadata["doi"].present?
-        xmlname = metadata["doi"].split('/', 2).last + ".xml"
-      else
-        xmlname = filename.gsub(/\.html\.(erb|md)/, ".xml")
-      end
-
+      xmlname = filename.gsub(/\.html\.(erb|md)/, ".xml")
       xmlpath = build_path.gsub("index.html", xmlname)
       IO.write(xmlpath, xml)
 
