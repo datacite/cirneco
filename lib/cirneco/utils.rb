@@ -245,6 +245,8 @@ module Cirneco
     end
 
     def post_metadata_for_work(metadata, options={})
+      return Openstruct.new(body: { "errors" => [{"title" => "Error: required metadata missing" }] }) unless ["title", "creators", "publisher", "publication_year", "resource_type"].all? { |k| metadata.key? k }
+
       prefix = options[:prefix] || ENV['PREFIX']
       metadata["doi"] = encode_doi(prefix, number: metadata["alternate_identifier"]) if metadata["doi"].blank?
 
@@ -265,6 +267,8 @@ module Cirneco
     end
 
     def post_and_hide_metadata_for_work(metadata, options={})
+      return Openstruct.new(body: { "errors" => [{"title" => "Error: required metadata missing" }] }) unless ["title", "creators", "publisher", "publication_year", "resource_type"].all? { |k| metadata.key? k }
+
       prefix = options[:prefix] || ENV['PREFIX']
       metadata["doi"] = encode_doi(prefix, number: metadata["alternate_identifier"]) if metadata["doi"].blank?
 
@@ -288,6 +292,8 @@ module Cirneco
     end
 
     def hide_metadata_for_work(metadata, options={})
+      return Openstruct.new(body: { "errors" => [{"title" => "Error: required metadata missing" }] }) unless ["title", "creators", "publisher", "publication_year", "resource_type"].all? { |k| metadata.key? k }
+
       prefix = options[:prefix] || ENV['PREFIX']
       metadata["doi"] = encode_doi(prefix, number: metadata["alternate_identifier"]) if metadata["doi"].blank?
 
@@ -353,6 +359,8 @@ module Cirneco
     def generate_jats_for_url(url, options={})
       filename, build_path, source_path = filepath_from_url(url, options)
       metadata = generate_metadata_for_jats(build_path, options)
+      return "No JATS XML written for #{filename}" if metadata["published"].to_s == "false"
+
       file = IO.read(source_path)
       content = Bergamasco::Markdown.split_yaml_frontmatter(file).last
       text = Bergamasco::Markdown.join_yaml_frontmatter(metadata, content)

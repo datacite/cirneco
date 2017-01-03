@@ -119,6 +119,8 @@ module Cirneco
     end
 
     def insert_resource_type(xml)
+      return xml unless resource_type.present?
+
       xml.resourceType(resource_type[:value], 'resourceTypeGeneral' => resource_type[:resource_type_general])
     end
 
