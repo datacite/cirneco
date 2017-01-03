@@ -180,11 +180,11 @@ module Cirneco
     def generate_metadata_for_work(url, options={})
       doc = Nokogiri::HTML(open(url))
       json = doc.at_xpath("//script[@type='application/ld+json']")
-      return "Error: no schema.org metadata found" unless json.present?
+      return { "error" => "Error: no schema.org metadata found" } unless json.present?
 
       metadata = ActiveSupport::JSON.decode(json.text)
 
-      return "Error: required metadata missing" unless ["name", "author", "publisher", "datePublished", "@type"].all? { |k| metadata.key? k }
+      return { "error" => "Error: required metadata missing" } unless ["name", "author", "publisher", "datePublished", "@type"].all? { |k| metadata.key? k }
 
       # required metadata
       if /(http|https):\/\/(dx\.)?doi\.org\/(\w+)/.match(metadata["@id"])
@@ -300,11 +300,11 @@ module Cirneco
     def generate_metadata_for_jats(url, options={})
       doc = Nokogiri::HTML(open(url))
       json = doc.at_xpath("//script[@type='application/ld+json']")
-      return "Error: no schema.org metadata found" unless json.present?
+      return { "error" => "Error: no schema.org metadata found" } unless json.present?
 
       metadata = ActiveSupport::JSON.decode(json.text)
 
-      return "Error: required metadata missing" unless ["name", "author", "publisher", "datePublished", "@type"].all? { |k| metadata.key? k }
+      return { "error" => "Error: required metadata missing" } unless ["name", "author", "publisher", "datePublished", "@type"].all? { |k| metadata.key? k }
 
       # required metadata
       if /(http|https):\/\/(dx\.)?doi\.org\/(\w+)/.match(metadata["@id"])

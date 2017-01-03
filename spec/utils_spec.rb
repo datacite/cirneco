@@ -172,12 +172,12 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
 
     it 'should generate metadata for work no JSON-LD' do
       filepath = fixture_path + 'cool-dois-no-json-ld/index.html'
-      expect(subject.generate_metadata_for_work(filepath)).to eq("Error: no schema.org metadata found")
+      expect(subject.generate_metadata_for_work(filepath)).to eq("error"=>"Error: no schema.org metadata found")
     end
 
     it 'should generate metadata for work missing required metadata' do
       filepath = fixture_path + 'cool-dois-missing-metadata/index.html'
-      expect(subject.generate_metadata_for_work(filepath)).to eq("Error: required metadata missing")
+      expect(subject.generate_metadata_for_work(filepath)).to eq("error"=>"Error: required metadata missing")
     end
 
     it 'should post_metadata_for_work' do
