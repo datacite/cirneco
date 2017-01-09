@@ -184,7 +184,7 @@ module Cirneco
 
       metadata = ActiveSupport::JSON.decode(json.text)
 
-      return { "error" => "Error: required metadata missing" } unless ["name", "author", "publisher", "datePublished", "@type"].all? { |k| metadata.key? k }
+      return { "error" => "Error: required metadata missing" } unless ["name", "author", "publisher", "dateCreated", "@type"].all? { |k| metadata.key? k }
 
       # required metadata
       if /(http|https):\/\/(dx\.)?doi\.org\/(\w+)/.match(metadata["@id"])
@@ -197,7 +197,8 @@ module Cirneco
       metadata["creators"] = format_authors(metadata["author"])
 
       metadata["publisher"] = metadata.fetch("publisher", {}).fetch("name", nil)
-      metadata["publication_year"] = metadata.fetch("datePublished", "")[0..3].to_i
+      metadata["date"] = metadata.fetch("datePublished", nil).presence || metadata.fetch("datePublished", "")
+      metadata["publication_year"] = metadata["date"][0..3].to_i
 
       resource_type_general = case metadata["@type"]
         when "Dataset" then "Dataset"
@@ -310,7 +311,7 @@ module Cirneco
 
       metadata = ActiveSupport::JSON.decode(json.text)
 
-      return { "error" => "Error: required metadata missing" } unless ["name", "author", "publisher", "datePublished", "@type"].all? { |k| metadata.key? k }
+      return { "error" => "Error: required metadata missing" } unless ["name", "author", "publisher", "dateCreated", "@type"].all? { |k| metadata.key? k }
 
       # required metadata
       if /(http|https):\/\/(dx\.)?doi\.org\/(\w+)/.match(metadata["@id"])
@@ -328,7 +329,7 @@ module Cirneco
 
       metadata["publisher"] = metadata.fetch("publisher", {}).fetch("name", nil)
       metadata["tags"] = metadata["keywords"].to_s.split(", ").select { |k| k != "featured" }
-      metadata["date"] = metadata.fetch("datePublished", "")
+      metadata["date"] = metadata.fetch("datePublished", nil).presence || metadata.fetch("dateCreated", "")
       metadata["publication_year"] = metadata.fetch("date", "")[0..3].to_i
       metadata["publication_month"] = metadata.fetch("date", "")[5..6].to_i
       metadata["publication_day"] = metadata.fetch("date", "")[8..9].to_i

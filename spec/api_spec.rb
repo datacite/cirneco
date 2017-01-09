@@ -75,6 +75,11 @@ describe Cirneco::Work, vcr: true, :order => :defined do
         expect(response.body["data"]).to eq("http://www.datacite.org")
       end
 
+      it 'should get doi not found' do
+        response = subject.get_doi("10.5072/0000-03V", options)
+        expect(response.status).to eq(404)
+      end
+
       it 'username missing' do
         options = { username: username, sandbox: true }
         response = subject.get_doi(doi, options)
