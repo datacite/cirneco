@@ -114,6 +114,7 @@ module Cirneco
     method_option :password, :default => ENV['MDS_PASSWORD']
     method_option :prefix, :default => ENV['PREFIX']
     method_option :sandbox, :type => :boolean, :force => false
+    method_option :force, :type => :boolean, :force => false
     def mint(url)
       response = mint_dois_for_all_urls(url, options)
       puts response
@@ -132,6 +133,7 @@ module Cirneco
     method_option :password, :default => ENV['MDS_PASSWORD']
     method_option :prefix, :default => ENV['PREFIX']
     method_option :sandbox, :type => :boolean, :force => false
+    method_option :force, :type => :boolean, :force => false
     def mint_and_hide(url)
       response = mint_and_hide_dois_for_all_urls(url, options)
       puts response
@@ -149,6 +151,7 @@ module Cirneco
     method_option :username, :default => ENV['MDS_USERNAME']
     method_option :password, :default => ENV['MDS_PASSWORD']
     method_option :sandbox, :type => :boolean, :force => false
+    method_option :force, :type => :boolean, :force => false
     def hide(url)
       response = hide_dois_for_all_urls(url, options)
       puts response

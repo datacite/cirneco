@@ -108,7 +108,7 @@ module Cirneco
       filename, build_path, source_path = filepath_from_url(url, options)
 
       metadata = generate_metadata_for_work(build_path, options)
-      return "DOI #{metadata["doi"]} not changed for #{filename}" if metadata["doi"] && metadata["date_updated"] == metadata["date_issued"]
+      return "DOI #{metadata["doi"]} not changed for #{filename}" if metadata["doi"] && metadata["date_updated"] == metadata["date_issued"] && options[:force].blank?
 
       response = post_metadata_for_work(metadata, options)
       return "Errors for DOI #{metadata["doi"]}: #{response.body['errors'].first['title']}\n" if response.body['errors'].present?
@@ -122,7 +122,7 @@ module Cirneco
       filename, build_path, source_path = filepath_from_url(url, options)
 
       metadata = generate_metadata_for_work(build_path, options)
-      return "DOI #{metadata["doi"]} not changed for #{filename}" if metadata["doi"] && metadata["date_updated"] == metadata["date_issued"]
+      return "DOI #{metadata["doi"]} not changed for #{filename}" if metadata["doi"] && metadata["date_updated"] == metadata["date_issued"] && options[:force].blank?
 
       response = post_metadata_for_work(metadata, options)
       return "Errors for DOI #{metadata["doi"]}: #{response.body['errors'].first['title']}\n" if response.body['errors'].present?
@@ -138,7 +138,7 @@ module Cirneco
 
       metadata = generate_metadata_for_work(build_path, options)
       return "No DOI for #{filename}" unless metadata["doi"]
-      return "DOI #{metadata["doi"]} not active for #{filename}" unless metadata["date_issued"]
+      return "DOI #{metadata["doi"]} not active for #{filename}" unless metadata["date_issued"] || options[:force].present?
 
       response = hide_metadata_for_work(metadata, options)
       return "Errors for DOI #{metadata["doi"]}: #{response.body['errors'].first['title']}\n" if response.body['errors'].present?
