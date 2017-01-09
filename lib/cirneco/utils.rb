@@ -108,12 +108,12 @@ module Cirneco
       filename, build_path, source_path = filepath_from_url(url, options)
 
       metadata = generate_metadata_for_work(build_path, options)
-      return "DOI #{metadata["doi"]} not changed for #{filename}" if metadata["doi"] && metadata["date_issued"]
+      return "DOI #{metadata["doi"]} not changed for #{filename}" if metadata["doi"] && metadata["date_updated"] == metadata["date_issued"]
 
       response = post_metadata_for_work(metadata, options)
       return "Errors for DOI #{metadata["doi"]}: #{response.body['errors'].first['title']}\n" if response.body['errors'].present?
 
-      new_metadata = Bergamasco::Markdown.update_file(source_path, "doi" => metadata["doi"], "published" => true)
+      new_metadata = Bergamasco::Markdown.update_file(source_path, "doi" => metadata["doi"], "date" => metadata["date_updated"])
       "DOI #{new_metadata["doi"]} minted for #{filename}"
     end
 
@@ -122,12 +122,12 @@ module Cirneco
       filename, build_path, source_path = filepath_from_url(url, options)
 
       metadata = generate_metadata_for_work(build_path, options)
-      return "DOI #{metadata["doi"]} not changed for #{filename}" if metadata["doi"] && metadata["date_issued"]
+      return "DOI #{metadata["doi"]} not changed for #{filename}" if metadata["doi"] && metadata["date_updated"] == metadata["date_issued"]
 
       response = post_metadata_for_work(metadata, options)
       return "Errors for DOI #{metadata["doi"]}: #{response.body['errors'].first['title']}\n" if response.body['errors'].present?
 
-      new_metadata = Bergamasco::Markdown.update_file(source_path, "doi" => metadata["doi"], "published" => false)
+      new_metadata = Bergamasco::Markdown.update_file(source_path, "doi" => metadata["doi"], "date" => metadata["date_updated"])
       "DOI #{new_metadata["doi"]} minted and hidden for #{filename}"
     end
 
@@ -183,8 +183,8 @@ module Cirneco
       return { "error" => "Error: no schema.org metadata found" } unless json.present?
 
       metadata = ActiveSupport::JSON.decode(json.text)
-
-      return { "error" => "Error: required metadata missing" } unless ["name", "author", "publisher", "dateCreated", "@type"].all? { |k| metadata.key? k }
+      return { "error" => "Error: blog post not published" } if metadata["published"].to_s == "false"
+      return { "error" => "Error: required metadata missing" } unless ["name", "author", "publisher", "datePublished", "@type"].all? { |k| metadata.key? k }
 
       # required metadata
       if /(http|https):\/\/(dx\.)?doi\.org\/(\w+)/.match(metadata["@id"])
@@ -197,8 +197,7 @@ module Cirneco
       metadata["creators"] = format_authors(metadata["author"])
 
       metadata["publisher"] = metadata.fetch("publisher", {}).fetch("name", nil)
-      metadata["date"] = metadata.fetch("datePublished", nil).presence || metadata.fetch("datePublished", "")
-      metadata["publication_year"] = metadata["date"][0..3].to_i
+      metadata["publication_year"] = metadata["datePublished"][0..3].to_i
 
       resource_type_general = case metadata["@type"]
         when "Dataset" then "Dataset"
@@ -310,8 +309,8 @@ module Cirneco
       return { "error" => "Error: no schema.org metadata found" } unless json.present?
 
       metadata = ActiveSupport::JSON.decode(json.text)
-
-      return { "error" => "Error: required metadata missing" } unless ["name", "author", "publisher", "dateCreated", "@type"].all? { |k| metadata.key? k }
+      return { "error" => "Error: blog post not published" } if metadata["published"].to_s == "false"
+      return { "error" => "Error: required metadata missing" } unless ["name", "author", "publisher", "datePublished", "@type"].all? { |k| metadata.key? k }
 
       # required metadata
       if /(http|https):\/\/(dx\.)?doi\.org\/(\w+)/.match(metadata["@id"])
@@ -329,7 +328,7 @@ module Cirneco
 
       metadata["publisher"] = metadata.fetch("publisher", {}).fetch("name", nil)
       metadata["tags"] = metadata["keywords"].to_s.split(", ").select { |k| k != "featured" }
-      metadata["date"] = metadata.fetch("datePublished", nil).presence || metadata.fetch("dateCreated", "")
+      metadata["date"] = metadata.fetch("datePublished", "")
       metadata["publication_year"] = metadata.fetch("date", "")[0..3].to_i
       metadata["publication_month"] = metadata.fetch("date", "")[5..6].to_i
       metadata["publication_day"] = metadata.fetch("date", "")[8..9].to_i
