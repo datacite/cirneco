@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.license       = 'MIT'
 
   # Declary dependencies here, rather than in the Gemfile
-  s.add_dependency 'maremma', '~> 3.1'
+  s.add_dependency 'maremma', '~> 3.1.2'
   s.add_dependency 'bergamasco', '~> 0.3'
   s.add_dependency 'base32-crockford-checksum', '~> 0.2.2'
   s.add_dependency 'nokogiri', '~> 1.6', '>= 1.6.8'
