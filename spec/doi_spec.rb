@@ -131,5 +131,3 @@ describe Cirneco::Doi do
     end
   end
 end
-
-
