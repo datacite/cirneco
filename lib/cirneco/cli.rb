@@ -16,7 +16,7 @@ module Cirneco
     env_file = File.expand_path("../../.env", __FILE__)
     if File.exist?(env_file)
       require 'dotenv'
-      Dotenv.load! env_file
+      Dotenv.overload env_file
     end
 
     def self.exit_on_failure?

@@ -20,14 +20,14 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
     it 'should get all dois by prefix' do
       response = subject.get_dois_by_prefix(prefix, options)
       dois = response.body["data"]
-      expect(dois.length).to eq(76)
-      expect(dois.first).to eq("10.5072/0000-00SS")
+      expect(dois.length).to eq(437)
+      expect(dois.first).to eq("10.5438/0000-00SS")
     end
   end
 
   context "base32" do
     it 'should decode doi' do
-      doi = "10.5072/0000-03WD"
+      doi = "10.5438/0000-03WD"
       expect(subject.decode_doi(doi)).to eq(124)
     end
 
@@ -38,16 +38,16 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
 
     it 'should encode doi' do
       number = 123
-      expect(subject.encode_doi(prefix, number: number)).to eq("10.5072/0000-03VC")
+      expect(subject.encode_doi(prefix, number: number)).to eq("10.5438/0000-03VC")
     end
 
     it 'should encode doi number with other characters' do
       number = "MS-123"
-      expect(subject.encode_doi(prefix, number: number)).to eq("10.5072/0000-03VC")
+      expect(subject.encode_doi(prefix, number: number)).to eq("10.5438/0000-03VC")
     end
 
     it 'should encode doi random number' do
-      expect(subject.encode_doi(prefix)).to start_with("10.5072")
+      expect(subject.encode_doi(prefix)).to start_with("10.5438")
     end
   end
 
@@ -120,78 +120,65 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
     it 'should mint for url' do
       filepath = fixture_path + 'cool-dois/index.html'
       response = subject.mint_doi_for_url(filepath, options)
-      expect(response).to eq("DOI 10.5072/0000-03VC minted for cool-dois.html.md")
+      expect(response).to eq("DOI 10.5438/0000-03VC minted for cool-dois.html.md")
     end
 
     it 'should hide for url' do
-      filepath = fixture_path + 'cool-dois-minted.html'
+      filepath = fixture_path + 'cool-dois-minted/index.html'
       response = subject.hide_doi_for_url(filepath, options)
-      expect(response).to eq("DOI 10.5072/0000-03WD hidden for cool-dois-minted.html.md")
+      expect(response).to eq("DOI 10.5438/55E5-T5C0 hidden for cool-dois-minted.html.md")
     end
 
     it 'should mint and hide for url' do
       filepath = fixture_path + 'cool-dois/index.html'
       response = subject.mint_and_hide_doi_for_url(filepath, options)
-      expect(response).to eq("DOI 10.5072/0000-03VC minted and hidden for cool-dois.html.md")
+      expect(response).to eq("DOI 10.5438/0000-03VC minted and hidden for cool-dois.html.md")
     end
 
     it 'should mint for all urls' do
       filepath = fixture_path + 'index.html'
       response = subject.mint_dois_for_all_urls(filepath, options)
-      expect(response).to eq("DOI 10.5072/0000-03VC minted for cool-dois.html.md\nDOI 10.5072/0000-00SS minted for index.html.erb")
+      expect(response).to eq("DOI 10.5438/0000-03VC minted for cool-dois.html.md\nDOI 10.5438/0000-00SS minted for index.html.erb")
     end
 
     it 'should hide for all urls' do
       filepath = fixture_path + 'index-minted.html'
       response = subject.hide_dois_for_all_urls(filepath, options)
-      expect(response).to eq("No DOI for cool-dois.html.md\nErrors for DOI 10.5072/0000-NW90: Not found\n")
+      expect(response).to eq("No DOI for cool-dois.html.md\nErrors for DOI 10.5438/0000-NW90: Not found\n")
     end
 
     it 'should mint and hide for all urls' do
       filepath = fixture_path + 'index.html'
       response = subject.mint_and_hide_dois_for_all_urls(filepath, options)
-      expect(response).to eq("DOI 10.5072/0000-03VC minted and hidden for cool-dois.html.md\nDOI 10.5072/0000-00SS minted and hidden for index.html.erb")
+      expect(response).to eq("DOI 10.5438/0000-03VC minted and hidden for cool-dois.html.md\nDOI 10.5438/0000-00SS minted and hidden for index.html.erb")
     end
 
-    it 'should generate metadata for work' do
+    it 'should get_json_ld_from_work' do
       filepath = fixture_path + 'cool-dois/index.html'
-      metadata = subject.generate_metadata_for_work(filepath)
+      json = subject.get_json_ld_from_work(filepath)
+      metadata = JSON.parse(json)
       expect(metadata["url"]).to eq("https://blog.datacite.org/cool-dois/")
-      expect(metadata["creators"]).to eq([{:given_name=>"Martin", :family_name=>"Fenner", :orcid=>"0000-0003-1419-2405"}])
-      expect(metadata["descriptions"]).to eq([{:value=>"In 1998 Tim Berners-Lee coined the term cool URIs (1998), that is URIs that don’t change. We know that URLs referenced in the scholarly literature are often not cool, leading to link rot (Klein et al., 2014) and making it hard or impossible to find...",:description_type=>"Abstract"}])
-      expect(metadata["related_identifiers"]).to eq([{:value=>"https://www.w3.org/Provider/Style/URI",
-          :related_identifier_type=>"URL",
-          :relation_type=>"References"},
-        { :value=>"10.1371/JOURNAL.PONE.0115253",
-          :related_identifier_type=>"DOI",
-          :relation_type=>"References" },
-        { :value=>"https://blog.datacite.org/",
-          :related_identifier_type=>"URL",
-          :relation_type=>"IsPartOf"}])
-    end
-
-    it 'should generate metadata for work no JSON-LD' do
-      filepath = fixture_path + 'cool-dois-no-json-ld/index.html'
-      expect(subject.generate_metadata_for_work(filepath)).to eq("error"=>"Error: no schema.org metadata found")
-    end
-
-    it 'should generate metadata for work missing required metadata' do
-      filepath = fixture_path + 'cool-dois-missing-metadata/index.html'
-      expect(subject.generate_metadata_for_work(filepath)).to eq("error"=>"Error: required metadata missing")
+      expect(metadata["author"]).to eq([{"@type"=>"Person", "@id"=>"http://orcid.org/0000-0003-1419-2405", "givenName"=>"Martin", "familyName"=>"Fenner", "name"=>"Martin Fenner"}])
+      expect(metadata["description"]).to eq("In 1998 Tim Berners-Lee coined the term cool URIs (1998), that is URIs that don’t change. We know that URLs referenced in the scholarly literature are often not cool, leading to link rot (Klein et al., 2014) and making it hard or impossible to find...")
+      expect(metadata["citation"]).to eq([{"@type"=>"CreativeWork",
+                                           "@id"=>"https://www.w3.org/Provider/Style/URI"},
+                                          {"@type"=>"CreativeWork",
+                                           "@id"=>"https://doi.org/10.1371/journal.pone.0115253"}])
+      expect(metadata["isPartOf"]).to eq("@type"=>"Blog", "@id"=>"https://blog.datacite.org", "name"=>"DataCite Blog")
     end
 
     it 'should post_metadata_for_work' do
       filepath = fixture_path + 'cool-dois/index.html'
-      metadata = subject.generate_metadata_for_work(filepath)
-      response = subject.post_metadata_for_work(metadata, options)
+      json = subject.get_json_ld_from_work(filepath)
+      response = subject.post_metadata_for_work(json, options)
       expect(response.body["data"]).to eq("OK")
-      expect(response.status).to eq(200)
+      expect(response.status).to eq(201)
     end
 
     it 'should hide_metadata_for_work' do
       filepath = fixture_path + 'cool-dois/index.html'
-      metadata = subject.generate_metadata_for_work(filepath)
-      response = subject.hide_metadata_for_work(metadata, options)
+      json = subject.get_json_ld_from_work(filepath)
+      response = subject.hide_metadata_for_work(json, options)
       expect(response.body["data"]).to eq("OK")
       expect(response.status).to eq(200)
     end

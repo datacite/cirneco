@@ -107,13 +107,14 @@ module Cirneco
     def mint_doi_for_url(url, options={})
       filename, build_path, source_path = filepath_from_url(url, options)
 
-      metadata = generate_metadata_for_work(build_path, options)
-      return "DOI #{metadata["doi"]} not changed for #{filename}" if metadata["doi"] && metadata["date_updated"] == metadata["date_issued"] && options[:force].blank?
+      json = get_json_ld_from_work(build_path, options)
+      metadata = JSON.parse(json)
+      return "DOI #{metadata["doi"]} not changed for #{filename}" if metadata["doi"] && metadata["dateModified"] == metadata["datePublished"] && options[:force].blank?
 
-      response = post_metadata_for_work(metadata, options)
-      return "Errors for DOI #{metadata["doi"]}: #{response.body['errors'].first['title']}\n" if response.body['errors'].present?
+      prefix = options[:prefix] || ENV['PREFIX']
+      doi = encode_doi(prefix, number: metadata["alternateName"]) if metadata["doi"].blank?
 
-      new_metadata = Bergamasco::Markdown.update_file(source_path, "doi" => metadata["doi"], "date" => metadata["date_updated"])
+      new_metadata = Bergamasco::Markdown.update_file(source_path, "doi" => doi, "date" => metadata["dateModified"])
       "DOI #{new_metadata["doi"]} minted for #{filename}"
     end
 
@@ -121,14 +122,22 @@ module Cirneco
     def mint_and_hide_doi_for_url(url, options={})
       filename, build_path, source_path = filepath_from_url(url, options)
 
-      metadata = generate_metadata_for_work(build_path, options)
-      return "DOI #{metadata["doi"]} not changed for #{filename}" if metadata["doi"] && metadata["date_updated"] == metadata["date_issued"] && options[:force].blank?
+      json = get_json_ld_from_work(build_path, options)
+      metadata = JSON.parse(json)
+      metadata["doi"] = doi_from_url(metadata["@id"])
+      return "DOI #{metadata["doi"]} not changed for #{filename}" if metadata["doi"] && metadata["dateModified"] == metadata["datePublished"] && options[:force].blank?
 
-      response = post_metadata_for_work(metadata, options)
+      prefix = options[:prefix] || ENV['PREFIX']
+      metadata["doi"] = encode_doi(prefix, number: metadata["alternateName"]) if metadata["doi"].blank?
+
+      response = post_metadata_for_work(json, options.merge(doi: metadata["doi"]))
       return "Errors for DOI #{metadata["doi"]}: #{response.body['errors'].first['title']}\n" if response.body['errors'].present?
 
-      new_metadata = Bergamasco::Markdown.update_file(source_path, "doi" => metadata["doi"], "date" => metadata["date_updated"])
-      "DOI #{new_metadata["doi"]} minted and hidden for #{filename}"
+      response = hide_metadata_for_work(json, options.merge(doi: metadata["doi"]))
+      return "Errors for DOI #{metadata["doi"]}: #{response.body['errors'].first['title']}\n" if response.body['errors'].present?
+
+      new_metadata = Bergamasco::Markdown.update_file(source_path, "published" => false)
+      "DOI #{metadata["doi"]} minted and hidden for #{filename}"
     end
 
     # fetch schema.org metadata in JSON-LD format to mint DOI
@@ -136,11 +145,13 @@ module Cirneco
     def hide_doi_for_url(url, options={})
       filename, build_path, source_path = filepath_from_url(url, options)
 
-      metadata = generate_metadata_for_work(build_path, options)
+      json = get_json_ld_from_work(build_path, options)
+      metadata = JSON.parse(json)
+      metadata["doi"] = doi_from_url(metadata["@id"])
       return "No DOI for #{filename}" unless metadata["doi"]
-      return "DOI #{metadata["doi"]} not active for #{filename}" unless metadata["date_issued"] || options[:force].present?
+      return "DOI #{metadata["doi"]} not active for #{filename}" unless metadata["datePublished"] || options[:force].present?
 
-      response = hide_metadata_for_work(metadata, options)
+      response = hide_metadata_for_work(json, options)
       return "Errors for DOI #{metadata["doi"]}: #{response.body['errors'].first['title']}\n" if response.body['errors'].present?
 
       new_metadata = Bergamasco::Markdown.update_file(source_path, "published" => false)
@@ -177,86 +188,52 @@ module Cirneco
       metadata.fetch("hasPart", []).map { |p| p["@id"] } + [url]
     end
 
-    def generate_metadata_for_work(url, options={})
+    def get_json_ld_from_work(url, options={})
       doc = Nokogiri::HTML(open(url))
       json = doc.at_xpath("//script[@type='application/ld+json']")
       return { "error" => "Error: no schema.org metadata found" } unless json.present?
 
-      metadata = ActiveSupport::JSON.decode(json.text)
-      return { "error" => "Error: blog post not published" } if metadata["published"].to_s == "false"
-      return { "error" => "Error: required metadata missing" } unless ["name", "author", "publisher", "datePublished", "@type"].all? { |k| metadata.key? k }
-
-      # required metadata
-      if /(http|https):\/\/(dx\.)?doi\.org\/(\w+)/.match(metadata["@id"])
-        uri = Addressable::URI.parse(metadata["@id"])
-        metadata["doi"] = uri.path[1..-1].upcase
-      end
-
-      metadata["title"] = metadata["name"]
-
-      metadata["creators"] = format_authors(metadata["author"])
-
-      metadata["publisher"] = metadata.fetch("publisher", {}).fetch("name", nil)
-      metadata["publication_year"] = metadata["datePublished"][0..3].to_i
-
-      resource_type_general = case metadata["@type"]
-        when "Dataset" then "Dataset"
-        when "Blog" then "Collection"
-        when "Code" then "Software"
-        else "Text"
-        end
-
-      metadata["resource_type"] = { value: metadata["@type"],
-                                    resource_type_general: resource_type_general }
-
-      # recommended metadata
-
-      # use alternate_identifier to generate DOI
-      metadata["alternate_identifier"] = metadata["alternateName"]
-
-      if metadata["description"].present?
-        metadata["descriptions"] = [{ value: metadata["description"], description_type: "Abstract" }]
-      end
-
-      # use default version 1.0
-      metadata["version"] ||= "1.0"
-
-      # fetch reference metadata if available
-      metadata["related_identifiers"] = get_related_identifiers(metadata)
-
-      if metadata["license"].present?
-        value = LICENSES.fetch(metadata["license_url"], nil)
-        metadata["rights_list"] = [{ value: value, rights_uri: metadata["license"] }] if value.present?
-      end
-
-      if metadata["keywords"].present?
-        metadata["subjects"] = Array(metadata["keywords"].split(", ")).select { |k| k != "featured" }
-      end
-
-      metadata["media"] = format_media(metadata)
-
-      metadata["date_created"] = metadata["dateCreated"]
-      metadata["date_issued"] = metadata["datePublished"]
-      metadata["date_updated"] = metadata["dateModified"]
-
-      metadata = metadata.extract!(*%w(doi alternate_identifier url creators title
-        publisher publication_year resource_type descriptions version rights_list
-        subjects date_issued date_created date_updated related_identifiers media))
+      json.text
     end
 
-    def post_metadata_for_work(metadata, options={})
-      return OpenStruct.new(body: { "errors" => [{"title" => "Error: required metadata missing" }] }) unless ["title", "creators", "publisher", "publication_year", "resource_type"].all? { |k| metadata.key? k }
+    def post_metadata_for_work(input, options={})
+      metadata = JSON.parse(input)
 
       prefix = options[:prefix] || ENV['PREFIX']
-      metadata["doi"] = encode_doi(prefix, number: metadata["alternate_identifier"]) if metadata["doi"].blank?
+      doi = encode_doi(prefix, number: metadata["alternateName"]) if metadata["doi"].blank?
 
-      work = Cirneco::Work.new(metadata)
-      return work.validation_errors if work.validation_errors.body["errors"].present?
+      work = Cirneco::Work.new(input: input, doi: doi)
+      return work.errors if work.errors.present?
 
-      response = work.post_metadata(work.data, options)
+      response = work.post_metadata(work.datacite, options)
       return response unless response.status == 201
 
-      response = work.put_doi(metadata["doi"], options.merge(url: metadata["url"]))
+      response = work.put_doi(work.doi, options.merge(url: metadata["url"]))
+      return response unless response.status == 201
+
+      if work.media.present?
+        work.post_media(metadata.doi, options.merge(media: work.media))
+      else
+        response
+      end
+    end
+
+    def post_and_hide_metadata_for_work(input, options={})
+      metadata = JSON.parse(input)
+
+      prefix = options[:prefix] || ENV['PREFIX']
+      doi = encode_doi(prefix, number: metadata["alternateName"]) if metadata["doi"].blank?
+
+      work = Cirneco::Work.new(input: input, doi: doi)
+      return work.errors if work.errors.present?
+
+      response = work.post_metadata(work.datacite, options)
+      return response unless response.status == 201
+
+      response = work.put_doi(work.doi, options.merge(url: metadata["url"]))
+      return response unless response.status == 201
+
+      response = work.delete_metadata(doi, options)
       return response unless response.status == 201
 
       if work.media.present?
@@ -266,39 +243,15 @@ module Cirneco
       end
     end
 
-    def post_and_hide_metadata_for_work(metadata, options={})
-      return OpenStruct.new(body: { "errors" => [{"title" => "Error: required metadata missing" }] }) unless ["title", "creators", "publisher", "publication_year", "resource_type"].all? { |k| metadata.key? k }
+    def hide_metadata_for_work(input, options={})
+      metadata = JSON.parse(input)
+      metadata["doi"] = doi_from_url(metadata["@id"])
 
       prefix = options[:prefix] || ENV['PREFIX']
-      metadata["doi"] = encode_doi(prefix, number: metadata["alternate_identifier"]) if metadata["doi"].blank?
+      metadata["doi"] = encode_doi(prefix, number: metadata["alternateName"]) if metadata["doi"].blank?
 
-      work = Cirneco::Work.new(metadata)
-      return work.validation_errors if work.validation_errors.body["errors"].present?
-
-      response = work.post_metadata(work.data, options)
-      return response unless response.status == 201
-
-      response = work.put_doi(metadata["doi"], options.merge(url: metadata["url"]))
-      return response unless response.status == 201
-
-      response = work.delete_metadata(metadata["doi"], options)
-      return response unless response.status == 201
-
-      if work.media.present?
-        work.post_media(metadata["doi"], options.merge(media: work.media))
-      else
-        response
-      end
-    end
-
-    def hide_metadata_for_work(metadata, options={})
-      return OpenStruct.new(body: { "errors" => [{"title" => "Error: required metadata missing" }] }) unless ["title", "creators", "publisher", "publication_year", "resource_type"].all? { |k| metadata.key? k }
-
-      prefix = options[:prefix] || ENV['PREFIX']
-      metadata["doi"] = encode_doi(prefix, number: metadata["alternate_identifier"]) if metadata["doi"].blank?
-
-      work = Cirneco::Work.new(metadata)
-      return work.validation_errors if work.validation_errors.body["errors"].present?
+      work = Cirneco::Work.new(input: input, doi: metadata["doi"])
+      return work.errors if work.errors.present?
 
       work.delete_metadata(metadata["doi"], options)
     end

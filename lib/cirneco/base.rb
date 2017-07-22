@@ -4,7 +4,7 @@ module Cirneco
     env_file = File.expand_path("../../../.env", __FILE__)
     if File.exist?(env_file)
       require 'dotenv'
-      Dotenv.load! env_file
+      Dotenv.overload env_file
     end
 
     # load ENV variables from container environment if json file exists
@@ -16,6 +16,6 @@ module Cirneco
     end
 
     # default values for some ENV variables
-    ENV['MDS_URL'] ||= "https://mds-sandbox.datacite.org"
+    ENV['MDS_URL'] ||= "https://mds.test.datacite.org"
   end
 end

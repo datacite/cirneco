@@ -23,21 +23,21 @@ http_interactions:
       Location:
       - https://blog.datacite.org/cool-dois/
       Expires:
-      - Sat, 22 Jul 2017 07:25:52 GMT
+      - Sat, 22 Jul 2017 07:20:45 GMT
       Content-Type:
       - text/html;charset=utf-8
       Content-Length:
       - '157'
       Date:
-      - Sat, 22 Jul 2017 07:04:36 GMT
+      - Sat, 22 Jul 2017 07:18:33 GMT
     body:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Sat, 22 Jul 2017 07:04:35 GMT
+  recorded_at: Sat, 22 Jul 2017 07:18:32 GMT
 - request:
     method: delete
-    uri: https://mds.test.datacite.org/metadata/10.5438/0000-NW90
+    uri: https://mds.test.datacite.org/metadata/10.5438/0000-00SS
     body:
       encoding: US-ASCII
       string: ''
@@ -50,8 +50,8 @@ http_interactions:
       - Basic <MDS_TOKEN>
   response:
     status:
-      code: 404
-      message: Not Found
+      code: 200
+      message: OK
     headers:
       Access-Control-Allow-Methods:
       - GET, POST, OPTIONS
@@ -59,8 +59,10 @@ http_interactions:
       - "*"
       Cache-Control:
       - no-cache, no-store
+      Content-Type:
+      - text/html;charset=UTF-8
       Date:
-      - Sat, 22 Jul 2017 07:04:36 GMT
+      - Sat, 22 Jul 2017 07:18:33 GMT
       Expires:
       - Thu, 01 Jan 1970 00:00:00 GMT
       Pragma:
@@ -68,12 +70,12 @@ http_interactions:
       Server:
       - openresty/1.11.2.2
       Content-Length:
-      - '17'
+      - '2'
       Connection:
       - keep-alive
     body:
       encoding: UTF-8
-      string: DOI doesn't exist
+      string: OK
     http_version: 
-  recorded_at: Sat, 22 Jul 2017 07:04:35 GMT
+  recorded_at: Sat, 22 Jul 2017 07:18:32 GMT
 recorded_with: VCR 3.0.3
