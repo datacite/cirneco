@@ -50,10 +50,21 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
       expect(subject.encode_doi(prefix)).to start_with("10.5438")
     end
 
+    it 'should not encode invalid prefix' do
+      prefix = "20.5438"
+      expect(subject.encode_doi(prefix)).to be_nil
+    end
+
     it 'should encode doi with shoulder' do
       number = 7654321
       shoulder = "dryad."
       expect(subject.encode_doi(prefix, number: number, shoulder: shoulder)).to eq("10.5438/dryad.79jxhm")
+    end
+
+    it 'should encode doi with empty shoulder' do
+      number = 7654321
+      shoulder = nil
+      expect(subject.encode_doi(prefix, number: number, shoulder: shoulder)).to eq("10.5438/0079-jxhm")
     end
   end
 

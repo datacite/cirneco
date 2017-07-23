@@ -20,16 +20,19 @@ module Cirneco
 
     def decode_doi(doi)
       prefix, string = doi.split('/', 2)
-      Base32::Crockford.decode(string, checksum: true).to_i
+      Base32::Crockford.decode(string.upcase, checksum: true).to_i
     end
 
     def encode_doi(prefix, options={})
+      prefix = validate_prefix(prefix)
+      return nil unless prefix.present?
+
       number = options[:number].to_s.scan(/\d+/).first.to_i
       number = SecureRandom.random_number(UPPER_LIMIT) unless number > 0
       shoulder = options[:shoulder].to_s
 
       length = shoulder.length > 0 ? 6 : 8
-      split = shoulder.length > 0 ? nil: 4
+      split = shoulder.length > 0 ? nil : 4
       prefix.to_s + "/" + shoulder + Base32::Crockford.encode(number, split: split, length: length, checksum: true).downcase
     end
 
