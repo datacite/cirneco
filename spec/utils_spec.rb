@@ -49,6 +49,12 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
     it 'should encode doi random number' do
       expect(subject.encode_doi(prefix)).to start_with("10.5438")
     end
+
+    it 'should encode doi with shoulder' do
+      number = 7654321
+      shoulder = "dryad."
+      expect(subject.encode_doi(prefix, number: number, shoulder: shoulder)).to eq("10.5438/dryad.79jxhm")
+    end
   end
 
   context "accession_number" do
