@@ -3,6 +3,7 @@ require 'active_support/all'
 
 require_relative 'api'
 require_relative 'utils'
+require_relative 'file_utils'
 require_relative 'base'
 
 module Cirneco
@@ -10,7 +11,8 @@ module Cirneco
     include Cirneco::Base
     include Cirneco::Api
     include Cirneco::Utils
-
+    include Cirneco::FileUtils
+    
     desc "get DOI", "get media for DOI"
     method_option :username, :default => ENV['MDS_USERNAME']
     method_option :password, :default => ENV['MDS_PASSWORD']

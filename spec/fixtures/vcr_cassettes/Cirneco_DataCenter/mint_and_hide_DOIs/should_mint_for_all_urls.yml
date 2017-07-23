@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: head
-    uri: https://doi.org/10.5438/55E5-T5C0
+    uri: https://doi.org/10.5438/55e5-t5c0
     body:
       encoding: US-ASCII
       string: ''
@@ -23,16 +23,16 @@ http_interactions:
       Location:
       - https://blog.datacite.org/cool-dois/
       Expires:
-      - Sat, 22 Jul 2017 07:25:52 GMT
+      - Sun, 23 Jul 2017 07:26:33 GMT
       Content-Type:
       - text/html;charset=utf-8
       Content-Length:
       - '157'
       Date:
-      - Sat, 22 Jul 2017 07:04:35 GMT
+      - Sun, 23 Jul 2017 06:56:10 GMT
     body:
       encoding: UTF-8
       string: ''
     http_version: 
-  recorded_at: Sat, 22 Jul 2017 07:04:34 GMT
+  recorded_at: Sun, 23 Jul 2017 06:56:09 GMT
 recorded_with: VCR 3.0.3
