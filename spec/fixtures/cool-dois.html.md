@@ -9,7 +9,7 @@ accession_number: MS-123
 image: https://blog.datacite.org/images/2016/12/cool-dois.png
 published: false
 date: '2016-12-15'
-doi: 10.5438/0000-03vc
+doi: 10.5438/55e5-t5c0
 ---
 In 1998 Tim Berners-Lee coined the term cool URIs [-@https://www.w3.org/Provider/Style/URI], that is URIs that don’t change. We know that URLs referenced in the scholarly literature are often not cool, leading to link rot [@https://doi.org/10.1371/journal.pone.0115253] and making it hard or impossible to find the referenced resource.READMORE
 

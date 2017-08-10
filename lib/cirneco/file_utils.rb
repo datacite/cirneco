@@ -152,7 +152,8 @@ module Cirneco
       prefix = options[:prefix] || ENV['PREFIX']
       doi = encode_doi(prefix, number: metadata["alternateName"]) if metadata["doi"].blank?
 
-      work = Cirneco::Work.new(input: input, doi: doi)
+      work = Cirneco::Work.new(input: input)
+      work.doi = doi
       return work.errors if work.errors.present?
 
       response = work.post_metadata(work.datacite, options)
@@ -174,7 +175,8 @@ module Cirneco
       prefix = options[:prefix] || ENV['PREFIX']
       doi = encode_doi(prefix, number: metadata["alternateName"]) if metadata["doi"].blank?
 
-      work = Cirneco::Work.new(input: input, doi: doi)
+      work = Cirneco::Work.new(input: input)
+      work.doi = doi
       return work.errors if work.errors.present?
 
       response = work.post_metadata(work.datacite, options)
@@ -200,7 +202,8 @@ module Cirneco
       prefix = options[:prefix] || ENV['PREFIX']
       metadata["doi"] = encode_doi(prefix, number: metadata["alternateName"]) if metadata["doi"].blank?
 
-      work = Cirneco::Work.new(input: input, doi: metadata["doi"])
+      work = Cirneco::Work.new(input: input)
+      work.doi = metadata["doi"]
       return work.errors if work.errors.present?
 
       work.delete_metadata(metadata["doi"], options)

@@ -27,7 +27,7 @@ module Cirneco
       prefix = validate_prefix(prefix)
       return nil unless prefix.present?
 
-      number = options[:number].to_s.scan(/\d+/).first.to_i
+      number = options[:number].to_s.scan(/\d+/).join("").to_i
       number = SecureRandom.random_number(UPPER_LIMIT) unless number > 0
       shoulder = options[:shoulder].to_s
 

@@ -13,7 +13,7 @@ module Cirneco
 
     attr_reader :media, :username, :password
 
-    def initialize(input: nil, from: nil, format: nil, **options)
+    def initialize(input: nil, from: nil, **options)
       @media = options[:media]
       @username = options[:username]
       @password = options[:password]

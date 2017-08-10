@@ -50,7 +50,7 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
     it 'should mint for url' do
       filepath = fixture_path + 'cool-dois/index.html'
       response = subject.mint_doi_for_url(filepath, options)
-      expect(response).to eq("DOI 10.5438/0000-03vc minted for cool-dois.html.md")
+      expect(response).to eq("DOI 10.5438/55e5-t5c0 minted for cool-dois.html.md")
     end
 
     it 'should hide for url' do
@@ -62,13 +62,13 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
     it 'should mint and hide for url' do
       filepath = fixture_path + 'cool-dois/index.html'
       response = subject.mint_and_hide_doi_for_url(filepath, options)
-      expect(response).to eq("DOI 10.5438/0000-03vc minted and hidden for cool-dois.html.md")
+      expect(response).to eq("DOI 10.5438/55e5-t5c0 minted and hidden for cool-dois.html.md")
     end
 
     it 'should mint for all urls' do
       filepath = fixture_path + 'index.html'
       response = subject.mint_dois_for_all_urls(filepath, options)
-      expect(response).to eq("DOI 10.5438/0000-03vc minted for cool-dois.html.md\nDOI 10.5438/0000-00ss minted for index.html.erb")
+      expect(response).to eq("DOI 10.5438/55e5-t5c0 minted for cool-dois.html.md\nDOI 10.5438/0007-nw90 minted for index.html.erb")
     end
 
     it 'should hide for all urls' do
@@ -80,7 +80,7 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
     it 'should mint and hide for all urls' do
       filepath = fixture_path + 'index.html'
       response = subject.mint_and_hide_dois_for_all_urls(filepath, options)
-      expect(response).to eq("DOI 10.5438/0000-03vc minted and hidden for cool-dois.html.md\nDOI 10.5438/0000-00ss minted and hidden for index.html.erb")
+      expect(response).to eq("DOI 10.5438/55e5-t5c0 minted and hidden for cool-dois.html.md\nDOI 10.5438/0000-00ss minted and hidden for index.html.erb")
     end
 
     it 'should get_json_ld_from_work' do

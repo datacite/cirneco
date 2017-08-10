@@ -89,7 +89,7 @@ describe Cirneco::Doi do
   context "mint and hide DOIs", vcr: true, :order => :defined do
     it 'mints a doi' do
       subject.options = mint_options
-      expect { subject.mint filepath }.to output("DOI 10.5438/0000-03vc minted for cool-dois.html.md\n").to_stdout
+      expect { subject.mint filepath }.to output("DOI 10.5438/55e5-t5c0 minted for cool-dois.html.md\n").to_stdout
     end
 
     it 'hides a doi' do
@@ -101,13 +101,13 @@ describe Cirneco::Doi do
 
     it 'mints and hides a doi' do
       subject.options = mint_options
-      expect { subject.mint_and_hide filepath }.to output("DOI 10.5438/0000-03vc minted and hidden for cool-dois.html.md\n").to_stdout
+      expect { subject.mint_and_hide filepath }.to output("DOI 10.5438/55e5-t5c0 minted and hidden for cool-dois.html.md\n").to_stdout
     end
 
     it 'mints dois for list of urls' do
       filepath = fixture_path + 'index.html'
       subject.options = mint_options
-      expect { subject.mint filepath }.to output("DOI 10.5438/0000-03vc minted for cool-dois.html.md\nDOI 10.5438/0000-00ss minted for index.html.erb\n").to_stdout
+      expect { subject.mint filepath }.to output("DOI 10.5438/55e5-t5c0 minted for cool-dois.html.md\nDOI 10.5438/0007-nw90 minted for index.html.erb\n").to_stdout
     end
 
     it 'hides dois for list of urls' do
@@ -119,7 +119,7 @@ describe Cirneco::Doi do
     it 'mints and hides dois for list of urls' do
       filepath = fixture_path + 'index.html'
       subject.options = mint_options
-      expect { subject.mint_and_hide filepath }.to output("DOI 10.5438/0000-03vc minted and hidden for cool-dois.html.md\nDOI 10.5438/0000-00ss minted and hidden for index.html.erb\n").to_stdout
+      expect { subject.mint_and_hide filepath }.to output("DOI 10.5438/55e5-t5c0 minted and hidden for cool-dois.html.md\nDOI 10.5438/0000-00ss minted and hidden for index.html.erb\n").to_stdout
     end
   end
 

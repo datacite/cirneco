@@ -20,15 +20,15 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
     it 'should get all dois by prefix' do
       response = subject.get_dois_by_prefix(prefix, options)
       dois = response.body["data"]
-      expect(dois.length).to eq(438)
+      expect(dois.length).to eq(440)
       expect(dois.first).to eq("10.5438/0000-00SS")
     end
   end
 
   context "base32" do
     it 'should decode doi' do
-      doi = "10.5438/0000-03WD"
-      expect(subject.decode_doi(doi)).to eq(124)
+      doi = "10.5438/ZWSF-4Y7Y"
+      expect(subject.decode_doi(doi)).to eq(34252231623)
     end
 
     it 'should decode doi not encoded' do
@@ -42,8 +42,8 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
     end
 
     it 'should encode doi number with other characters' do
-      number = "MS-123"
-      expect(subject.encode_doi(prefix, number: number)).to eq("10.5438/0000-03vc")
+      number = "MS-12-7196-7302"
+      expect(subject.encode_doi(prefix, number: number)).to eq("10.5438/15x1-bj6r")
     end
 
     it 'should encode doi random number' do
