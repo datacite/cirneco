@@ -1,4 +1,4 @@
-require 'base32/crockford'
+require 'base32/url'
 require 'securerandom'
 require 'bergamasco'
 require 'open-uri'
@@ -20,7 +20,7 @@ module Cirneco
 
     def decode_doi(doi)
       prefix, string = doi.split('/', 2)
-      Base32::Crockford.decode(string.upcase, checksum: true).to_i
+      Base32::URL.decode(string, checksum: true).to_i
     end
 
     def encode_doi(prefix, options={})
@@ -33,7 +33,7 @@ module Cirneco
 
       length = shoulder.length > 0 ? 6 : 8
       split = shoulder.length > 0 ? nil : 4
-      prefix.to_s + "/" + shoulder + Base32::Crockford.encode(number, split: split, length: length, checksum: true).downcase
+      prefix.to_s + "/" + shoulder + Base32::URL.encode(number, split: split, length: length, checksum: true)
     end
 
     def generate_accession_number(options={})

@@ -3,7 +3,6 @@ require 'bolognese'
 
 require_relative 'api'
 require_relative 'utils'
-require_relative 'file_utils'
 require_relative 'base'
 
 module Cirneco
@@ -11,7 +10,6 @@ module Cirneco
     include Cirneco::Base
     include Cirneco::Api
     include Cirneco::Utils
-    include Cirneco::FileUtils
     include Bolognese::Utils
     include Bolognese::DoiUtils
 
@@ -70,7 +68,7 @@ module Cirneco
       puts generate_accession_number(options)
     end
 
-    desc "decode DOI", "decode DOI encoded using Crockford base32 algorithm"
+    desc "decode DOI", "decode DOI encoded using base32-url algorithm"
     def decode(doi)
       number = decode_doi(doi)
 
@@ -81,99 +79,13 @@ module Cirneco
       end
     end
 
-    desc "check DOI", "check DOI using Crockford base32 checksum"
+    desc "check DOI", "check DOI using base32-url checksum"
     def check(doi)
       if decode_doi(doi) > 0
         puts "Checksum for #{doi} is valid"
       else
         puts "Checksum for #{doi} is not valid"
       end
-    end
-
-    desc "name DOCUMENT", "name document"
-    method_option :length, :type => :numeric
-    method_option :lower_limit, :type => :numeric
-    method_option :split, :type => :numeric, :default => 4
-    method_option :namespace, :default => 'MS-'
-    method_option :opt_in, :type => :boolean
-    def name(filepath)
-      if File.directory?(filepath)
-        response = update_all_accession_numbers(filepath, options)
-      else
-        response = update_accession_number(filepath, options)
-      end
-
-      puts response
-    end
-
-    desc "mint DOCUMENT", "mint document"
-    method_option :sitepath, :default => ENV['SITE_SITEPATH']
-    method_option :authorpath, :default => ENV['SITE_AUTHORPATH']
-    method_option :referencespath, :default => ENV['SITE_REFERENCESPATH']
-    method_option :source_dir, :default => ENV['SOURCE_DIR']
-    method_option :build_dir, :default => ENV['BUILD_DIR']
-    method_option :posts_dir, :default => ENV['POSTS_DIR']
-    method_option :csl, :default => ENV['SITE_CSLPATH']
-    method_option :number, :aliases => '-n'
-    method_option :username, :default => ENV['MDS_USERNAME']
-    method_option :password, :default => ENV['MDS_PASSWORD']
-    method_option :prefix, :default => ENV['PREFIX']
-    method_option :sandbox, :type => :boolean, :force => false
-    method_option :force, :type => :boolean, :force => false
-    def mint(url)
-      response = mint_dois_for_all_urls(url, options)
-      puts response
-    end
-
-    desc "mint and hide DOCUMENT", "mint and hide document"
-    method_option :sitepath, :default => ENV['SITE_SITEPATH']
-    method_option :authorpath, :default => ENV['SITE_AUTHORPATH']
-    method_option :referencespath, :default => ENV['SITE_REFERENCESPATH']
-    method_option :source_dir, :default => ENV['SOURCE_DIR']
-    method_option :build_dir, :default => ENV['BUILD_DIR']
-    method_option :posts_dir, :default => ENV['POSTS_DIR']
-    method_option :csl, :default => ENV['SITE_CSLPATH']
-    method_option :number, :aliases => '-n'
-    method_option :username, :default => ENV['MDS_USERNAME']
-    method_option :password, :default => ENV['MDS_PASSWORD']
-    method_option :prefix, :default => ENV['PREFIX']
-    method_option :sandbox, :type => :boolean, :force => false
-    method_option :force, :type => :boolean, :force => false
-    def mint_and_hide(url)
-      response = mint_and_hide_dois_for_all_urls(url, options)
-      puts response
-    end
-
-    desc "hide DOCUMENT", "hide document"
-    method_option :sitepath, :default => ENV['SITE_SITEPATH']
-    method_option :authorpath, :default => ENV['SITE_AUTHORPATH']
-    method_option :referencespath, :default => ENV['SITE_REFERENCESPATH']
-    method_option :source_dir, :default => ENV['SOURCE_DIR']
-    method_option :build_dir, :default => ENV['BUILD_DIR']
-    method_option :posts_dir, :default => ENV['POSTS_DIR']
-    method_option :csl, :default => ENV['SITE_CSLPATH']
-    method_option :bibliography, :default => ENV['SITE_REFERENCESPATH']
-    method_option :username, :default => ENV['MDS_USERNAME']
-    method_option :password, :default => ENV['MDS_PASSWORD']
-    method_option :sandbox, :type => :boolean, :force => false
-    method_option :force, :type => :boolean, :force => false
-    def hide(url)
-      response = hide_dois_for_all_urls(url, options)
-      puts response
-    end
-
-    desc "write_jats DOCUMENT", "write_jats document"
-    method_option :sitepath, :default => ENV['SITE_SITEPATH']
-    method_option :authorpath, :default => ENV['SITE_AUTHORPATH']
-    method_option :referencespath, :default => ENV['SITE_REFERENCESPATH']
-    method_option :bibliography, :default => ENV['SITE_REFERENCESPATH']
-    method_option :source_dir, :default => ENV['SOURCE_DIR']
-    method_option :build_dir, :default => ENV['BUILD_DIR']
-    method_option :posts_dir, :default => ENV['POSTS_DIR']
-    method_option :csl, :default => ENV['SITE_CSLPATH']
-    def write_jats(url)
-      response = generate_jats_for_all_urls(url, options)
-      puts response
     end
   end
 end

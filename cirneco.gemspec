@@ -17,9 +17,9 @@ Gem::Specification.new do |s|
   # Declary dependencies here, rather than in the Gemfile
   s.add_dependency 'maremma', '~> 3.5', '>= 3.5.7'
   s.add_dependency 'bergamasco', '~> 0.3'
-  s.add_dependency 'bolognese', '~> 0.9.32'
-  s.add_dependency 'base32-crockford-checksum', '~> 0.2.2'
-  s.add_dependency 'nokogiri', '~> 1.6', '>= 1.6.8'
+  s.add_dependency 'bolognese', '~> 0.9'
+  s.add_dependency 'base32-url', '~> 0.3'
+  s.add_dependency 'nokogiri', '~> 1.8.1'
   s.add_dependency 'builder', '~> 3.2', '>= 3.2.2'
   s.add_dependency 'activesupport', '>= 4.2.5', '< 6'
   s.add_dependency 'dotenv', '~> 2.1', '>= 2.1.1'

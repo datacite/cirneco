@@ -1,13 +1,14 @@
 require 'spec_helper'
 
 describe Cirneco::Work, vcr: true, :order => :defined do
-  let(:input) { "https://blog.datacite.org/eating-your-own-dog-food/" }
+  let(:samples_path) { "resources/kernel-4.0/samples/" }
+  let(:input) { samples_path + "datacite-example-complicated-v4.0.xml" }
   let(:media) { [{ mime_type: "application/pdf", url:"http://www.datacite.org/cirneco-test.pdf" }]}
   let(:username) { ENV['MDS_USERNAME'] }
   let(:password) { ENV['MDS_PASSWORD'] }
   let(:options) { { username: username, password: password, sandbox: true } }
   let(:fixture_path) { "spec/fixtures/" }
-  let(:samples_path) { "resources/kernel-4.0/samples/" }
+
 
   subject { Cirneco::Work.new(input: input,
                               media: media,
@@ -18,9 +19,9 @@ describe Cirneco::Work, vcr: true, :order => :defined do
     context "post" do
       it 'should post metadata' do
         response = subject.post_metadata(subject.datacite, options)
-        expect(response.body["data"]).to eq("OK (10.5438/0000-01hc)")
+        expect(response.body["data"]).to eq("OK (10.5072/testpub)")
         expect(response.status).to eq(201)
-        expect(response.headers["Location"]).to eq("http://mds.test.datacite.org/metadata/10.5438/0000-01hc")
+        expect(response.headers["Location"]).to eq("http://mds.test.datacite.org/metadata/10.5072/testpub")
       end
     end
 
@@ -54,8 +55,8 @@ describe Cirneco::Work, vcr: true, :order => :defined do
       it 'should get all dois' do
         response = subject.get_dois(options)
         dois = response.body["data"]
-        expect(dois.length).to eq(521)
-        expect(dois.first).to eq("10.23725/0000-03VC")
+        expect(dois.length).to eq(6)
+        expect(dois.first).to eq("10.5072/0007-NW90")
       end
 
       it 'should get doi' do
@@ -64,7 +65,7 @@ describe Cirneco::Work, vcr: true, :order => :defined do
       end
 
       it 'should get doi not found' do
-        response = subject.get_doi("10.5438/0000-03V", options)
+        response = subject.get_doi("10.5072/0000-03V", options)
         expect(response.status).to eq(404)
       end
 

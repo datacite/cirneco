@@ -5,7 +5,6 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
   let(:username) { ENV['MDS_USERNAME'] }
   let(:password) { ENV['MDS_PASSWORD'] }
   let(:source_dir) { "/spec/fixtures/" }
-  let(:bibliography) { "spec/fixtures/references.yaml" }
   let(:options) { { username: username,
                     password: password,
                     sandbox: true,
@@ -20,34 +19,34 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
     it 'should get all dois by prefix' do
       response = subject.get_dois_by_prefix(prefix, options)
       dois = response.body["data"]
-      expect(dois.length).to eq(440)
-      expect(dois.first).to eq("10.5438/0000-00SS")
+      expect(dois.length).to eq(5)
+      expect(dois.first).to eq("10.5072/0007-NW90")
     end
   end
 
   context "base32" do
     it 'should decode doi' do
-      doi = "10.5438/ZWSF-4Y7Y"
+      doi = "10.5438/zwsf-4y7y"
       expect(subject.decode_doi(doi)).to eq(34252231623)
     end
 
     it 'should decode doi not encoded' do
-      doi = "10.23725/MDS-CLIENT-RUBY-TEST"
+      doi = "10.23725/mds-client-ruby-test"
       expect(subject.decode_doi(doi)).to eq(0)
     end
 
     it 'should encode doi' do
       number = 123
-      expect(subject.encode_doi(prefix, number: number)).to eq("10.5438/0000-03vc")
+      expect(subject.encode_doi(prefix, number: number)).to eq("10.5072/0000-03vc")
     end
 
     it 'should encode doi number with other characters' do
       number = "MS-12-7196-7302"
-      expect(subject.encode_doi(prefix, number: number)).to eq("10.5438/15x1-bj6r")
+      expect(subject.encode_doi(prefix, number: number)).to eq("10.5072/15x1-bj6r")
     end
 
     it 'should encode doi random number' do
-      expect(subject.encode_doi(prefix)).to start_with("10.5438")
+      expect(subject.encode_doi(prefix)).to start_with("10.5072")
     end
 
     it 'should not encode invalid prefix' do
@@ -58,13 +57,13 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
     it 'should encode doi with shoulder' do
       number = 7654321
       shoulder = "dryad."
-      expect(subject.encode_doi(prefix, number: number, shoulder: shoulder)).to eq("10.5438/dryad.79jxhm")
+      expect(subject.encode_doi(prefix, number: number, shoulder: shoulder)).to eq("10.5072/dryad.79jxhm")
     end
 
     it 'should encode doi with empty shoulder' do
       number = 7654321
       shoulder = nil
-      expect(subject.encode_doi(prefix, number: number, shoulder: shoulder)).to eq("10.5438/0079-jxhm")
+      expect(subject.encode_doi(prefix, number: number, shoulder: shoulder)).to eq("10.5072/0079-jxhm")
     end
   end
 
