@@ -56,8 +56,8 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
 
     it 'should encode doi with shoulder' do
       number = 7654321
-      shoulder = "dryad."
-      expect(subject.encode_doi(prefix, number: number, shoulder: shoulder)).to eq("10.5072/dryad.79jxh42")
+      shoulder = "fk2"
+      expect(subject.encode_doi(prefix, number: number, shoulder: shoulder)).to eq("10.5072/fk2-079j-xh42")
     end
 
     it 'should encode doi with empty shoulder' do

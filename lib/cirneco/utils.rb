@@ -30,9 +30,9 @@ module Cirneco
       number = options[:number].to_s.scan(/\d+/).join("").to_i
       number = SecureRandom.random_number(UPPER_LIMIT) unless number > 0
       shoulder = options[:shoulder].to_s
-
-      length = shoulder.length > 0 ? 6 : 8
-      split = shoulder.length > 0 ? nil : 4
+      shoulder += "-" if shoulder.present?
+      length = 8
+      split = 4
       prefix.to_s + "/" + shoulder + Base32::URL.encode(number, split: split, length: length, checksum: true)
     end
 
