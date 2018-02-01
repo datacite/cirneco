@@ -55,7 +55,7 @@ describe Cirneco::Work, vcr: true, :order => :defined do
       it 'should get all dois' do
         response = subject.get_dois(options)
         dois = response.body["data"]
-        expect(dois.length).to eq(7)
+        expect(dois.length).to eq(9)
         expect(dois.first).to eq("10.5072/0007-NW90")
       end
 

@@ -6,8 +6,8 @@ require 'time'
 
 module Cirneco
   module Utils
-    # "ZZZZZZZ" decoded as number
-    UPPER_LIMIT = 34359738367
+    # 32 by the factor of 6
+    UPPER_LIMIT = 1073741823
 
     def get_dois_by_prefix(prefix, options={})
       response = get_dois(options)

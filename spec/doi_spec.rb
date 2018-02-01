@@ -25,7 +25,7 @@ describe Cirneco::Doi do
     context "get" do
       it 'should get all dois' do
         subject.options = api_options.merge(limit: 3)
-        expect { subject.get "all" }.to output("10.5072/0007-NW90\n10.5072/079J-XH42\n10.5072/55E5-T5C0\n").to_stdout
+        expect { subject.get "all" }.to output("10.5072/0007-NW90\n10.5072/079J-XH42\n10.5072/1-4CWY-2C14\n").to_stdout
       end
 
       it 'should get doi' do
