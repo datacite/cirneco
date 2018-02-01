@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<resource xmlns="http://datacite.org/schema/kernel-4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://datacite.org/schema/kernel-4 http://schema.datacite.org/meta/kernel-4/metadata.xsd">
+  <identifier identifierType="DOI">10.5072/GLIS_1</identifier>
+  <creators>
+    <creator>
+      <creatorName>GLIS of the ITPGRFA</creatorName>
+    </creator>
+  </creators>
+  <titles>
+    <title>Solanum demissum Lindl. CPC 1</title>
+  </titles>
+  <publisher>James Hutton Institute</publisher>
+  <publicationYear>2017</publicationYear>
+  <subjects>
+    <subject>Plant Genetic Resource for Food and Agriculture</subject>
+  </subjects>
+  <contributors>
+    <contributor contributorType="Other">
+      <contributorName>James Hutton Institute</contributorName>
+    </contributor>
+  </contributors>
+  <dates>
+    <date dateType="Accepted">10000101</date>
+  </dates>
+  <language>en</language>
+  <resourceType resourceTypeGeneral="PhysicalObject">PGRFA Sample</resourceType>
+  <alternateIdentifiers>
+    <alternateIdentifier alternateIdentifierType="Local identifier">CPC 1</alternateIdentifier>
+  </alternateIdentifiers>
+  <relatedIdentifiers>
+    <relatedIdentifier relatedIdentifierType="URL" relatedMetadataScheme="GLIS Descriptors" relationType="HasMetadata" schemeType="Text" schemeURI="http://www.fao.org/3/a-bp767e.pdf">https://52.70.89.68/glisapi/v1/pgrfas?_format=xml&amp;doi=10.5072/GLIS_1</relatedIdentifier>
+    <relatedIdentifier relatedIdentifierType="DOI" relationType="IsNewVersionOf">10.5072/GLIS_5</relatedIdentifier>
+  </relatedIdentifiers>
+  <descriptions>
+    <description descriptionType="Abstract">Plant Genetic Resource.&lt;br/&gt;Taxonomy: Solanum demissum Lindl.&lt;br/&gt;Crop name(s): Potato&lt;br/&gt;Other names: CPC 1&lt;br/&gt;Conserved by: The James Hutton Institute, United Kingdom&lt;br/&gt;Local sample unique identifier: CPC 1&lt;br/&gt;Method of creation: Acquisition&lt;br/&gt;Date: 1000-01-01&lt;br/&gt;Biological status: Wild&lt;br/&gt;MLS status: Included&lt;br/&gt;Available: Yes</description>
+  </descriptions>
+  <geoLocations>
+    <geoLocation>
+      <geoLocationPoint>
+        <pointLongitude>56.45713</pointLongitude>
+        <pointLatitude>-3.0719</pointLatitude>
+      </geoLocationPoint>
+      <geoLocationPlace>Holding institution or individual: James Hutton Institute</geoLocationPlace>
+    </geoLocation>
+  </geoLocations>
+</resource>

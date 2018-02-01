@@ -19,15 +19,15 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
     it 'should get all dois by prefix' do
       response = subject.get_dois_by_prefix(prefix, options)
       dois = response.body["data"]
-      expect(dois.length).to eq(5)
+      expect(dois.length).to eq(6)
       expect(dois.first).to eq("10.5072/0007-NW90")
     end
   end
 
   context "base32" do
     it 'should decode doi' do
-      doi = "10.5438/zwsf-4y7y"
-      expect(subject.decode_doi(doi)).to eq(34252231623)
+      doi = "10.5072/079j-xh42"
+      expect(subject.decode_doi(doi)).to eq(7654321)
     end
 
     it 'should decode doi not encoded' do
@@ -37,12 +37,12 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
 
     it 'should encode doi' do
       number = 123
-      expect(subject.encode_doi(prefix, number: number)).to eq("10.5072/0000-03vc")
+      expect(subject.encode_doi(prefix, number: number)).to eq("10.5072/0000-3v20")
     end
 
     it 'should encode doi number with other characters' do
-      number = "MS-12-7196-7302"
-      expect(subject.encode_doi(prefix, number: number)).to eq("10.5072/15x1-bj6r")
+      number = "MS-2-7196-7302"
+      expect(subject.encode_doi(prefix, number: number)).to eq("10.5072/83bs-2615")
     end
 
     it 'should encode doi random number' do
@@ -57,13 +57,13 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
     it 'should encode doi with shoulder' do
       number = 7654321
       shoulder = "dryad."
-      expect(subject.encode_doi(prefix, number: number, shoulder: shoulder)).to eq("10.5072/dryad.79jxhm")
+      expect(subject.encode_doi(prefix, number: number, shoulder: shoulder)).to eq("10.5072/dryad.79jxh42")
     end
 
     it 'should encode doi with empty shoulder' do
       number = 7654321
       shoulder = nil
-      expect(subject.encode_doi(prefix, number: number, shoulder: shoulder)).to eq("10.5072/0079-jxhm")
+      expect(subject.encode_doi(prefix, number: number, shoulder: shoulder)).to eq("10.5072/079j-xh42")
     end
   end
 

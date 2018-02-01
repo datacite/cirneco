@@ -29,19 +29,19 @@ describe Cirneco::Work, vcr: true do
     end
 
     it 'validates example full' do
-      input = samples_path + 'datacite-example-full-v4.0.xml'
+      input = samples_path + 'datacite-example-full-v4.1.xml'
       subject = Cirneco::Work.new(input: input, from: "datacite")
 
       expect(subject.valid?).to be true
       expect(subject.id).to eq("https://doi.org/10.5072/example-full")
       expect(subject.type).to eq("SoftwareSourceCode")
       expect(subject.author).to eq("type"=>"Person", "id"=>"https://orcid.org/0000-0001-5000-0007", "name"=>"Miller, Elizabeth", "givenName"=>"Elizabeth", "familyName"=>"Miller")
-      expect(subject.title).to eq([{"lang"=>"en-us", "text"=>"Full DataCite XML Example"}, {"title_type"=>"Subtitle", "lang"=>"en-us", "text"=>"Demonstration of DataCite Properties."}])
-      expect(subject.alternate_name).to eq("type"=>"URL", "name"=>"http://schema.datacite.org/schema/meta/kernel-3.1/example/datacite-example-full-v3.1.xml")
-      expect(subject.description["text"]).to start_with("XML example of all DataCite Metadata Schema v4.0 properties.")
+      expect(subject.title).to eq([{"lang"=>"en-US", "text"=>"Full DataCite XML Example"}, {"title_type"=>"Subtitle", "lang"=>"en-US", "text"=>"Demonstration of DataCite Properties."}])
+      expect(subject.alternate_name).to eq("type"=>"URL", "name"=>"https://schema.datacite.org/meta/kernel-4.1/example/datacite-example-full-v4.1.xml")
+      expect(subject.description["text"]).to start_with("XML example of all DataCite Metadata Schema v4.1 properties.")
       expect(subject.keywords).to eq([{"subject_scheme"=>"dewey", "scheme_uri"=>"http://dewey.info/", "text"=>"000 computer science"}])
       expect(subject.date_published).to eq("2014")
-      expect(subject.date_modified).to eq("2014-10-17")
+      expect(subject.date_modified).to eq("2017-09-13")
       expect(subject.publisher).to eq("DataCite")
     end
   end

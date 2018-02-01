@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Cirneco::Work, vcr: true, :order => :defined do
   let(:samples_path) { "resources/kernel-4.0/samples/" }
-  let(:input) { samples_path + "datacite-example-complicated-v4.0.xml" }
+  let(:input) { samples_path + "datacite-example-complicated-v4.1.xml" }
   let(:media) { [{ mime_type: "application/pdf", url:"http://www.datacite.org/cirneco-test.pdf" }]}
   let(:username) { ENV['MDS_USERNAME'] }
   let(:password) { ENV['MDS_PASSWORD'] }
@@ -19,9 +19,9 @@ describe Cirneco::Work, vcr: true, :order => :defined do
     context "post" do
       it 'should post metadata' do
         response = subject.post_metadata(subject.datacite, options)
-        expect(response.body["data"]).to eq("OK (10.5072/testpub)")
+        expect(response.body["data"]).to eq("OK (10.5072/079j-xh42)")
         expect(response.status).to eq(201)
-        expect(response.headers["Location"]).to eq("http://mds.test.datacite.org/metadata/10.5072/testpub")
+        expect(response.headers["Location"]).to eq("http://mds.test.datacite.org/metadata/10.5072/079j-xh42")
       end
     end
 
@@ -55,7 +55,7 @@ describe Cirneco::Work, vcr: true, :order => :defined do
       it 'should get all dois' do
         response = subject.get_dois(options)
         dois = response.body["data"]
-        expect(dois.length).to eq(6)
+        expect(dois.length).to eq(7)
         expect(dois.first).to eq("10.5072/0007-NW90")
       end
 
