@@ -43,6 +43,30 @@ module Cirneco
       end
     end
 
+    desc "put DOIs", "put metadata for multiple DOIs"
+    method_option :username, :default => ENV['MDS_USERNAME']
+    method_option :password, :default => ENV['MDS_PASSWORD']
+    method_option :sandbox, :type => :boolean, :force => false
+    def put(file)
+      data = JSON.parse(IO.read(file))
+      count = 0
+      data.each do |json|
+        doi = doi_from_url(json["@id"])
+        next unless doi.present?
+
+        response = put_metadata(doi, options.merge(data: json.to_json))
+
+        if response.body["errors"]
+          puts "Error: " + response.body["errors"].first.fetch("title", "An error occured")
+        else
+          puts response.headers["Location"]
+          count += 1
+        end
+      end
+
+      puts "#{count} DOIs registered/updated."
+    end
+
     desc "delete DOI", "hide metadata for DOI"
     method_option :username, :default => ENV['MDS_USERNAME']
     method_option :password, :default => ENV['MDS_PASSWORD']

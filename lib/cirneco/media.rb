@@ -44,7 +44,5 @@ module Cirneco
         puts response.body["data"]
       end
     end
-
-
   end
 end

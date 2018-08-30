@@ -12,6 +12,15 @@ module Cirneco
       Maremma.post(url, content_type: 'application/xml;charset=UTF-8', data: data, username: options[:username], password: options[:password])
     end
 
+    def put_metadata(doi, options={})
+      return OpenStruct.new(body: { "errors" => [{ "title" => "Username or password missing" }] }) unless options[:username].present? && options[:password].present?
+
+      mds_url = options[:sandbox] ? 'https://mds.test.datacite.org' : 'https://mds.datacite.org'
+
+      url = "#{mds_url}/metadata/#{doi}"
+      Maremma.put(url, content_type: 'application/xml;charset=UTF-8', data: options[:data], username: options[:username], password: options[:password])
+    end
+
     def get_metadata(doi, options={})
       return OpenStruct.new(body: { "errors" => [{ "title" => "Username or password missing" }] }) unless options[:username].present? && options[:password].present?
 
