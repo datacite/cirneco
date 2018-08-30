@@ -8,7 +8,7 @@ describe Cirneco::Doi do
 
   let(:number) { 123 }
   let(:prefix) { ENV['PREFIX'] }
-  let(:doi) { "10.5072/079j-xh42" }
+  let(:doi) { "10.5072/nmr3-xm61" }
   let(:url) { "http://www.datacite.org" }
   let(:username) { ENV['MDS_USERNAME'] }
   let(:password) { ENV['MDS_PASSWORD'] }
@@ -25,7 +25,7 @@ describe Cirneco::Doi do
     context "get" do
       it 'should get all dois' do
         subject.options = api_options.merge(limit: 3)
-        expect { subject.get "all" }.to output("10.5072/0007-NW90\n10.5072/079J-XH42\n10.5072/1-4CWY-2C14\n").to_stdout
+        expect { subject.get "all" }.to output("10.5438/0000-00SS\n10.5438/0000-01HC\n10.5438/0000-03VC\n").to_stdout
       end
 
       it 'should get doi' do
@@ -50,7 +50,7 @@ describe Cirneco::Doi do
   context "base32" do
     it 'generates a doi' do
       subject.options = { number: number, prefix: prefix }
-      expect { subject.generate }.to output("10.5072/0000-3v20\n").to_stdout
+      expect { subject.generate }.to output("10.5438/0000-3v20\n").to_stdout
     end
 
     it 'requires a prefix' do
@@ -59,7 +59,7 @@ describe Cirneco::Doi do
     end
 
     it 'decodes a doi' do
-      expect { subject.decode doi }.to output("DOI #{doi} was encoded with 7654321\n").to_stdout
+      expect { subject.decode doi }.to output("DOI #{doi} was encoded with 726405044\n").to_stdout
     end
 
     it 'checks a doi' do

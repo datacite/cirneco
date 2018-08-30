@@ -1,0 +1,50 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://mds.test.datacite.org/doi/10.5438/6brg-2m37
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Mozilla/5.0 (compatible; Maremma/4.1.1; +https://github.com/datacite/maremma)
+      Accept:
+      - text/html,application/json,application/xml;q=0.9, text/plain;q=0.8,image/png,*/*;q=0.5
+      Authorization:
+      - Basic <MDS_TOKEN>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 30 Aug 2018 23:17:04 GMT
+      Content-Type:
+      - text/plain; charset=utf-8
+      Connection:
+      - keep-alive
+      Status:
+      - 200 OK
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      Vary:
+      - Accept-Encoding, Origin
+      Etag:
+      - W/"e45356064e13be9a0b5397dfea72144f"
+      X-Runtime:
+      - '0.060380'
+      X-Credential-Username:
+      - DATACITE.DATACITE
+      X-Request-Id:
+      - a141615e-4dc9-4c1a-b712-8e1c0f94aa2d
+      X-Powered-By:
+      - Phusion Passenger 5.3.4
+      Server:
+      - nginx/1.14.0 + Phusion Passenger 5.3.4
+    body:
+      encoding: ASCII-8BIT
+      string: http://www.datacite.org
+    http_version: 
+  recorded_at: Thu, 30 Aug 2018 23:17:04 GMT
+recorded_with: VCR 3.0.3

@@ -1,0 +1,52 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://mds.test.datacite.org/media/10.5438/6brg-2m37
+    body:
+      encoding: UTF-8
+      string: application/pdf=http://www.datacite.org/cirneco-test.pdf
+    headers:
+      User-Agent:
+      - Mozilla/5.0 (compatible; Maremma/4.1.1; +https://github.com/datacite/maremma)
+      Content-Type:
+      - text/plain;charset=UTF-8
+      Accept:
+      - text/html,application/json,application/xml;q=0.9, text/plain;q=0.8,image/png,*/*;q=0.5
+      Authorization:
+      - Basic <MDS_TOKEN>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 30 Aug 2018 23:18:09 GMT
+      Content-Type:
+      - text/plain; charset=utf-8
+      Connection:
+      - keep-alive
+      Status:
+      - 200 OK
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      Vary:
+      - Accept-Encoding, Origin
+      Etag:
+      - W/"565339bc4d33d72817b583024112eb7f"
+      X-Runtime:
+      - '0.071847'
+      X-Credential-Username:
+      - DATACITE.DATACITE
+      X-Request-Id:
+      - ad176e3f-3049-4d6e-b542-72615e4e4c61
+      X-Powered-By:
+      - Phusion Passenger 5.3.4
+      Server:
+      - nginx/1.14.0 + Phusion Passenger 5.3.4
+    body:
+      encoding: ASCII-8BIT
+      string: OK
+    http_version: 
+  recorded_at: Thu, 30 Aug 2018 23:18:09 GMT
+recorded_with: VCR 3.0.3

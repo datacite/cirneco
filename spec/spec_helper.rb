@@ -80,12 +80,12 @@ end
 alias silence capture
 
 VCR.configure do |c|
-  mds_token = Base64.encode64("#{ENV['MDS_USERNAME']}:#{ENV['MDS_PASSWORD'].to_s}").rstrip
+  mds_token = Base64.strict_encode64("#{ENV['MDS_USERNAME']}:#{ENV['MDS_PASSWORD']}")
 
   c.cassette_library_dir = "spec/fixtures/vcr_cassettes"
   c.hook_into :webmock
   c.ignore_localhost = true
-  c.ignore_hosts 'codeclimate.com', 'mds.test.datacite.org'
+  c.ignore_hosts 'codeclimate.com'
   c.filter_sensitive_data("<MDS_TOKEN>") { mds_token }
   c.configure_rspec_metadata!
 end

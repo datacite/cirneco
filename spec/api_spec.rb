@@ -19,9 +19,9 @@ describe Cirneco::Work, vcr: true, :order => :defined do
     context "post" do
       it 'should post metadata' do
         response = subject.post_metadata(subject.datacite, options)
-        expect(response.body["data"]).to eq("OK (10.5072/079j-xh42)")
+        expect(response.body["data"]).to eq("OK (10.5438/6BRG-2M37)")
         expect(response.status).to eq(201)
-        expect(response.headers["Location"]).to eq("http://mds.test.datacite.org/metadata/10.5072/079j-xh42")
+        expect(response.headers["Location"]).to eq("https://mds.test.datacite.org/metadata/10.5438/6brg-2m37")
       end
     end
 
@@ -55,8 +55,8 @@ describe Cirneco::Work, vcr: true, :order => :defined do
       it 'should get all dois' do
         response = subject.get_dois(options)
         dois = response.body["data"]
-        expect(dois.length).to eq(9)
-        expect(dois.first).to eq("10.5072/0007-NW90")
+        expect(dois.length).to eq(438)
+        expect(dois.first).to eq("10.5438/0000-00SS")
       end
 
       it 'should get doi' do
@@ -91,7 +91,7 @@ describe Cirneco::Work, vcr: true, :order => :defined do
         response = subject.get_media(subject.doi, options)
         media = response.body["data"]
         expect(media.length).to eq(1)
-        expect(media.first).to eq(:mime_type=>"application/pdf", :url=>"http://www.datacite.org/cirneco-test.pdf")
+        expect(media).to eq([{:mime_type=>"application/pdf", :url=>"http://www.datacite.org/cirneco-test.pdf"}])
       end
     end
   end

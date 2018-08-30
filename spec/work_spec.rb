@@ -14,11 +14,10 @@ describe Cirneco::Work, vcr: true do
     it "BlogPosting" do
       expect(subject.valid?).to be true
       expect(subject.id).to eq("https://doi.org/10.5438/4k3m-nyvg")
-      expect(subject.url).to eq("https://blog.datacite.org/eating-your-own-dog-food")
+      expect(subject.b_url).to eq("https://blog.datacite.org/eating-your-own-dog-food")
       expect(subject.type).to eq("BlogPosting")
       expect(subject.author).to eq("type"=>"Person", "id"=>"https://orcid.org/0000-0003-1419-2405", "name"=>"Martin Fenner", "givenName"=>"Martin", "familyName"=>"Fenner")
       expect(subject.title).to eq("Eating your own Dog Food")
-      expect(subject.alternate_name).to eq("MS-49-3632-5083")
       expect(subject.description["text"]).to start_with("Eating your own dog food")
       expect(subject.keywords).to eq(["datacite", "doi", "metadata", "featured"])
       expect(subject.date_published).to eq("2016-12-20")
@@ -37,7 +36,7 @@ describe Cirneco::Work, vcr: true do
       expect(subject.type).to eq("SoftwareSourceCode")
       expect(subject.author).to eq("type"=>"Person", "id"=>"https://orcid.org/0000-0001-5000-0007", "name"=>"Miller, Elizabeth", "givenName"=>"Elizabeth", "familyName"=>"Miller")
       expect(subject.title).to eq([{"lang"=>"en-US", "text"=>"Full DataCite XML Example"}, {"title_type"=>"Subtitle", "lang"=>"en-US", "text"=>"Demonstration of DataCite Properties."}])
-      expect(subject.alternate_name).to eq("type"=>"URL", "name"=>"https://schema.datacite.org/meta/kernel-4.1/example/datacite-example-full-v4.1.xml")
+      expect(subject.alternate_identifier).to eq("type"=>"URL", "name"=>"https://schema.datacite.org/meta/kernel-4.1/example/datacite-example-full-v4.1.xml")
       expect(subject.description["text"]).to start_with("XML example of all DataCite Metadata Schema v4.1 properties.")
       expect(subject.keywords).to eq([{"subject_scheme"=>"dewey", "scheme_uri"=>"http://dewey.info/", "text"=>"000 computer science"}])
       expect(subject.date_published).to eq("2014")

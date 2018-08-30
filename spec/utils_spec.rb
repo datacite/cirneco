@@ -19,8 +19,8 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
     it 'should get all dois by prefix' do
       response = subject.get_dois_by_prefix(prefix, options)
       dois = response.body["data"]
-      expect(dois.length).to eq(8)
-      expect(dois.first).to eq("10.5072/0007-NW90")
+      expect(dois.length).to eq(438)
+      expect(dois.first).to eq("10.5438/0000-00SS")
     end
   end
 
@@ -37,16 +37,16 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
 
     it 'should encode doi' do
       number = 123
-      expect(subject.encode_doi(prefix, number: number)).to eq("10.5072/0000-3v20")
+      expect(subject.encode_doi(prefix, number: number)).to eq("10.5438/0000-3v20")
     end
 
     it 'should encode doi number with other characters' do
       number = "MS-2-7196-7302"
-      expect(subject.encode_doi(prefix, number: number)).to eq("10.5072/83bs-2615")
+      expect(subject.encode_doi(prefix, number: number)).to eq("10.5438/83bs-2615")
     end
 
     it 'should encode doi random number' do
-      expect(subject.encode_doi(prefix)).to start_with("10.5072")
+      expect(subject.encode_doi(prefix)).to start_with("10.5438")
     end
 
     it 'should not encode invalid prefix' do
@@ -57,13 +57,13 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
     it 'should encode doi with shoulder' do
       number = 7654321
       shoulder = "fk2"
-      expect(subject.encode_doi(prefix, number: number, shoulder: shoulder)).to eq("10.5072/fk2-079j-xh42")
+      expect(subject.encode_doi(prefix, number: number, shoulder: shoulder)).to eq("10.5438/fk2-079j-xh42")
     end
 
     it 'should encode doi with empty shoulder' do
       number = 7654321
       shoulder = nil
-      expect(subject.encode_doi(prefix, number: number, shoulder: shoulder)).to eq("10.5072/079j-xh42")
+      expect(subject.encode_doi(prefix, number: number, shoulder: shoulder)).to eq("10.5438/079j-xh42")
     end
   end
 
