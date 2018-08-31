@@ -58,16 +58,16 @@ module Cirneco
       count = 0
       data.each do |json|
         doi = doi_from_url(json["@id"])
-        url = json["@url"]
+        url = json["url"]
         next unless doi.present? && url.present?
 
         response = put_doi(doi, options.merge(url: url))
 
-        if response.body["errors"]
-          puts "Error: " + response.body["errors"].first.fetch("title", "An error occured")
-        else
-          puts response.headers["Location"]
+        if [200, 201].include?(response.status)
+          puts "#{doi} registered/updated."
           count += 1
+        else
+          puts "Error: " + response.body["errors"].first.fetch("title", "An error occured")
         end
       end
 
