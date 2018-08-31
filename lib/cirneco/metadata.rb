@@ -1,5 +1,6 @@
 require "thor"
 require 'active_support/all'
+require 'bolognese'
 
 require_relative 'api'
 require_relative 'utils'
