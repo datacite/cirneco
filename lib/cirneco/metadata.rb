@@ -11,6 +11,7 @@ module Cirneco
     include Cirneco::Base
     include Cirneco::Api
     include Cirneco::Utils
+    include Bolognese::DoiUtils
 
     desc "get DOI", "get metadata for DOI"
     method_option :username, :default => ENV['MDS_USERNAME']
