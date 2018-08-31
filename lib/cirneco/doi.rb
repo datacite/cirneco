@@ -49,6 +49,31 @@ module Cirneco
       end
     end
 
+    desc "put DOIs", "put handle url for multiple DOIs"
+    method_option :username, :default => ENV['MDS_USERNAME']
+    method_option :password, :default => ENV['MDS_PASSWORD']
+    method_option :sandbox, :type => :boolean, :force => false
+    def post(file)
+      data = JSON.parse(IO.read(file))
+      count = 0
+      data.each do |json|
+        doi = doi_from_url(json["@id"])
+        url = json["@url"]
+        next unless doi.present? && url.present?
+
+        response = put_doi(doi, options.merge(url: url))
+
+        if response.body["errors"]
+          puts "Error: " + response.body["errors"].first.fetch("title", "An error occured")
+        else
+          puts response.headers["Location"]
+          count += 1
+        end
+      end
+
+      puts "#{count} DOIs registered/updated."
+    end
+
     desc "generate DOI", "generate a DOI name"
     method_option :prefix, :default => ENV['PREFIX']
     method_option :number, :aliases => '-n'
