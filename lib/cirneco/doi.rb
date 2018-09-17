@@ -10,7 +10,6 @@ module Cirneco
   class Doi < Thor
     include Cirneco::Base
     include Cirneco::Api
-    include Cirneco::Lupo
     include Cirneco::Utils
     include Bolognese::Utils
     include Bolognese::DoiUtils
