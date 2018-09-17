@@ -1,5 +1,6 @@
 require 'thor'
 require 'bolognese'
+require 'csv'
 
 require_relative 'api'
 require_relative 'utils'
@@ -9,6 +10,7 @@ module Cirneco
   class Doi < Thor
     include Cirneco::Base
     include Cirneco::Api
+    include Cirneco::Lupo
     include Cirneco::Utils
     include Bolognese::Utils
     include Bolognese::DoiUtils
@@ -111,6 +113,30 @@ module Cirneco
       else
         puts "Checksum for #{doi} is not valid"
       end
+    end
+
+    desc "transfer DOIs", "transfer list of DOIs"
+    method_option :jwt, :default => ENV['JWT']
+    method_option :target,  :type => :string
+    method_option :sandbox, :type => :boolean, :force => false
+    def transfer(file)
+      count = 0
+      File.foreach(file) do |line|
+        doi = line.rstrip
+        next unless doi.present?
+        meta = generate_transfer_template(options)
+
+        response = transfer_doi(doi, options.merge(data: meta.to_json))
+
+        if [200, 201].include?(response.status)
+          puts "#{doi} Transfered to #{options[:target]}."
+          count += 1
+        else
+          puts "Error: " + response.body["errors"].first.fetch("title", "An error occured")
+        end
+      end
+
+      puts "#{count} DOIs transfered."
     end
   end
 end

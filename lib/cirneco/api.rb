@@ -21,6 +21,15 @@ module Cirneco
       Maremma.put(url, content_type: 'application/xml;charset=UTF-8', data: options[:data], username: options[:username], password: options[:password])
     end
 
+    def transfer_doi(doi, options={})
+      return OpenStruct.new(body: { "errors" => [{ "title" => "JWT missing" }] }) unless options[:jwt].present?
+
+      api_url = options[:sandbox] ? 'https://api.test.datacite.org' : 'https://api.datacite.org'
+
+      url = URI.encode("#{api_url}/dois/#{doi}")
+      Maremma.patch(url, content_type: 'application/vnd.api+json;charset=UTF-8', data: options[:data], bearer: options[:jwt])
+    end
+
     def get_metadata(doi, options={})
       return OpenStruct.new(body: { "errors" => [{ "title" => "Username or password missing" }] }) unless options[:username].present? && options[:password].present?
 
