@@ -1,6 +1,5 @@
 require 'thor'
 require 'bolognese'
-require 'csv'
 
 require_relative 'api'
 require_relative 'utils'
