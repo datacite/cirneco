@@ -114,9 +114,11 @@ module Cirneco
     end
 
     desc "transfer DOIs", "transfer list of DOIs"
-    method_option :jwt, :default => ENV['JWT']
     method_option :target,  :type => :string
+    method_option :username, :default => ENV['MDS_USERNAME']
+    method_option :password, :default => ENV['MDS_PASSWORD']
     method_option :sandbox, :type => :boolean, :force => false
+    method_option :jwt, :default => ENV['JWT']
     def transfer(file)
       count = 0
       File.foreach(file) do |line|
