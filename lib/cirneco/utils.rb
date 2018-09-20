@@ -18,6 +18,26 @@ module Cirneco
       response
     end
 
+    def generate_transfer_template(options={})
+      response = {
+        "data" => {
+          "type" => "dois",
+          "attributes" => {
+            "mode" => "transfer"
+          },
+          "relationships"=> {
+            "client"=>  {
+              "data"=> {
+                "type"=> "clients",
+                "id"=> options[:target].downcase
+              }
+            }
+          }
+        }
+      }
+      response
+    end
+
     def decode_doi(doi)
       prefix, string = doi.split('/', 2)
       Base32::URL.decode(string, checksum: true).to_i

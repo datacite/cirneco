@@ -127,6 +127,19 @@ Hide DOIs with metadata for all markdown files in a folder
 cirneco doi hide /source/posts
 ```
 
+## Bulk Operations
+
+Transfer a list of DOIs. A list of DOIs must be provided in a file
+
+```
+10.5438/5aep-2n86
+10.5438/cd2b-xj80
+```
+
+```shell
+cirneco doi transfer --target DATACITE.DATACITE --jwt {YOUR-JSON-WEB-TOKEN} ./doi_transfer.txt
+```
+
 ## Development
 
 We use rspec for unit testing:

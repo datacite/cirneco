@@ -112,5 +112,31 @@ module Cirneco
         puts "Checksum for #{doi} is not valid"
       end
     end
+
+    desc "transfer DOIs", "transfer list of DOIs"
+    method_option :target,  :type => :string
+    method_option :username, :default => ENV['MDS_USERNAME']
+    method_option :password, :default => ENV['MDS_PASSWORD']
+    method_option :sandbox, :type => :boolean, :force => false
+    method_option :jwt, :default => ENV['JWT']
+    def transfer(file)
+      count = 0
+      File.foreach(file) do |line|
+        doi = line.rstrip
+        next unless doi.present?
+        meta = generate_transfer_template(options)
+
+        response = transfer_doi(doi, options.merge(data: meta.to_json))
+
+        if [200, 201].include?(response.status)
+          puts "#{doi} Transfered to #{options[:target]}."
+          count += 1
+        else
+          puts "Error: " + response.body["errors"].first.fetch("title", "An error occured")
+        end
+      end
+
+      puts "#{count} DOIs transfered."
+    end
   end
 end
