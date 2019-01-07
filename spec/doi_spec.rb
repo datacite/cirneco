@@ -70,5 +70,9 @@ describe Cirneco::Doi do
       doi = "5072/0000-03VA"
       expect { subject.check doi }.to output("Checksum for #{doi} is not valid\n").to_stdout
     end
+    # it 'checks a doi invalid checksum' do
+    #   doi = "5072/0000-0098"
+    #   expect { subject.check doi }.to output("Checksum for #{doi} is valid\n").to_stdout
+    # end
   end
 end
