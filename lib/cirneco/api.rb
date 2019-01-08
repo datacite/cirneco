@@ -129,8 +129,7 @@ module Cirneco
       api_url = options[:sandbox] ? 'https://api.test.datacite.org' : 'https://api.datacite.org'
 
       url = "#{api_url}/dois/#{doi}"
-      reponse = Maremma.get(url, accept: 'application/vnd.api+json;charset=UTF-8', username: options[:username], password: options[:password], raw: true)
-      JSON.parse(reponse.body.fetch("data", []))
+      Maremma.get(url, accept: 'application/vnd.api+json;charset=UTF-8', username: options[:username], password: options[:password], raw: true)
     end
   end
 end

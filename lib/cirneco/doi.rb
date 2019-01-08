@@ -160,8 +160,14 @@ module Cirneco
 
         meta = generate_state_change_template({operation: operation})
 
-        metadata = get_rest_doi(doi, options)
+        metadata_reponse = get_rest_doi(doi, options)
 
+        unless [200].include?(metadata_reponse.status)
+          puts "#{doi} was not found #{metadata_reponse.status}"
+          next
+        end
+        
+        metadata = JSON.parse(metadata_reponse.body.fetch("data", []))
         if metadata.dig("data","attributes","state") == previous_state
           response = update_rest_doi(doi, options.merge(data: meta.to_json))
         else
