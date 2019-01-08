@@ -109,5 +109,27 @@ module Cirneco
       end
       response
     end
+  
+    def update_rest_doi(doi, options={})
+      return OpenStruct.new(body: { "errors" => [{ "title" => "JWT or Username or password missing" }] }) unless options[:jwt].present? || (options[:username].present? && options[:password].present?)
+
+      api_url = options[:sandbox] ? 'https://api.test.datacite.org' : 'https://api.datacite.org'
+
+      url = URI.encode("#{api_url}/dois/#{doi}")
+      if options[:jwt].present?
+        Maremma.patch(url, content_type: 'application/vnd.api+json;charset=UTF-8', data: options[:data], bearer: options[:jwt]) 
+      else
+        Maremma.patch(url, content_type: 'application/vnd.api+json;charset=UTF-8', data: options[:data], username: options[:username], password: options[:password])
+      end
+    end
+
+    def get_rest_doi(doi, options={})
+      return OpenStruct.new(body: { "errors" => [{ "title" => "Username or password missing" }] }) unless options[:username].present? && options[:password].present?
+
+      api_url = options[:sandbox] ? 'https://api.test.datacite.org' : 'https://api.datacite.org'
+
+      url = "#{api_url}/dois/#{doi}"
+      Maremma.get(url, accept: 'application/vnd.api+json;charset=UTF-8', username: options[:username], password: options[:password], raw: true)
+    end
   end
 end
