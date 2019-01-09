@@ -94,5 +94,13 @@ describe Cirneco::Work, vcr: true, :order => :defined do
         expect(media).to eq([{:mime_type=>"application/pdf", :url=>"http://www.datacite.org/cirneco-test.pdf"}])
       end
     end
+
+    describe "get_rest_doi" do
+      it 'should get doi' do
+        r = subject.get_rest_doi(subject.doi, options)
+        response = JSON.parse(r.body.fetch("data", []))
+        expect(response.dig("data","id")).to eq("10.5438/6brg-2m37")
+      end
+    end
   end
 end

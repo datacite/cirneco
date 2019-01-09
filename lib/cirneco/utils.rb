@@ -38,6 +38,18 @@ module Cirneco
       response
     end
 
+    def generate_state_change_template(options={})
+      response = {
+        "data" => {
+          "type" => "dois",
+          "attributes" => {
+            "event" => options[:operation]
+          }
+        }
+      }
+      response
+    end
+
     def decode_doi(doi)
       prefix, string = doi.split('/', 2)
       Base32::URL.decode(string, checksum: true)

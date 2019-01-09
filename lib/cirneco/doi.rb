@@ -138,5 +138,52 @@ module Cirneco
 
       puts "#{count} DOIs transfered."
     end
+
+    desc "change DOIs state", "modify states of list of DOIs"
+    method_option :target_state,  :type => :string
+    method_option :username, :default => ENV['MDS_USERNAME']
+    method_option :password, :default => ENV['MDS_PASSWORD']
+    method_option :sandbox, :type => :boolean, :force => false
+    method_option :jwt, :default => ENV['JWT']
+    def bulk_state_change(file)
+      count = 0
+      File.foreach(file) do |line|
+        doi = line.rstrip
+        next unless doi.present?
+
+        previous_state, operation = case options[:target_state]
+        when "findable"
+          ["registered", "publish"]
+        when "registered"
+          ["draft", "register"]
+        end
+
+        meta = generate_state_change_template({operation: operation})
+
+        metadata_reponse = get_rest_doi(doi, options)
+
+        unless [200].include?(metadata_reponse.status)
+          puts "#{doi} was not found #{metadata_reponse.status}"
+          next
+        end
+        
+        metadata = JSON.parse(metadata_reponse.body.fetch("data", []))
+        if metadata.dig("data","attributes","state") == previous_state
+          response = update_rest_doi(doi, options.merge(data: meta.to_json))
+        else
+          puts "#{doi} is in the wrong state for change. #{doi} was not changed"
+          next
+        end
+
+        if [200, 201].include?(response.status)
+          puts "#{doi} Updated to #{options[:target_state]}."
+          count += 1
+        else
+          puts "Error: #{doi} " + response.body["errors"].first.fetch("title", "An error occured")
+        end
+      end
+
+      puts "#{count} DOIs updated."
+    end
   end
 end

@@ -140,6 +140,20 @@ Transfer a list of DOIs. A list of DOIs must be provided in a file
 cirneco doi transfer --target DATACITE.DATACITE --jwt {YOUR-JSON-WEB-TOKEN} ./doi_transfer.txt
 ```
 
+Change the state of a list of DOIs. Note that all DOIS in the list must be in the ![previous state](https://support.datacite.org/docs/doi-states). A list of DOIs must be provided in a file
+
+```
+10.5438/5aep-2n86
+10.5438/cd2b-xj80
+```
+
+In this example, we change alist of `registered` DOI to `findable` DOIS.
+
+```shell
+cirneco doi bulk_state_change --target_state findable ./test_doi_status_change.csv
+```
+
+
 ## Development
 
 We use rspec for unit testing:
