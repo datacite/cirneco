@@ -32,7 +32,7 @@ describe Cirneco::DataCenter, vcr: true, :order => :defined do
 
     it 'should decode doi not encoded' do
       doi = "10.23725/mds-client-ruby-test"
-      expect(subject.decode_doi(doi)).to eq(0)
+      expect(subject.decode_doi(doi)).to be_nil
     end
 
     it 'should encode doi' do
