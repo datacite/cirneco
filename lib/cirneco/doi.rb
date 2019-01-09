@@ -97,7 +97,7 @@ module Cirneco
     def decode(doi)
       number = decode_doi(doi)
 
-      if number > 0
+      unless number.nil?
         puts "DOI #{doi} was encoded with #{number}"
       else
         puts "DOI #{doi} could not be decoded"
@@ -106,7 +106,7 @@ module Cirneco
 
     desc "check DOI", "check DOI using base32-url checksum"
     def check(doi)
-      if decode_doi(doi) > 0
+      unless decode_doi(doi).nil?
         puts "Checksum for #{doi} is valid"
       else
         puts "Checksum for #{doi} is not valid"

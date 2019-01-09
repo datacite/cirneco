@@ -40,7 +40,7 @@ module Cirneco
 
     def decode_doi(doi)
       prefix, string = doi.split('/', 2)
-      Base32::URL.decode(string, checksum: true).to_i
+      Base32::URL.decode(string, checksum: true)
     end
 
     def encode_doi(prefix, options={})
