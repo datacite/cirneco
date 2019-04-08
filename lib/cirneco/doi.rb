@@ -140,7 +140,8 @@ module Cirneco
     end
 
     desc "change DOIs state", "modify states of list of DOIs"
-    method_option :target_state,  :type => :string
+    method_option :operation,  :type => :string
+    # method_option :target_state,  :type => :string
     method_option :username, :default => ENV['MDS_USERNAME']
     method_option :password, :default => ENV['MDS_PASSWORD']
     method_option :sandbox, :type => :boolean, :force => false
@@ -151,14 +152,25 @@ module Cirneco
         doi = line.rstrip
         next unless doi.present?
 
-        previous_state, operation = case options[:target_state]
-        when "findable"
-          ["registered", "publish"]
-        when "registered"
-          ["draft", "register"]
+        # previous_state, operation = case options[:target_state]
+        # when "findable"
+        #   ["registered", "publish"]
+        # when "registered"
+        #   ["draft", "register"]
+        # when "hide"
+        #   [""]
+        # end
+
+        previous_state, target_state = case options[:operation]
+        when "publish"
+          ["registered", "findable"]
+        when "register"
+          ["draft", "registered"]
+        when "hide"
+          ["findable", "registered"]
         end
 
-        meta = generate_state_change_template({operation: operation})
+        meta = generate_state_change_template({operation: options[:operation]})
 
         metadata_reponse = get_rest_doi(doi, options)
 
@@ -176,7 +188,7 @@ module Cirneco
         end
 
         if [200, 201].include?(response.status)
-          puts "#{doi} Updated to #{options[:target_state]}."
+          puts "#{doi} Updated to #{target_state}."
           count += 1
         else
           puts "Error: #{doi} " + response.body["errors"].first.fetch("title", "An error occured")
