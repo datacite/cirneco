@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     cirneco (0.9.28)
-      activesupport (>= 4.2.5, < 6)
+      activesupport (>= 4.2.5)
       base32-url (~> 0.5)
       bergamasco (~> 0.3)
       bolognese (~> 0.9)
@@ -206,7 +206,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bundler (~> 1.0)
+  bundler (~> 2.2.7)
   cirneco!
   codeclimate-test-reporter (~> 1.0, >= 1.0.0)
   rack-test (~> 0)
@@ -218,4 +218,4 @@ DEPENDENCIES
   webmock (~> 3.0, >= 3.0.1)
 
 BUNDLED WITH
-   1.16.4
+   2.2.7
